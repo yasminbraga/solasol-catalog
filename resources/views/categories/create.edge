@@ -1,0 +1,25 @@
+@layout('layouts/master')
+
+@section('content')
+{{--  <nav>
+  <div class="nav-logo">
+    <img src="/assets/logo_solasol.png" alt="">
+  </div>
+  <div class="links">
+    <a href="{{ route('products.create') }}"> cat</a>
+  </div>
+</nav>  --}}
+
+<div class="card">
+  <h2 class="card-title">Nova Categoria</h2>
+
+  <form action="{{ route('categories.store') }}" method="post">
+    <div class="field">
+      <label for="category_name">Nome da Categoria</label>
+      <input type="text" id="category_name" placeholder="Nome da cateogoria" name="name">
+    </div>
+
+    <button class="btn">Cadastrar</button>
+  </form>
+</div>
+@endsection

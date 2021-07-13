@@ -1,0 +1,16 @@
+@layout('layouts/master')
+
+@section('content')
+<header class="page-header">
+  <h2>Categorias</h2>
+  <a href="{{ route('categories.create') }}">Novo</a>
+</header>
+
+<section class="page-content">
+  <div class="card-table">
+    @each(category in categories)
+      <li>{{ category.name }}</li>
+    @endeach
+  </div>
+</section>
+@endsection
