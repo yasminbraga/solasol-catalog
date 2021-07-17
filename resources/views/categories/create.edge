@@ -9,17 +9,23 @@
     <a href="{{ route('products.create') }}"> cat</a>
   </div>
 </nav>  --}}
+<header class="page-header">
+  <h3>Categorias</h3>
+  <a href="{{ route('categories.create') }}">Novo</a>
+</header>
+<section class="page-content">
+  <div class="card">
+    <h2 class="card-title">Nova Categoria</h2>
 
-<div class="card">
-  <h2 class="card-title">Nova Categoria</h2>
+    <form action="{{ route('categories.store') }}" method="post">
+      <div class="field">
+        <label for="category_name">Nome da Categoria</label>
+        <input type="text" id="category_name" placeholder="Nome da cateogoria" name="name">
+      </div>
 
-  <form action="{{ route('categories.store') }}" method="post">
-    <div class="field">
-      <label for="category_name">Nome da Categoria</label>
-      <input type="text" id="category_name" placeholder="Nome da cateogoria" name="name">
-    </div>
-
-    <button class="btn">Cadastrar</button>
-  </form>
+      <button class="btn primary-btn">Cadastrar</button>
+    </form>
 </div>
+</section>
+
 @endsection

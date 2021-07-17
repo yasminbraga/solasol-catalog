@@ -2,14 +2,35 @@
 
 @section('content')
 <header class="page-header">
-  <h2>Produtos</h2>
+  <h3>Produtos</h3>
   <a href="{{ route('products.create') }}">Novo</a>
 </header>
 <section class="page-content">
   <div class="card">
-    @each(file in product.files)
-     <img width="300px" src="{{file.fileNameUrl}}" alt=""> 
-    @endeach
+    <h2 class="title">{{product.name}}</h2>
+    <div class="card-field">
+      <span class="card-label">Código</span>
+      <p class="content">{{product.codigo}}</p>
+    </div>
+    <div class="card-field">
+      <span class="card-label">Preço</span>
+      <p class="content">{{product.price}}</p>
+    </div>
+    <div class="card-field">
+      <span class="card-label">Detalhes</span>
+      <p class="content">{{product.description}}</p>
+    </div>
+
+    <div class="files">
+      @each(file in product.files)
+        <img class="file" src="{{file.fileNameUrl}}" alt=""> 
+      @endeach
+    </div>
+
+    <div class="action-buttons">
+      <a href="{{ route('products.edit', {id: product.id}) }}" class="secondary-btn">Editar</a>
+      <a href="" class="delete-btn">Deletar</a>
+    </div>
   </div>
 </section>
 @endsection
