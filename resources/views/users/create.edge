@@ -1,0 +1,43 @@
+@layout('layouts/master')
+
+@section('content')
+<div class="card">
+  <h2 class="card-title">Novo Usuário</h2>
+  <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
+    <div class="field">
+      <label for="email_field">Email</label>
+      <input type="email" name="email" id="email_field" placeholder="Email" value='{{ flashMessages.get('email', "") }}'>
+
+      @if(flashMessages.has('errors.email'))
+        <span class="field_validation_error">
+          {{ flashMessages.get('errors.email') }}
+        </span>
+      @endif
+    </div>
+    
+    <div class="field">
+      <label for="password_field">Senha</label>
+      <input type="password" name="password" id="password_field" placeholder="Senha">
+
+      @if(flashMessages.has('errors.password'))
+        <span class="field_validation_error">
+          {{ flashMessages.get('errors.password') }}
+        </span>
+      @endif
+    </div>
+    
+    <div class="field">
+      <label for="password_confirmation_field">Confirme a senha</label>
+      <input type="password" name="password_confirmation" id="password_confirmation_field" placeholder="Confirme a senha">
+    
+      @if(flashMessages.has('errors.password_confirmation'))
+      <span class="field_validation_error">
+        {{ flashMessages.get('errors.password_confirmation') }}
+      </span>
+    @endif
+    </div>
+
+    <button class="btn">Cadastrar</button>
+  </form>
+</div>
+@endsection

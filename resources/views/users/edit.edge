@@ -1,0 +1,25 @@
+@layout('layouts/master')
+
+@section('content')
+<div class="card">
+  <h2 class="card-title">Novo Usuário</h2>
+  <form method="post" action="{{ route('users.update', { id: user.id }) }}?_method=PUT" enctype="multipart/form-data">
+    <div class="field">
+      <label for="email_field">Email</label>
+      <input type="email" name="email" id="email_field" value='{{ flashMessages.get('user',  user.email)  }}' placeholder="Email">
+    </div>
+
+    <div class="field">
+      <label for="password_field">Senha</label>
+      <input type="password" name="password" id="password_field" placeholder="Senha">
+    </div>
+    
+    <div class="field">
+      <label for="password_confirmation_field">Confirme a senha</label>
+      <input type="password" name="password_confirmation" id="password_confirmation_field" placeholder="Confirme a senha">
+    </div>
+
+    <button class="btn">Cadastrar</button>
+  </form>
+</div>
+@endsection

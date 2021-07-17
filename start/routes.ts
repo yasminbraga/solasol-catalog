@@ -29,6 +29,7 @@ Route.resource('sessions', 'SessionsController').only(['index', 'store'])
 
 Route.group(() => {
   Route.resource('products', 'ProductsController')
+  Route.resource('users', 'UsersController')
   Route.resource('categories', 'CategoriesController')
 }).middleware(['auth'])
 

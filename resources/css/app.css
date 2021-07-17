@@ -187,6 +187,10 @@ a.nav-link {
   background: #ffff;
 }
 
+.field_validation_error {
+  color: var(--error-color);
+}
+
 .field input::placeholder {
   color: var(--gray-color);
 }
@@ -239,20 +243,18 @@ a.nav-link {
   box-shadow: var(--shadow);
 }
 
-
 @media (min-width: 768px) {
   body {
     height: 100vh;
   }
 
   main.container {
-
   }
 
   header.page-header {
     background: #ffff;
     border-bottom: 1px solid var(--light-grray);
-    
+
     display: flex;
     align-items: center;
     justify-content: space-between;
