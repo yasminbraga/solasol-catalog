@@ -1,40 +1,17 @@
 @layout('layouts/master')
 
 @section('content')
-<div class="card">
-  <h2 class="card-title">Novo Produto</h2>
-  <form action="{{ route('products/store') }}" method="post" enctype="multipart/form-data">
-    <div class="field">
-      <label for="name_field">Nome do produto</label>
-      <input type="text" name="name" id="name_field" placeholder="Nome do produto">
-    </div>
-    <div class="field">
-      <label for="price_field">Preço</label>
-      <input type="text" name="price" id="price_field" placeholder="Preço"> 
-    </div>
-    <div class="field">
-      <label for="code">Código</label>
-      <input type="text" name="codigo" id="code" placeholder="Código">
-    </div>
-    <div class="field">
-      <label for="description_field">Descrição</label>
-      <input type="text" name="description" id="description_field" placeholder="Observações do produto">
-    </div>
-    <div class="field">
-      <label for="category_id">Categoria</label>
-      <select name="category_id" id="category_id">
-        @each(category in categories)
-          <option value="{{ category.id }}">{{category.name}}</option>
-        @endeach
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="product_image">Imagens</label>
-      <input type="file" name="image" id="product_image" multiple>
-    </div>
-
-    <button class="btn">Cadastrar</button>
-  </form>
-</div>
+<header class="page-header">
+  <h3>Produtos</h3>
+  <a href="{{ route('products.create') }}">Novo</a>
+</header>
+<section class="page-content">
+  <div class="card">
+    <h2 class="card-title">Novo Produto</h2>
+    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
+      @include('products/fields')
+      <button class="btn primary-btn">Editar</button>
+    </form>
+  </div>
+</section>
 @endsection

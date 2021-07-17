@@ -12,7 +12,7 @@ export default class ProductsController {
   }
 
   public async create({ view }: HttpContextContract) {
-    const categories = await Category.all()
+    const categories = await Category.query()
     return view.render('products/create', { categories })
   }
 
@@ -43,17 +43,28 @@ export default class ProductsController {
   }
 
   public async show({ request, view }: HttpContextContract) {
-    const id = request.param('id')
-    const product = await Product.query().where({ id }).preload('files').firstOrFail()
-    return view.render('products/show', { product })
+    try {
+      const product = await Product.query()
+        .where({ id: request.param('id') })
+        .preload('files')
+        .firstOrFail()
+      return view.render('products/show', { product })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   public async edit({ request, view }: HttpContextContract) {
-    const productId = request.param('id')
-    const product = await Product.find(productId)
-    const categories = Category.all()
+    try {
+      const product = await Product.query()
+        .where({ id: request.param('id') })
+        .firstOrFail()
+      const categories = await Category.query()
 
-    return view.render('products/edit', { product, categories })
+      return view.render('products/edit', { product, categories })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   public async update({}: HttpContextContract) {}
