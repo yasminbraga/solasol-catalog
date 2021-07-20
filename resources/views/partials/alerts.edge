@@ -1,0 +1,30 @@
+<div class="alerts">
+  @if(flashMessages.get('error'))
+    <div class="alert-container alert-error">
+      <div class="alert-content">
+        {{ flashMessages.get('error') }}
+      </div>
+      <button class="alert-close">&times;</button>
+    </div>
+  @endif
+
+  @if(flashMessages.get('success'))
+    <div class="alert-container alert-success">
+      <div class="alert-content">
+        {{ flashMessages.get('success') }}
+      </div>
+      <button class="alert-close">&times;</button>
+    </div>
+  @endif
+</div>
+
+<script>
+  const alertsContainer = document.querySelector('.alerts')
+  if (alertsContainer) {
+    alertsContainer.querySelectorAll('.alert-container').forEach((alertContainer) => {
+      alertContainer.querySelector('.alert-close').addEventListener('click', function() {
+        alertContainer.parentElement.classList.add('close')
+      })
+    })
+  }
+</script>

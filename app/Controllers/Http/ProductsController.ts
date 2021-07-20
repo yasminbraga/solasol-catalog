@@ -7,7 +7,9 @@ import Product from 'App/Models/Product'
 import File from 'App/Models/File'
 
 export default class ProductsController {
-  public async index({ view }: HttpContextContract) {
+  public async index({ view, session }: HttpContextContract) {
+    session.flash('success', 'Ocorreu um errro aqui')
+
     return view.render('products/index')
   }
 
