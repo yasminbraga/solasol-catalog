@@ -91,6 +91,10 @@ main.login-container {
   background: rgba(0, 0, 0, 0.04);
 }
 
+.field_validation_error {
+  color: var(--error-color);
+}
+
 .field input::placeholder {
   color: var(--gray-color);
 }

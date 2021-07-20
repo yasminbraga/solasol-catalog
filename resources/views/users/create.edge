@@ -1,0 +1,35 @@
+@layout('layouts/master')
+
+@section('content')
+<div class="card">
+  <h2 class="card-title">Novo Usuário</h2>
+  <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
+    @!textField({
+      name: 'email',
+      id: 'email_field',
+      label: 'Email',
+      value: flashMessages.get("email") ?? '',
+      type: 'email',
+      placeholder: 'Email'
+    })
+
+    @!textField({
+      name: 'password',
+      id: 'password_field',
+      label: 'Senha',
+      type: 'password',
+      placeholder: 'Senha'
+    })
+
+    @!textField({
+      name: 'password_confirmation',
+      id: 'password_confirmation_field',
+      label: 'Confirme a senha',
+      type: 'password',
+      placeholder: 'Confirme a senha'
+    })
+
+    <button class="btn">Cadastrar</button>
+  </form>
+</div>
+@endsection

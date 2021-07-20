@@ -1,0 +1,33 @@
+@layout('layouts/master')
+
+@section('content')
+  <header class="page-header">
+    <h2>Usuários</h2>
+    <a href="{{ route('users.create') }}">Novo</a>
+  </header>
+  <main style="padding: 1.5rem 3rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @each(user in users)
+          <tr>
+            <td>
+              {{ user.email }}
+            </td>
+            <td>
+              <a href="{{ route('users.edit', { id: user.id }) }}">Editar</a>
+            </td>
+          </tr>
+        @else
+          <h3>Nenhum usuario encontrado</h3>
+        @endeach
+      </tbody>
+    </table>
+
+  </main>
+@endsection

@@ -20,6 +20,15 @@
       <a class="nav-link" href="{{ route('categories.index') }}">
         Categorias
       </a>
+      <a class="nav-link" href="{{ route('users.index') }}">
+        Usuários
+      </a>
+      <form method="post" action="{{ route('sessions.destroy', { id: 1 }) }}?_method=DELETE">
+        <button class="nav-link" href="{{ route('users.index') }}">
+          Logout
+        </button>
+      </form>
+
     </div>
   </section>
   <div id="overlay-opacity"></div>
