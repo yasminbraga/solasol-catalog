@@ -13,32 +13,44 @@
 </div>
 <div class="field">
   <label for="description_field">Descrição</label>
-  <input type="text" name="description" id="description_field" placeholder="Observações do produto" value={{product ? product.description : ""}}>
+  <input 
+    type="text" 
+    name="description" 
+    id="description_field" 
+    placeholder="Observações do produto" 
+    value={{product ? product.description : ""}}
+  >
 </div>
 <div class="field">
   <label for="category_id">Categoria</label>
   <select name="category_id" id="category_id">
     @each(category in categories)
-      <option {{product && product.category_id === category.id ? 'selected' : ''}} value="{{ product ? 'product.category_id' : category.id }}">{{category.name}}</option>
+      <option 
+        {{product && product.category_id === category.id ? 'selected' : ''}} 
+        value="{{ product ? 'product.category_id' : category.id }}"
+      >
+        {{category.name}}
+      </option>
     @endeach
   </select>
 </div>
 
 <div class="field">
   <label for="product-image">Imagens</label>
-  <div class="images">
+  <input 
+    id="product-image" 
+    type="file" 
+    name="image" 
+    multiple
+    accept="image/*"
+    {{--  onclick="clicou()"  --}}
+    >
+
+  {{--  <div class="images">
     <div id="image-upload">
-      <input 
-        id="product-image" 
-        type="file" 
-        name="image" 
-        multiple
-        accept="image/*"
-        {{--  onclick="clicou()"  --}}
-        >
     </div>
     <div id="images-preview">
 
     </div>
-  </div>
+  </div>  --}}
 </div>

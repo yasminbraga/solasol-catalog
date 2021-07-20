@@ -9,30 +9,26 @@
   @entryPointScripts('app')
 </head>
 <body>
-  <main class="center-login-container">
-    <div class="login-container">
-      <div class="logo">
-        <h1>Sol a Sol</h1>
-        {{--  <img src="/assets/logo_orange.png" alt="">  --}}
-      </div>
-      <div class="login-card">
-        <form class="login" action="{{ route('sessions.store')}}" method="POST">
-          <h2 class="card-title">Entrar</h2>
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="text" placeholder="mail@mail.com" name="email" id="email">
-          </div>
-          <div class="field">
-            <label for="password">Senha</label>
-            <input type="password" placeholder="Senha" name="password" id="password">
-          </div>
-          <button class="btn primary-btn">Entrar</button>
-        </form>
-
-        <div class="login-footer">
-          <p>Esqueceu a senha? <a href="">Recuperar</a></p>
-        </div>
+  <main class="login-container">
+    <div class="logo">
+      <h1>sol a sol</h1>
     </div>
+    <div class="login-form">
+      <h2>Entrar</h2>
+      <form action="{{ route('sessions.store')}}" method="POST">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="text" placeholder="mail@mail.com" name="email" id="email">
+        </div>
+        <div class="field">
+          <label for="password">Senha</label>
+          <input type="password" placeholder="Senha" name="password" id="password">
+        </div>
+        <button class="btn primary-btn">Entrar</button>
+      </form>
+      <div class="login-footer">
+        <p>Esqueceu a senha? <a href="">Recuperar</a></p>
+      </div>
     </div>
   </main>
 </body>
