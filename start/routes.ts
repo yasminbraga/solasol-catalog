@@ -25,7 +25,7 @@ Route.get('/', async ({ view }) => {
   return view.render('home')
 })
 
-Route.resource('sessions', 'SessionsController').only(['index', 'store'])
+Route.resource('sessions', 'SessionsController').only(['index', 'store', 'destroy'])
 
 Route.group(() => {
   Route.resource('products', 'ProductsController')

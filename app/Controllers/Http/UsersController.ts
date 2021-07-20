@@ -3,6 +3,13 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
 
 export default class UsersController {
+  protected _validationMessages = {
+    'email': 'Email inválido',
+    'email.unique': 'Email já existente',
+    'required': 'Preencha este campo',
+    'confirmed': 'As senhas não conferem',
+  }
+
   public async index({ view }: HttpContextContract) {
     const users = await User.all() // trocar pelo paginate depois
     return view.render('users/index', {
@@ -16,16 +23,19 @@ export default class UsersController {
 
   public async store({ request, response, logger }: HttpContextContract) {
     const validationSchema = schema.create({
-      email: schema.string({}, [rules.email()]),
+      email: schema.string({}, [
+        rules.email(),
+        rules.unique({
+          table: 'users',
+          column: 'email',
+        }),
+      ]),
       password: schema.string({}, [rules.confirmed('password_confirmation')]),
     })
 
     const userData = await request.validate({
       schema: validationSchema,
-      messages: {
-        'required': 'Preencha este campo',
-        'password_confirmation.confirmed': 'As senhas não conferem',
-      },
+      messages: this._validationMessages,
     })
 
     try {
@@ -69,10 +79,7 @@ export default class UsersController {
 
     const userData = await request.validate({
       schema: validationSchema,
-      messages: {
-        'required': 'Preencha este campo',
-        'password_confirmation.confirmed': 'As senhas não conferem',
-      },
+      messages: this._validationMessages,
     })
 
     try {

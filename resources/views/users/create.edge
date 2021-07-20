@@ -4,38 +4,30 @@
 <div class="card">
   <h2 class="card-title">Novo Usuário</h2>
   <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
-    <div class="field">
-      <label for="email_field">Email</label>
-      <input type="email" name="email" id="email_field" placeholder="Email" value='{{ flashMessages.get('email', "") }}'>
+    @!textField({
+      name: 'email',
+      id: 'email_field',
+      label: 'Email',
+      value: flashMessages.get("email") ?? '',
+      type: 'email',
+      placeholder: 'Email'
+    })
 
-      @if(flashMessages.has('errors.email'))
-        <span class="field_validation_error">
-          {{ flashMessages.get('errors.email') }}
-        </span>
-      @endif
-    </div>
-    
-    <div class="field">
-      <label for="password_field">Senha</label>
-      <input type="password" name="password" id="password_field" placeholder="Senha">
+    @!textField({
+      name: 'password',
+      id: 'password_field',
+      label: 'Senha',
+      type: 'password',
+      placeholder: 'Senha'
+    })
 
-      @if(flashMessages.has('errors.password'))
-        <span class="field_validation_error">
-          {{ flashMessages.get('errors.password') }}
-        </span>
-      @endif
-    </div>
-    
-    <div class="field">
-      <label for="password_confirmation_field">Confirme a senha</label>
-      <input type="password" name="password_confirmation" id="password_confirmation_field" placeholder="Confirme a senha">
-    
-      @if(flashMessages.has('errors.password_confirmation'))
-      <span class="field_validation_error">
-        {{ flashMessages.get('errors.password_confirmation') }}
-      </span>
-    @endif
-    </div>
+    @!textField({
+      name: 'password_confirmation',
+      id: 'password_confirmation_field',
+      label: 'Confirme a senha',
+      type: 'password',
+      placeholder: 'Confirme a senha'
+    })
 
     <button class="btn">Cadastrar</button>
   </form>
