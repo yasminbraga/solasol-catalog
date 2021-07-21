@@ -1,11 +1,14 @@
 <div class="field">
   <label for="{{ id }}">{{ label }}</label>
   <input 
-    type="{{ type }}"
+    type="number"
     name="{{ name }}"
     id="{{ id }}"
     placeholder="{{ placeholder }}"
-    value='{{ value ?? "" }}'
+    value="{{ value ?? '' }}"
+    step="{{ step ?? '1' }}"
+    min="{{ min ?? '0' }}"
+    max="{{ max ?? '' }}"
   >
 
   @if(flashMessages.has(`errors.${name}`))
