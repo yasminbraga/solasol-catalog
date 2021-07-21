@@ -7,6 +7,7 @@
 </header>
 <section class="page-content">
   <div class="card">
+    {{ inspect(product) }}
     <h2 class="title">{{product.name}}</h2>
     <div class="card-field">
       <span class="card-label">Código</span>
@@ -29,7 +30,20 @@
 
     <div class="action-buttons">
       <a href="{{ route('products.edit', {id: product.id}) }}" class="secondary-btn">Editar</a>
-      <a href="" class="delete-btn">Deletar</a>
+      <form 
+      action="{{ 
+          route('products.destroy', 
+          {id: product.id}, 
+            { 
+              qs: {
+                _method: 'DELETE'
+              } 
+            }
+            ) 
+          }}" method="post"
+      >
+        <button class="delete-btn">Deletar</button>
+      </form>
     </div>
   </div>
 </section>

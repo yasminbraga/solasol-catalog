@@ -289,6 +289,11 @@ header.page-header {
   border-bottom: 1px solid var(--light-grray);
 }
 
+/* IMAGE PREVIEW */
+#image-preview {
+  width: 100%;
+}
+
 /* BUTTONS */
 .btn {
   background: var(--primary-color);
@@ -399,6 +404,10 @@ header.page-header {
     width: auto;
     min-width: 300px;
     max-width: 200px;
+  }
+
+  #image-preview {
+    max-width: 300px;
   }
 }
 
