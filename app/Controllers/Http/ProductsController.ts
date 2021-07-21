@@ -7,9 +7,7 @@ import Product from 'App/Models/Product'
 import File from 'App/Models/File'
 
 export default class ProductsController {
-  public async index({ view, session }: HttpContextContract) {
-    session.flash('success', 'Ocorreu um errro aqui')
-
+  public async index({ view }: HttpContextContract) {
     return view.render('products/index')
   }
 
@@ -18,7 +16,7 @@ export default class ProductsController {
     return view.render('products/create', { categories })
   }
 
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, session, logger }: HttpContextContract) {
     const product = request.all()
     const images = request.files('image')
 
@@ -38,9 +36,14 @@ export default class ProductsController {
           File.create({ filename: image.fileName, productId: productCreated.id })
         )
       )
+
+      session.flash('success', 'Produto cadastrado')
       return response.redirect().toRoute('ProductsController.show', { id: productCreated.id })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
+
+      session.flash('Erro', error.message)
+      return response.redirect().back()
     }
   }
 
