@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
 
 import Category from 'App/Models/Category'
+import Product from 'App/Models/Product'
 
 export default class CategoriesController {
   protected _validationMessages = {
@@ -67,12 +68,31 @@ export default class CategoriesController {
 
     try {
       await Category.query().where({ id }).update(categoryData)
-      return response.redirect().toRoute('categories/index')
+      return response.redirect().toRoute('categories.index')
     } catch (error) {
       logger.error(error)
       return response.redirect().back()
     }
   }
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request, response, session }: HttpContextContract) {
+    const id = request.param('id')
+
+    try {
+      const category = await Category.query().where({ id }).preload('products').firstOrFail()
+      console.log(category)
+      if (category.products.length !== 0) {
+        session.flash('error', 'Existe produto com essa categoria!')
+        return response.redirect().back()
+      } else {
+        await category.delete()
+        return response.redirect().toRoute('categories.index')
+      }
+    } catch (error) {
+      console.log(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
 }

@@ -21,7 +21,22 @@
             <a href="{{ route('categories.edit', {id: category.id}) }}">
               <i class="material-icons primary-color">edit</i>
             </a>
-            <i class="material-icons delete-color">delete</i>
+            <form 
+              action="{{
+                route('categories.destroy',
+                  {id: category.id},
+                  {
+                    qs: {
+                      _method: 'DELETE'
+                    }
+                  }
+                )
+              }}" 
+            method="post">
+            <button class="confirm-deletion">
+              <i class="material-icons delete-color">delete</i>
+            </button>
+          </form>
           </td>
         </tr>
         @endeach
