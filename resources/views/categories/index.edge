@@ -7,10 +7,24 @@
 </header>
 
 <section class="page-content">
-  <div class="card-table">
-    @each(category in categories)
-      <li>{{ category.name }}</li>
-    @endeach
+  <div class="card">
+    <table>
+      <thead>
+        <th>Nome</th>
+        <th class="action-column">Ações</th>
+      </thead>
+      <tbody>
+        @each(category in categories)
+        <tr>
+          <td>{{ category.name }}</td>
+          <td class="action-column">
+            <i class="material-icons primary-color">edit</i>
+            <i class="material-icons delete-color">delete</i>
+          </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
   </div>
 </section>
 @endsection
