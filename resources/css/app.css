@@ -92,7 +92,7 @@ main.login-container {
 .field input {
   padding: 6px;
   border-radius: 6px;
-  border: 1px solid var(--light-grray);
+  border: 1px solid var(--extra-light-gray);
   color: gray;
   background: rgba(0, 0, 0, 0.04);
 }
@@ -259,7 +259,7 @@ nav.navbar {
 }
 
 .overlay .nav-header {
-  border-bottom: 1px solid var(--light-grray);
+  border-bottom: 1px solid var(--extra-light-gray);
 }
 
 #overlay-opacity {
@@ -290,7 +290,7 @@ header.page-header {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid var(--light-grray);
+  border-bottom: 1px solid var(--extra-light-gray);
 }
 
 /* BUTTONS */
@@ -378,7 +378,7 @@ tbody td {
   }
 
   .nav-header {
-    border-bottom: 1px solid var(--light-grray);
+    border-bottom: 1px solid var(--extra-light-gray);
     height: 70px;
   }
 
@@ -414,7 +414,7 @@ tbody td {
 
   header.page-header {
     background: #ffff;
-    border-bottom: 1px solid var(--light-grray);
+    border-bottom: 1px solid var(--extra-light-gray);
 
     display: flex;
     align-items: center;

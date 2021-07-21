@@ -18,7 +18,9 @@
         <tr>
           <td>{{ category.name }}</td>
           <td class="action-column">
-            <i class="material-icons primary-color">edit</i>
+            <a href="{{ route('categories.edit', {id: category.id}) }}">
+              <i class="material-icons primary-color">edit</i>
+            </a>
             <i class="material-icons delete-color">delete</i>
           </td>
         </tr>
