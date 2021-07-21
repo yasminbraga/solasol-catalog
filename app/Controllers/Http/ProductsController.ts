@@ -1,10 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 import Application from '@ioc:Adonis/Core/Application'
-
 import Category from 'App/Models/Category'
 import Product from 'App/Models/Product'
-import File from 'App/Models/File'
+import fs from 'fs'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
@@ -12,37 +12,49 @@ export default class ProductsController {
   }
 
   public async create({ view }: HttpContextContract) {
-    const categories = await Category.query()
+    const categories = await Category.all()
     return view.render('products/create', { categories })
   }
 
   public async store({ request, response, session, logger }: HttpContextContract) {
-    const product = request.all()
-    const images = request.files('image')
+    const productValidationSchema = schema.create({
+      name: schema.string({}, [
+        rules.unique({
+          table: 'products',
+          column: 'name',
+          caseInsensitive: false,
+        }),
+      ]),
+      price: schema.number([rules.unsigned()]),
+      codigo: schema.string.optional(),
+      category_id: schema.number([rules.unsigned()]),
+      description: schema.string.optional(),
+      images: schema.array().members(schema.file({ extnames: ['jpg', 'jpeg', 'png'] })),
+    })
+
+    const { images, ...productData } = await request.validate({
+      schema: productValidationSchema,
+    })
 
     try {
-      //criar o produto e retornar o id
-      const productCreated = await Product.create(product)
+      const product = await Product.create(productData)
 
-      // salvar o arquivo na pasta upload
       for (let image of images) {
         await image.move(Application.tmpPath('uploads'), {
-          name: `${Date.now()}-${image.clientName}`,
+          name: `${Application.helpers.cuid()}-${image.clientName}`,
         })
       }
-      // Salvar o arquivo no banco de dados
-      await Promise.all(
-        images.map(async (image) =>
-          File.create({ filename: image.fileName, productId: productCreated.id })
-        )
-      )
+
+      await product
+        .related('files')
+        .createMany(images.map((image) => ({ filename: image.fileName })))
 
       session.flash('success', 'Produto cadastrado')
-      return response.redirect().toRoute('ProductsController.show', { id: productCreated.id })
+      return response.redirect().toRoute('products.show', { id: product.id })
     } catch (error) {
       logger.error(error)
 
-      session.flash('Erro', error.message)
+      session.flash('error', error.message)
       return response.redirect().back()
     }
   }
@@ -53,7 +65,8 @@ export default class ProductsController {
         .where({ id: request.param('id') })
         .preload('files')
         .firstOrFail()
-      return view.render('products/show', { product })
+
+      return view.render('products/show', { product: product.toJSON() })
     } catch (error) {
       console.error(error)
     }
@@ -63,16 +76,96 @@ export default class ProductsController {
     try {
       const product = await Product.query()
         .where({ id: request.param('id') })
+        .preload('files')
         .firstOrFail()
-      const categories = await Category.query()
 
-      return view.render('products/edit', { product, categories })
+      const categories = await Category.all()
+
+      return view.render('products/edit', {
+        product: product.toJSON(),
+        categories: categories.map((i) => i.toJSON()),
+      })
     } catch (error) {
       console.error(error)
     }
   }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ request, response, session }: HttpContextContract) {
+    const id = request.param('id')
+    const productValidationSchema = schema.create({
+      name: schema.string({}, [
+        rules.unique({
+          table: 'products',
+          column: 'name',
+          caseInsensitive: false,
+          whereNot: {
+            id,
+          },
+        }),
+      ]),
+      price: schema.number([rules.unsigned()]),
+      codigo: schema.string.optional(),
+      category_id: schema.number([rules.unsigned()]),
+      description: schema.string.optional(),
+      images: schema.array.optional().members(schema.file({ extnames: ['jpg', 'jpeg', 'png'] })),
+    })
 
-  public async destroy({}: HttpContextContract) {}
+    const { images, ...updateProductData } = await request.validate({
+      schema: productValidationSchema,
+    })
+
+    try {
+      const product = await Product.query().where({ id }).firstOrFail()
+      await product.merge(updateProductData).save()
+
+      if (images && images?.length > 0) {
+        const files = await product.related('files').query()
+
+        files.map((file) => {
+          fs.unlinkSync(Application.tmpPath('uploads', file.filename))
+        })
+
+        await product.related('files').query().delete()
+
+        for (let image of images) {
+          await image.move(Application.tmpPath('uploads'), {
+            name: `${Application.helpers.cuid()}.${image.extname}`,
+          })
+        }
+
+        await product
+          .related('files')
+          .createMany(images.map((image) => ({ filename: image.fileName })))
+
+        return response.redirect().toRoute('products.show', { id })
+      }
+    } catch (error) {
+      console.log(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
+
+  public async destroy({ request, response, session }: HttpContextContract) {
+    const id = request.param('id')
+
+    try {
+      const product = await Product.query().where({ id }).firstOrFail()
+      const files = await product.related('files').query()
+
+      files.map((file) => {
+        fs.unlinkSync(Application.tmpPath('uploads', file.filename))
+      })
+
+      await product.delete()
+      session.flash('success', 'Produto removido')
+      return response.redirect().toRoute('products.index')
+    } catch (error) {
+      console.log(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
 }

@@ -1,33 +1,47 @@
+@!textField({
+  name: 'name',
+  id: 'name_field',
+  type: 'text',
+  value: flashMessages.get('name', product?.name ?? ''),
+  label: 'Name',
+  placeholder: 'Name',
+})
 
-<div class="field">
-  <label for="name_field">Nome do produto</label>
-  <input type="text" name="name" id="name_field" placeholder="Nome do produto" value={{product ? product.name : ""}}>
-</div>
-<div class="field">
-  <label for="price_field">Preço</label>
-  <input type="text" name="price" id="price_field" placeholder="Preço" value={{product ? product.price : ""}}> 
-</div>
-<div class="field">
-  <label for="code">Código</label>
-  <input type="text" name="codigo" id="code" placeholder="Código" value={{product ? product.codigo : ""}}>
-</div>
-<div class="field">
-  <label for="description_field">Descrição</label>
-  <input 
-    type="text" 
-    name="description" 
-    id="description_field" 
-    placeholder="Observações do produto" 
-    value={{product ? product.description : ""}}
-  >
-</div>
+@!numberField({
+  name: 'price',
+  id: 'price_field',
+  value: flashMessages.get('price', product?.price ?? ''),
+  label: 'Preço',
+  placeholder: 'Preço',
+  min: 0,
+  step: '0.01'
+})
+
+@!textField({
+  name: 'codigo',
+  id: 'codigo_field',
+  type: 'text',
+  value: flashMessages.get('codigo', product?.codigo ?? ''),
+  label: 'Código',
+  placeholder: 'Código',
+})
+
+@!textField({
+  name: 'description',
+  id: 'description_field',
+  type: 'text',
+  value: flashMessages.get('description', product?.description ?? ''),
+  label: 'Observação',
+  placeholder: 'Observação',
+})
+
 <div class="field">
   <label for="category_id">Categoria</label>
   <select name="category_id" id="category_id">
     @each(category in categories)
       <option 
-        {{product && product.category_id === category.id ? 'selected' : ''}} 
-        value="{{ product ? 'product.category_id' : category.id }}"
+        {{product ? (product.category_id === category.id ? 'selected' : '') : ''}} 
+        value="{{ category.id }}"
       >
         {{category.name}}
       </option>
@@ -36,21 +50,24 @@
 </div>
 
 <div class="field">
-  <label for="product-image">Imagens</label>
+  <label for="product-image">Selecione uma imagem</label>
   <input 
-    id="product-image" 
-    type="file" 
-    name="image" 
-    multiple
-    accept="image/*"
-    {{--  onclick="clicou()"  --}}
-    >
-
-  {{--  <div class="images">
-    <div id="image-upload">
-    </div>
-    <div id="images-preview">
-
-    </div>
-  </div>  --}}
+  id="product-image" 
+  type="file" 
+  name="images[]" 
+  accept="image/*"
+  >
 </div>
+<div>
+  <img id="image-preview" src='{{ product ? product.files[0].fileNameUrl : '' }}' >
+</div>
+
+<script>
+  const image = document.querySelector('#product-image')
+  const preview = document.querySelector('#image-preview')
+
+  image.onchange = function() {
+    const [ file ] = image.files    
+    preview.src = URL.createObjectURL(file)
+  }
+</script>
