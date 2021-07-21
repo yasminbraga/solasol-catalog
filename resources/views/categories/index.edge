@@ -7,10 +7,41 @@
 </header>
 
 <section class="page-content">
-  <div class="card-table">
-    @each(category in categories)
-      <li>{{ category.name }}</li>
-    @endeach
+  <div class="card">
+    <table>
+      <thead>
+        <th>Nome</th>
+        <th class="action-column">Ações</th>
+      </thead>
+      <tbody>
+        @each(category in categories)
+        <tr>
+          <td>{{ category.name }}</td>
+          <td class="action-column">
+            <a href="{{ route('categories.edit', {id: category.id}) }}">
+              <i class="material-icons primary-color">edit</i>
+            </a>
+            <form 
+              action="{{
+                route('categories.destroy',
+                  {id: category.id},
+                  {
+                    qs: {
+                      _method: 'DELETE'
+                    }
+                  }
+                )
+              }}" 
+            method="post">
+            <button class="confirm-deletion">
+              <i class="material-icons delete-color">delete</i>
+            </button>
+          </form>
+          </td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
   </div>
 </section>
 @endsection
