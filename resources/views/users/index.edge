@@ -5,11 +5,13 @@
     <h2>Usuários</h2>
     <a href="{{ route('users.create') }}">Novo</a>
   </header>
-  <main style="padding: 1.5rem 3rem;">
+  <div class="card">
     <table>
       <thead>
         <tr>
+          <th>Nome</th>
           <th>Email</th>
+          <th>Admin</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -17,7 +19,13 @@
         @each(user in users)
           <tr>
             <td>
+              {{ user.name }}
+            </td>
+            <td>
               {{ user.email }}
+            </td>
+            <td>
+              {{ user.is_admin ? 'Sim' : 'Não' }}
             </td>
             <td>
               <a href="{{ route('users.edit', { id: user.id }) }}">Editar</a>
@@ -29,5 +37,5 @@
       </tbody>
     </table>
 
-  </main>
+  </div>
 @endsection

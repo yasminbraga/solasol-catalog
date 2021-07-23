@@ -21,8 +21,9 @@ export default class UsersController {
     return view.render('users/create')
   }
 
-  public async store({ request, response, logger }: HttpContextContract) {
+  public async store({ request, response, logger, session }: HttpContextContract) {
     const validationSchema = schema.create({
+      name: schema.string(),
       email: schema.string({}, [
         rules.email(),
         rules.unique({
@@ -30,6 +31,7 @@ export default class UsersController {
           column: 'email',
         }),
       ]),
+      is_admin: schema.boolean.optional(),
       password: schema.string({}, [rules.confirmed('password_confirmation')]),
     })
 
@@ -40,9 +42,13 @@ export default class UsersController {
 
     try {
       await User.create(userData)
+      session.flash('success', 'Usuário atualizado')
+
       return response.redirect().toRoute('users.index')
     } catch (error) {
       logger.error(error)
+      session.flash('error', error.message)
+
       return response.redirect().back()
     }
   }
@@ -58,14 +64,16 @@ export default class UsersController {
       })
     } catch (error) {
       logger.error(error)
+
       return response.redirect().back()
     }
   }
 
-  public async update({ request, response, logger }: HttpContextContract) {
+  public async update({ request, response, logger, session }: HttpContextContract) {
     const id = request.param('id')
 
     const validationSchema = schema.create({
+      name: schema.string(),
       email: schema.string({}, [
         rules.email(),
         rules.unique({
@@ -74,6 +82,7 @@ export default class UsersController {
           whereNot: { id },
         }),
       ]),
+      is_admin: schema.boolean.optional(),
       password: schema.string.optional({}, [rules.confirmed('password_confirmation')]),
     })
 
@@ -82,11 +91,33 @@ export default class UsersController {
       messages: this._validationMessages,
     })
 
+    userData['is_admin'] = !!userData['is_admin']
+
     try {
       await User.query().where({ id }).update(userData)
+      session.flash('success', 'Usuário atualizado')
+
       return response.redirect().toRoute('users.index')
     } catch (error) {
       logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
+
+  public async destroy({ request, session, response, logger }: HttpContextContract) {
+    const id = request.param('id')
+
+    try {
+      await User.query().where({ id }).delete()
+      session.flash('success', 'Usuário removido')
+
+      return response.redirect().toRoute('users.index')
+    } catch (error) {
+      logger.error(error)
+      session.flash('error', error.message)
+
       return response.redirect().back()
     }
   }

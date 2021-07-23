@@ -10,7 +10,13 @@ export default class User extends BaseModel {
   public createdAt: DateTime
 
   @column()
+  public name: string
+
+  @column()
   public email: string
+
+  @column()
+  public isAdmin: boolean
 
   @column({ serializeAs: null })
   public password: string

@@ -22,6 +22,7 @@
 
   --shadow: 0 0 15px 0 rgba(0, 0, 0, 0.09);
   --border-radius: 10px;
+  --switch-transition: all 0.35s linear;
 }
 
 .material-icons.primary-color {
@@ -103,6 +104,52 @@ main.login-container {
 
 .field input::placeholder {
   color: var(--gray-color);
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch .switch-block input {
+  display: none;
+}
+
+.switch .switch-block .switch-button {
+  display: block;
+  width: 64px;
+  height: 24px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid #d3e2e5;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  transition: var(--switch-transition);
+}
+
+.switch .switch-block .switch-button::after {
+  position: absolute;
+  left: 5px;
+  content: '';
+  width: 26px;
+  height: 12px;
+  background: #8fa7b2;
+  border-radius: 20px;
+
+  transition: var(--switch-transition);
+}
+
+.switch .switch-block input:checked + .switch-button {
+  border: 1px solid var(--success-color);
+  background: var(--success-color);
+}
+
+.switch .switch-block input:checked + .switch-button::after {
+  background: #fff;
+  left: 31px;
 }
 
 .login-footer {
@@ -232,6 +279,7 @@ nav.navbar {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
+  background: #fff;
 }
 
 .nav-header h2 {
@@ -290,6 +338,7 @@ header.page-header {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  color: var(--primary-color);
   border-bottom: 1px solid var(--extra-light-gray);
 }
 
@@ -320,7 +369,7 @@ td {
 
 table th {
   border-bottom: 1px solid var(--extra-light-gray);
-  color: var(--light-gray);
+  color: var(--gray-color);
   font-weight: 500;
 }
 
