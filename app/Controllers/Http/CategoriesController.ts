@@ -80,7 +80,6 @@ export default class CategoriesController {
 
     try {
       const category = await Category.query().where({ id }).preload('products').firstOrFail()
-      console.log(category)
       if (category.products.length !== 0) {
         session.flash('error', 'Existe produto com essa categoria!')
         return response.redirect().back()
