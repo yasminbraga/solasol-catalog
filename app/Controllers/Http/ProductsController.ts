@@ -8,7 +8,8 @@ import fs from 'fs'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
-    return view.render('products/index')
+    const products = await Product.query().preload('category')
+    return view.render('products/index', { products: products.map((i) => i.toJSON()) })
   }
 
   public async create({ view }: HttpContextContract) {
@@ -16,7 +17,9 @@ export default class ProductsController {
     return view.render('products/create', { categories })
   }
 
-  public async store({ request, response, session, logger }: HttpContextContract) {
+  public async store({ request, response, session, logger, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const productValidationSchema = schema.create({
       name: schema.string({}, [
         rules.unique({
@@ -29,25 +32,21 @@ export default class ProductsController {
       codigo: schema.string.optional(),
       category_id: schema.number([rules.unsigned()]),
       description: schema.string.optional(),
-      images: schema.array().members(schema.file({ extnames: ['jpg', 'jpeg', 'png'] })),
+      image: schema.file({ extnames: ['jpg', 'jpeg', 'png'] }),
     })
 
-    const { images, ...productData } = await request.validate({
+    const { image, ...productData } = await request.validate({
       schema: productValidationSchema,
     })
 
     try {
       const product = await Product.create(productData)
 
-      for (let image of images) {
-        await image.move(Application.tmpPath('uploads'), {
-          name: `${Application.helpers.cuid()}-${image.clientName}`,
-        })
-      }
+      await image.move(Application.tmpPath('uploads'), {
+        name: `${Application.helpers.cuid()}-${image.clientName}`,
+      })
 
-      await product
-        .related('files')
-        .createMany(images.map((image) => ({ filename: image.fileName })))
+      await product.related('file').create({ filename: image.fileName })
 
       session.flash('success', 'Produto cadastrado')
       return response.redirect().toRoute('products.show', { id: product.id })
@@ -63,7 +62,7 @@ export default class ProductsController {
     try {
       const product = await Product.query()
         .where({ id: request.param('id') })
-        .preload('files')
+        .preload('file')
         .firstOrFail()
 
       return view.render('products/show', { product: product.toJSON() })
@@ -76,7 +75,7 @@ export default class ProductsController {
     try {
       const product = await Product.query()
         .where({ id: request.param('id') })
-        .preload('files')
+        .preload('file')
         .firstOrFail()
 
       const categories = await Category.all()
@@ -90,7 +89,9 @@ export default class ProductsController {
     }
   }
 
-  public async update({ request, response, session }: HttpContextContract) {
+  public async update({ request, response, session, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const id = request.param('id')
     const productValidationSchema = schema.create({
       name: schema.string({}, [
@@ -107,38 +108,25 @@ export default class ProductsController {
       codigo: schema.string.optional(),
       category_id: schema.number([rules.unsigned()]),
       description: schema.string.optional(),
-      images: schema.array.optional().members(schema.file({ extnames: ['jpg', 'jpeg', 'png'] })),
+      image: schema.file.optional({ extnames: ['jpg', 'jpeg', 'png'] }),
     })
 
-    const { images, ...updateProductData } = await request.validate({
+    const { image, ...updateProductData } = await request.validate({
       schema: productValidationSchema,
     })
 
     try {
-      const product = await Product.query().where({ id }).firstOrFail()
+      const product = await Product.query().where({ id }).preload('file').firstOrFail()
       await product.merge(updateProductData).save()
 
-      if (images && images?.length > 0) {
-        const files = await product.related('files').query()
-
-        files.map((file) => {
-          fs.unlinkSync(Application.tmpPath('uploads', file.filename))
+      if (image) {
+        await image.move(Application.tmpPath('uploads'), {
+          name: product.file.filename,
+          overwrite: true,
         })
-
-        await product.related('files').query().delete()
-
-        for (let image of images) {
-          await image.move(Application.tmpPath('uploads'), {
-            name: `${Application.helpers.cuid()}.${image.extname}`,
-          })
-        }
-
-        await product
-          .related('files')
-          .createMany(images.map((image) => ({ filename: image.fileName })))
-
-        return response.redirect().toRoute('products.show', { id })
       }
+
+      return response.redirect().toRoute('products.show', { id })
     } catch (error) {
       console.log(error)
       session.flash('error', error.message)
@@ -147,18 +135,17 @@ export default class ProductsController {
     }
   }
 
-  public async destroy({ request, response, session }: HttpContextContract) {
+  public async destroy({ request, response, session, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const id = request.param('id')
 
     try {
-      const product = await Product.query().where({ id }).firstOrFail()
-      const files = await product.related('files').query()
+      const product = await Product.query().where({ id }).preload('file').firstOrFail()
 
-      files.map((file) => {
-        fs.unlinkSync(Application.tmpPath('uploads', file.filename))
-      })
-
+      await product.file.delete()
       await product.delete()
+
       session.flash('success', 'Produto removido')
       return response.redirect().toRoute('products.index')
     } catch (error) {

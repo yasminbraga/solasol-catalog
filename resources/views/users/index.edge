@@ -5,23 +5,56 @@
     <h2>Usuários</h2>
     <a href="{{ route('users.create') }}">Novo</a>
   </header>
-  <main style="padding: 1.5rem 3rem;">
+  <div class="card">
     <table>
       <thead>
         <tr>
+          <th>Nome</th>
           <th>Email</th>
-          <th>Ações</th>
+          @can('AdminPolicy.adminOnly')
+            <th>Admin</th>
+            <th>Ações</th>
+          @end
         </tr>
       </thead>
       <tbody>
         @each(user in users)
           <tr>
             <td>
-              {{ user.email }}
+              {{ user.name }}
             </td>
             <td>
-              <a href="{{ route('users.edit', { id: user.id }) }}">Editar</a>
+              {{ user.email }}
             </td>
+            @can('AdminPolicy.adminOnly')
+              <td>
+                {{ user.is_admin ? 'Sim' : 'Não' }}
+              </td>
+
+              <td class="action-column">
+                <a href="{{ route('users.edit', { id: user.id }) }}">
+                  <i class="material-icons primary-color">edit</i>
+                </a>
+                <form
+                  class="confirm-deletion" 
+                  action="{{
+                    route('users.destroy',
+                      {id: user.id},
+                      {
+                        qs: {
+                          _method: 'DELETE'
+                        }
+                      }
+                    )
+                  }}" 
+                  method="post"
+                >
+                  <button type="button">
+                    <i class="material-icons delete-color">delete</i>
+                  </button>
+                </form>
+              </td>
+            @end
           </tr>
         @else
           <h3>Nenhum usuario encontrado</h3>
@@ -29,5 +62,5 @@
       </tbody>
     </table>
 
-  </main>
+  </div>
 @endsection

@@ -1,10 +1,25 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, BelongsTo, computed } from '@ioc:Adonis/Lucid/Orm'
-import Route from '@ioc:Adonis/Core/Route'
+import {
+  BaseModel,
+  belongsTo,
+  column,
+  BelongsTo,
+  computed,
+  afterDelete,
+} from '@ioc:Adonis/Lucid/Orm'
 
+import Application from '@ioc:Adonis/Core/Application'
+import Route from '@ioc:Adonis/Core/Route'
 import Product from './Product'
+import fs from 'fs'
 
 export default class File extends BaseModel {
+  @afterDelete()
+  public static async deleteAssociatedImageFromDisk(file: File) {
+    console.log(file)
+    fs.unlinkSync(Application.tmpPath('uploads', file.filename))
+  }
+
   @column({ isPrimary: true })
   public id: number
 

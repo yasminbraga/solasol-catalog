@@ -7,7 +7,6 @@
 </header>
 <section class="page-content">
   <div class="card">
-    {{ inspect(product) }}
     <h2 class="title">{{product.name}}</h2>
     <div class="card-field">
       <span class="card-label">Código</span>
@@ -23,9 +22,7 @@
     </div>
 
     <div class="files">
-      @each(file in product.files)
-        <img class="file" src="{{file.fileNameUrl}}" alt=""> 
-      @endeach
+      <img class="file" src="{{ product.file.fileNameUrl }}" alt=""> 
     </div>
 
     <div class="action-buttons">

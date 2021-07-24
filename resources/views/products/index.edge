@@ -1,9 +1,59 @@
 @layout('layouts/master')
 
 @section('content')
-<header class="page-header">
-  <h2>Produtos</h2>
-  <a href="{{ route('products.create') }}">Novo</a>
-</header>
-<h1>Index produto</h1>
+  <header class="page-header">
+    <h2>Produtos</h2>
+    <a href="{{ route('products.create') }}">Novo</a>
+  </header>
+  <section class="page-content">
+    <div class="card">
+      <table>
+        <thead>
+          <th>Nome</th>
+          <th>Código</th>
+          <th>Preço</th>
+          <th>Categoria</th>
+
+          @can('AdminPolicy.adminOnly')
+            <th class="action-column">Ações</th>
+          @end
+        </thead>
+        <tbody>
+          @each(product in products)
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.codigo }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.category.name }}</td>
+            @can('AdminPolicy.adminOnly')
+              <td class="action-column">
+                <a href="{{ route('products.edit', {id: product.id}) }}">
+                  <i class="material-icons primary-color">edit</i>
+                </a>
+                <form
+                  class="confirm-deletion" 
+                  action="{{
+                    route('products.destroy',
+                      {id: product.id},
+                      {
+                        qs: {
+                          _method: 'DELETE'
+                        }
+                      }
+                    )
+                  }}" 
+                  method="post"
+                >
+                  <button type="button">
+                    <i class="material-icons delete-color">delete</i>
+                  </button>
+                </form>
+              </td>
+            @end
+          </tr>
+          @endeach
+        </tbody>
+      </table>
+    </div>
+  </section>
 @endsection
