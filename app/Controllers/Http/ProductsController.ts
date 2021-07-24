@@ -8,7 +8,8 @@ import fs from 'fs'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
-    return view.render('products/index')
+    const products = await Product.query().preload('category')
+    return view.render('products/index', { products: products.map((i) => i.toJSON()) })
   }
 
   public async create({ view }: HttpContextContract) {

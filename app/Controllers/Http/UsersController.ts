@@ -21,7 +21,9 @@ export default class UsersController {
     return view.render('users/create')
   }
 
-  public async store({ request, response, logger, session }: HttpContextContract) {
+  public async store({ request, response, logger, session, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const validationSchema = schema.create({
       name: schema.string(),
       email: schema.string({}, [
@@ -69,7 +71,8 @@ export default class UsersController {
     }
   }
 
-  public async update({ request, response, logger, session }: HttpContextContract) {
+  public async update({ request, response, logger, session, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
     const id = request.param('id')
 
     const validationSchema = schema.create({
@@ -106,7 +109,8 @@ export default class UsersController {
     }
   }
 
-  public async destroy({ request, session, response, logger }: HttpContextContract) {
+  public async destroy({ request, session, response, logger, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
     const id = request.param('id')
 
     try {
