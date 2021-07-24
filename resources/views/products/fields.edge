@@ -54,20 +54,10 @@
   <input 
   id="product-image" 
   type="file" 
-  name="images[]" 
+  name="image" 
   accept="image/*"
   >
 </div>
 <div>
-  <img id="image-preview" src='{{ product ? product.files[0].fileNameUrl : '' }}' >
+  <img id="image-preview" src='{{ product ? product.file.fileNameUrl : '' }}' >
 </div>
-
-<script>
-  const image = document.querySelector('#product-image')
-  const preview = document.querySelector('#image-preview')
-
-  image.onchange = function() {
-    const [ file ] = image.files    
-    preview.src = URL.createObjectURL(file)
-  }
-</script>

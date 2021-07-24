@@ -27,13 +27,13 @@
             <td>{{ product.category.name }}</td>
             @can('AdminPolicy.adminOnly')
               <td class="action-column">
-                <a href="{{ route('categories.edit', {id: product.id}) }}">
+                <a href="{{ route('products.edit', {id: product.id}) }}">
                   <i class="material-icons primary-color">edit</i>
                 </a>
                 <form
                   class="confirm-deletion" 
                   action="{{
-                    route('categories.destroy',
+                    route('products.destroy',
                       {id: product.id},
                       {
                         qs: {

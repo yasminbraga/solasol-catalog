@@ -22,9 +22,7 @@
     </div>
 
     <div class="files">
-      @each(file in product.files)
-        <img class="file" src="{{file.fileNameUrl}}" alt=""> 
-      @endeach
+      <img class="file" src="{{ product.file.fileNameUrl }}" alt=""> 
     </div>
 
     <div class="action-buttons">

@@ -2,7 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
 
 import Category from 'App/Models/Category'
-import Product from 'App/Models/Product'
 
 export default class CategoriesController {
   protected _validationMessages = {
@@ -22,7 +21,9 @@ export default class CategoriesController {
     return view.render('categories/create')
   }
 
-  public async store({ logger, request, response }: HttpContextContract) {
+  public async store({ logger, request, response, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const validationSchema = schema.create({
       name: schema.string({}),
     })
@@ -54,7 +55,9 @@ export default class CategoriesController {
     }
   }
 
-  public async update({ request, response, logger }: HttpContextContract) {
+  public async update({ request, response, logger, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const id = request.param('id')
 
     const validationSchema = schema.create({
@@ -75,7 +78,9 @@ export default class CategoriesController {
     }
   }
 
-  public async destroy({ request, response, session }: HttpContextContract) {
+  public async destroy({ request, response, session, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const id = request.param('id')
 
     try {
