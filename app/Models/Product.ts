@@ -1,8 +1,18 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, BelongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  belongsTo,
+  BelongsTo,
+  column,
+  HasOne,
+  hasOne,
+  ManyToMany,
+  manyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 
-import Category from './Category'
-import File from './File'
+import Category from 'App/Models/Category'
+import File from 'App/Models/File'
+import Order from 'App/Models/Order'
 
 export default class Product extends BaseModel {
   @column({ isPrimary: true })
@@ -28,6 +38,9 @@ export default class Product extends BaseModel {
 
   @hasOne(() => File)
   public file: HasOne<typeof File>
+
+  @manyToMany(() => Order)
+  public orders: ManyToMany<typeof Order>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
