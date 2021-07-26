@@ -5,7 +5,7 @@ const currentPage = document.location.href
 const navLinks = document.querySelectorAll('.nav-link')
 
 navLinks.forEach((navLink) => {
-  if (navLink.href === currentPage) {
+  if (currentPage.includes(navLink.href)) {
     navLink.classList.add('highlight')
   }
 })
