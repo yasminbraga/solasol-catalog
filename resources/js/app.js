@@ -1,5 +1,15 @@
 import '../css/app.css'
 
+// HIGHLIGHT CURRENT PAGE LINK IN SIDEBAR
+const currentPage = document.location.href
+const navLinks = document.querySelectorAll('.nav-link')
+
+navLinks.forEach((navLink) => {
+  if (navLink.href === currentPage) {
+    navLink.classList.add('highlight')
+  }
+})
+
 // GENERAL PROMPT TO EVERY DELETE RESOURCE REQUEST
 const deleteForms = document.querySelectorAll('.confirm-deletion')
 

@@ -5,8 +5,15 @@
   </header>
 
   <nav class="links">
-    <a href="#">Produtos</a>
-    <a href="#">Categorias</a>
+    <a class="nav-link" href="{{ route('products.index') }}">
+      Produtos
+    </a>
+    <a class="nav-link" href="{{ route('categories.index') }}">
+      Categorias
+    </a>
+    <a class="nav-link" href="{{ route('users.index') }}">
+      Usuários
+    </a>
   </nav>
 
   <nav class="logout">
