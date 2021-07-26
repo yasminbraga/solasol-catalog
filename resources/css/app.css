@@ -14,6 +14,10 @@
   --light-primary-color: rgba(252, 162, 17, 0.2);
   --error-color: #df666e;
   --light-error-color: rgba(223, 102, 110, 0.2);
+  --edit-blue: #dbfcff;
+  /* --edit-link: #0090c1; */
+  --edit-link: #336699;
+
   --success-color: #64c589;
   --light-gray: rgba(0, 0, 0, 0.25);
   --dark-gray-text: rgba(0, 0, 0, 0.6);
@@ -34,6 +38,10 @@
 
 .material-icons.delete-color {
   color: var(--error-color);
+}
+
+.material-icons.edit-color {
+  color: var(--edit-link);
 }
 
 body {
@@ -400,10 +408,6 @@ header.page-header {
   color: var(--error-color);
 }
 
-.logout-form {
-}
-
-/* TABLE */
 table,
 th,
 td {
@@ -413,25 +417,76 @@ td {
 }
 
 table th {
-  border-bottom: 1px solid var(--extra-light-gray);
   color: var(--gray-color);
   font-weight: 500;
-}
-
-th {
   text-align: left;
 }
 
+table thead tr {
+  border-bottom: 1px solid var(--extra-light-gray);
+}
+
 tbody td {
+  text-align: left;
   color: var(--dark-gray-text);
 }
 
 .action-column {
-  text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
-.action-column i + i {
-  margin-left: 0.5rem;
+.action-column a + form {
+  margin-left: 0.3rem;
+}
+
+.edit-link {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.delete-btn {
+  border: 0;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+
+@media (max-width: 767px) {
+  /* TABLE */
+  table {
+    display: flex;
+    flex-direction: row;
+  }
+
+  table .principal-thead {
+    display: none;
+  }
+
+  table tbody {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  table thead tr,
+  table tbody tr {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--extra-light-gray);
+  }
+
+  tbody td {
+    text-align: right;
+  }
+
+  .action-column-title {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -511,6 +566,11 @@ tbody td {
 
   #image-preview {
     max-width: 300px;
+  }
+
+  /* table */
+  table .each-thead {
+    display: none;
   }
 }
 
