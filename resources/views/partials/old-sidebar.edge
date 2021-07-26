@@ -1,0 +1,47 @@
+<nav class="navbar">
+  <header class="nav-header">
+    <h2>Sol a Sol</h2>
+    <a href="#" onclick="openNav()">
+      <i class="material-icons primary-color">menu</i>
+    </a>
+  </header>
+
+  <section class="overlay" id="nav-menu">
+    <header class="nav-header">
+      <h2>Sol a sol</h2>
+      <a href="#" onclick="closeNav()">
+        <i class="material-icons primary-color">chevron_left</i>
+      </a>
+    </header>
+    <div class="nav-links">
+      <a class="nav-link" href="{{ route('products.index') }}">
+        Produtos
+      </a>
+      <a class="nav-link" href="{{ route('categories.index') }}">
+        Categorias
+      </a>
+      <a class="nav-link" href="{{ route('users.index') }}">
+        Usuários
+      </a>
+    </div>
+  </section>
+  <form class="logout-form" method="post" action="{{ route('sessions.destroy', { id: 1 }) }}?_method=DELETE">
+    <button class="logout-btn" href="{{ route('users.index') }}">
+      Sair
+      <i class="material-icons">logout</i>
+    </button>
+  </form>
+  <div id="overlay-opacity"></div>
+
+</nav>
+
+<script>
+  function openNav() {
+    document.getElementById("nav-menu").style.left = "0";
+    document.getElementById("overlay-opacity").style.display = "flex";
+  }
+  function closeNav() {
+    document.getElementById("nav-menu").style.left = "-248px";
+    document.getElementById("overlay-opacity").style.display = "none";
+  }
+</script>
