@@ -6,10 +6,14 @@
   <title>Sol a Sol</title>
   @entryPointStyles('app')
   @entryPointScripts('app')
+  @entryPointScripts('react-app')
 </head>
 <body>
   <main>
     <h2>Você está na home</h2>
+    
+    <div id="react-hello"></div>
+
     <a href="{{ route('sessions.index') }}">Login</a>
   </main>
 </body>
