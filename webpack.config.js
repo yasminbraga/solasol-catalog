@@ -46,6 +46,7 @@ Encore.setPublicPath('/assets')
 |
 */
 Encore.addEntry('app', './resources/js/app.js')
+Encore.addEntry('react-app', './resources/js/src/index.ts')
 
 /*
 |--------------------------------------------------------------------------
@@ -186,6 +187,25 @@ Encore.configureDevServerOptions((options) => {
 //   runtimeCompilerBuild: false,
 //   useJsx: false
 // })
+
+/*
+|--------------------------------------------------------------------------
+| Enable React Preset
+|--------------------------------------------------------------------------
+|
+| Uncomment the following lines of code to enable support for vue. Also make
+| sure to install the required dependencies.
+|
+*/
+Encore.enableReactPreset()
+Encore.enableBabelTypeScriptPreset({
+  isTSX: true,
+  allExtensions: true,
+})
+Encore.configureBabelPresetEnv(function (options) {
+  options.useBuiltIns = 'usage'
+  options.corejs = '3.0'
+})
 
 /*
 |--------------------------------------------------------------------------
