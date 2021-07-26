@@ -1,15 +1,17 @@
 @layout('layouts/master')
 
+@set('title', 'Funcionários')
+
 @section('content')
-<header class="page-header">
-  <h2>Produtos</h2>
-  <a href="{{ route('products.create') }}">Novo</a>
-</header>
-<section class="page-content">
-  <div class="card">
-    @each(file in product.files)
-     <img width="300px" src="{{file.fileNameUrl}}" alt=""> 
-    @endeach
-  </div>
-</section>
+  <header class="page-header">
+    <h2>Produtos</h2>
+    <a href="{{ route('products.create') }}">Novo</a>
+  </header>
+  <section class="page-content">
+    <div class="card">
+      @each(file in product.files)
+        <img width="300px" src="{{file.fileNameUrl}}" alt=""> 
+      @endeach
+    </div>
+  </section>
 @endsection

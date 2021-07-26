@@ -1,10 +1,9 @@
 @layout('layouts/master')
 
+@set('title', 'Funcionários')
+@set('pageLink', 'users.create')
+
 @section('content')
-  <header class="page-header">
-    <h2>Usuários</h2>
-    <a href="{{ route('users.create') }}">Novo</a>
-  </header>
   <div class="card">
     <table>
       <thead>

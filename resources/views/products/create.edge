@@ -1,16 +1,15 @@
 @layout('layouts/master')
 
 @set('title', 'Produtos')
-@set('pageLink', 'products.create')
 
 @section('content')
-<section class="page-content">
-  <div class="card">
-    <h2 class="card-title">Novo Produto</h2>
-    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
-      @include('products/fields')
-      <button class="btn primary-btn">Cadastrar</button>
-    </form>
-  </div>
-</section>
+  <section class="page-content">
+    <div class="card">
+      <h2 class="card-title">Novo Produto</h2>
+      <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
+        @include('products/fields')
+        <button class="btn primary-btn">Cadastrar</button>
+      </form>
+    </div>
+  </section>
 @endsection
