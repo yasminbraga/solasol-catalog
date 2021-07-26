@@ -55,9 +55,7 @@
   id="product-image" 
   type="file" 
   name="image" 
-  accept="image/*"
+  accept=".png, .jpeg, .jpg"
   >
 </div>
-<div>
-  <img id="image-preview" src='{{ product ? product.file.fileNameUrl : '' }}' >
-</div>
+<img id="image-preview" src='{{ product ? product.file.fileNameUrl : '' }}' >

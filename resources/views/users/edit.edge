@@ -1,8 +1,10 @@
 @layout('layouts/master')
 
+@set('title', 'Funcionários')
+
 @section('content')
 <div class="card">
-  <h2 class="card-title">Novo Usuário</h2>
+  <h2 class="card-title">Novo Funcionário</h2>
   <form method="post" action="{{ route('users.update', { id: user.id }) }}?_method=PUT" enctype="multipart/form-data">
     @!textField({
       name: 'name',
