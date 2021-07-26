@@ -1,11 +1,9 @@
 @layout('layouts/master')
 
-@section('content')
-  <header class="page-header">
-    <h2>Categorias</h2>
-    <a href="{{ route('categories.create') }}">Novo</a>
-  </header>
+@set('title', 'Categorias')
+@set('pageLink', 'categories.create')
 
+@section('content')
   <section class="page-content">
     <div class="card">
       <table>

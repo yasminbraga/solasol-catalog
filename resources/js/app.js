@@ -1,5 +1,15 @@
 import '../css/app.css'
 
+// HIGHLIGHT CURRENT PAGE LINK IN SIDEBAR
+const currentPage = document.location.href
+const navLinks = document.querySelectorAll('.nav-link')
+
+navLinks.forEach((navLink) => {
+  if (navLink.href === currentPage) {
+    navLink.classList.add('highlight')
+  }
+})
+
 // GENERAL PROMPT TO EVERY DELETE RESOURCE REQUEST
 const deleteForms = document.querySelectorAll('.confirm-deletion')
 
@@ -23,3 +33,19 @@ if (image && preview) {
     preview.src = URL.createObjectURL(file)
   }
 }
+
+const closeSidebar = document.querySelector('#close-sidebar')
+const showSidebar = document.querySelector('#show-sidebar')
+
+const sidebarOverlay = document.querySelector('.sidebar-overlay')
+const sidebar = document.querySelector('.sidebar')
+
+closeSidebar.addEventListener('click', function () {
+  sidebar.style.left = '-200px'
+  sidebarOverlay.style.display = 'none'
+})
+
+showSidebar.addEventListener('click', function () {
+  sidebar.style.left = '0px'
+  sidebarOverlay.style.display = 'flex'
+})
