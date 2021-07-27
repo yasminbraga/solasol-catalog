@@ -5,8 +5,8 @@
 
 @section('content')
   <section class="page-content">
-    <div class="card">
-      <table>
+    <div class="card-table">
+      <table class="responsive-table">
         <thead>
           <th>Nome</th>
           @can('AdminPolicy.adminOnly')
@@ -15,12 +15,12 @@
         </thead>
         <tbody>
           @each(category in categories)
-          <tr>
-            <td>{{ category.name }}</td>
+          <tr class="card-row">
+            <td title="Nome">{{ category.name }}</td>
             @can('AdminPolicy.adminOnly')
               <td class="action-column">
-                <a href="{{ route('categories.edit', {id: category.id}) }}">
-                  <i class="material-icons primary-color">edit</i>
+                <a class="edit-link" href="{{ route('categories.edit', {id: category.id}) }}">
+                  <i class="material-icons edit-color">edit</i>
                 </a>
                 <form
                   class="confirm-deletion" 
@@ -36,7 +36,7 @@
                   }}" 
                   method="post"
                 >
-                  <button type="button">
+                  <button type="button" class="delete-btn">
                     <i class="material-icons delete-color">delete</i>
                   </button>
                 </form>

@@ -2,7 +2,7 @@
 
 @section('content')
   <section class="page-content">
-    <div class="card card-table">
+    <div class="card-table">
       <table class="responsive-table">
         <thead>
           <th>Nome</th>
@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           @each(product in products)
-          <tr class="card">
+          <tr class="card-row">
             <td title="Nome">{{ product.name }}</td>
             <td title="Código">{{ product.codigo }}</td>
             <td title="Preço">{{ product.price }}</td>

@@ -4,35 +4,36 @@
 @set('pageLink', 'users.create')
 
 @section('content')
-  <div class="card">
-    <table>
+<section class="page-content">
+  <div class="card-table">
+    <table class="responsive-table">
       <thead>
         <tr>
           <th>Nome</th>
           <th>Email</th>
           @can('AdminPolicy.adminOnly')
             <th>Admin</th>
-            <th>Ações</th>
+            <th class="action-column">Ações</th>
           @end
         </tr>
       </thead>
       <tbody>
         @each(user in users)
-          <tr>
-            <td>
+          <tr class="card-row">
+            <td title="Nome">
               {{ user.name }}
             </td>
-            <td>
+            <td title="Email">
               {{ user.email }}
             </td>
             @can('AdminPolicy.adminOnly')
-              <td>
+              <td title="Admin">
                 {{ user.is_admin ? 'Sim' : 'Não' }}
               </td>
 
               <td class="action-column">
-                <a href="{{ route('users.edit', { id: user.id }) }}">
-                  <i class="material-icons primary-color">edit</i>
+                <a class="edit-link" href="{{ route('users.edit', { id: user.id }) }}">
+                  <i class="material-icons edit-color">edit</i>
                 </a>
                 <form
                   class="confirm-deletion" 
@@ -48,7 +49,7 @@
                   }}" 
                   method="post"
                 >
-                  <button type="button">
+                  <button type="button" class="delete-btn">
                     <i class="material-icons delete-color">delete</i>
                   </button>
                 </form>
@@ -62,4 +63,6 @@
     </table>
 
   </div>
+</section>
+
 @endsection
