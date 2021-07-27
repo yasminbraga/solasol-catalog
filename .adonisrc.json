@@ -15,12 +15,7 @@
     "Database": "database",
     "Contracts": "contracts"
   },
-  "preloads": [
-    "./start/routes",
-    "./start/kernel",
-    "./start/bouncer",
-    "./start/bull"
-  ],
+  "preloads": ["./start/routes", "./start/kernel", "./start/bouncer", "./start/bull"],
   "providers": [
     "./providers/AppProvider",
     "@adonisjs/core",
@@ -42,7 +37,5 @@
       "reloadServer": false
     }
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ]
+  "aceProviders": ["@adonisjs/repl"]
 }

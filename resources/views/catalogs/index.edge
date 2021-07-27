@@ -22,7 +22,7 @@
         @each(catalog in catalogs)
           <tr>
             <td>
-              {{ catalog.uuid.split('-')[0] }}
+              {{ catalog.uuid }}
             </td>
             <td>
               {{ catalog.created_at }}
@@ -56,6 +56,9 @@
                     <i class="material-icons delete-color">delete</i>
                   </button>
                 </form>
+                <a class="edit-link" href="{{ catalog.signed_url }}">
+                  <i class="material-icons edit-color">link</i>
+                </a>
               </td>
             @end
           </tr>

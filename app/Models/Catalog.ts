@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import Route from '@ioc:Adonis/Core/Route'
 
 export default class Catalog extends BaseModel {
   @column({ isPrimary: true })
@@ -34,6 +35,18 @@ export default class Catalog extends BaseModel {
   @computed({ serializeAs: 'expire_at_formatted' })
   public get expireAtFormatted() {
     return this.expireAt.toFormat('dd/MM/yyyy - HH:mm:ss')
+  }
+
+  @computed({ serializeAs: 'signed_url' })
+  public get signedUrl() {
+    return 'http://localhost:3333/app'
+    // return Route.makeSignedUrl(
+    //   'catalogs.show',
+    //   { uuid: this.uuid },
+    //   {
+    //     expiresIn: `${this.expireAt.diffNow('minutes').as('minutes')}m`,
+    //   }
+    // )
   }
 
   @column.dateTime({

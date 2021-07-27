@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "node -r @adonisjs/assembler/build/register japaFile.ts"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.0.0",
@@ -16,16 +17,22 @@
     "@symfony/webpack-encore": "^1.3.0",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",
     "adonis-preset-ts": "^2.1.0",
+    "axios": "^0.21.1",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-adonis": "^1.3.1",
     "eslint-plugin-prettier": "^3.4.0",
+    "japa": "^3.1.1",
     "pino-pretty": "^4.8.0",
     "prettier": "^2.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "supertest": "^6.1.4",
     "typescript": "~4.2",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"

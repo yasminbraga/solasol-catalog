@@ -20,7 +20,7 @@ export default class CatalogsController {
     return view.render('catalogs/create')
   }
 
-  public async store({ request, response, auth }: HttpContextContract) {
+  public async store({ request, response, auth, logger, session }: HttpContextContract) {
     const user = auth.user
 
     if (!user) {
@@ -36,28 +36,33 @@ export default class CatalogsController {
     })
 
     const data = {
-      expireAt: DateTime.now().plus({ seconds: validity }),
+      expireAt: DateTime.now().plus({ days: validity }),
       uuid: v4(),
       validity,
     }
 
-    const catalog = await user.related('catalogs').create(data)
+    try {
+      const catalog = await user.related('catalogs').create(data)
 
-    await Bull.schedule<CatalogExpireJobData>(
-      new CatalogExpireJob().key,
-      { catalogId: catalog.id },
-      data.expireAt.toJSDate(),
-      {
-        jobId: catalog.uuid,
-      }
-    )
+      await Bull.schedule<CatalogExpireJobData>(
+        new CatalogExpireJob().key,
+        { catalogId: catalog.id },
+        data.expireAt.toJSDate(),
+        {
+          jobId: catalog.uuid,
+        }
+      )
 
-    return response.redirect().toRoute('catalogs.index')
+      return response.redirect().toRoute('catalogs.index')
+    } catch (error) {
+      logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
   }
 
-  public async destroy({ request, session, response, bouncer }: HttpContextContract) {
-    // await bouncer.with('AdminPolicy').authorize('adminOnly')
-
+  public async destroy({ request, session, response, logger }: HttpContextContract) {
     const id = request.param('id')
 
     try {
@@ -72,7 +77,7 @@ export default class CatalogsController {
 
       return response.redirect().toRoute('catalogs.index')
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       session.flash('error', error.message)
 
       return response.redirect().back()

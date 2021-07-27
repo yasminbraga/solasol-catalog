@@ -31,9 +31,23 @@ Route.group(() => {
   Route.resource('products', 'ProductsController')
   Route.resource('users', 'UsersController')
   Route.resource('categories', 'CategoriesController')
-  Route.resource('catalogs', 'CatalogsController')
+  Route.resource('catalogs', 'CatalogsController').only(['index', 'create', 'store', 'destroy'])
 }).middleware(['auth'])
+
+Route.group(() => {
+  Route.group(() => {
+    Route.resource('catalogs', 'CatalogsController').only(['show', 'index'])
+  })
+    .prefix('v1')
+    .as('v1')
+})
+  .namespace('App/Controllers/Http/Api/v1')
+  .prefix('api')
+  .as('api')
 
 Route.get('uploads/:filename', async ({ params, response }) => {
   return response.attachment(Application.tmpPath('uploads', params.filename))
 }).as('uploads')
+
+// react app
+Route.on('*').render('app')

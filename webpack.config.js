@@ -46,7 +46,7 @@ Encore.setPublicPath('/assets')
 |
 */
 Encore.addEntry('app', './resources/js/app.js')
-Encore.addEntry('react-app', './resources/js/src/index.ts')
+Encore.addEntry('react-app', './resources/js/src/routes.tsx')
 
 /*
 |--------------------------------------------------------------------------
