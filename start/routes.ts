@@ -31,6 +31,7 @@ Route.group(() => {
   Route.resource('products', 'ProductsController')
   Route.resource('users', 'UsersController')
   Route.resource('categories', 'CategoriesController')
+  Route.resource('catalogs', 'CatalogsController')
 }).middleware(['auth'])
 
 Route.get('uploads/:filename', async ({ params, response }) => {

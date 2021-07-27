@@ -5,7 +5,8 @@
     "@adonisjs/core/build/commands",
     "@adonisjs/repl/build/commands",
     "@adonisjs/lucid/build/commands",
-    "@adonisjs/bouncer/build/commands"
+    "@adonisjs/bouncer/build/commands",
+    "@rocketseat/adonis-bull/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -17,7 +18,8 @@
   "preloads": [
     "./start/routes",
     "./start/kernel",
-    "./start/bouncer"
+    "./start/bouncer",
+    "./start/bull"
   ],
   "providers": [
     "./providers/AppProvider",
@@ -27,7 +29,8 @@
     "@adonisjs/shield",
     "@adonisjs/lucid",
     "@adonisjs/auth",
-    "@adonisjs/bouncer"
+    "@adonisjs/bouncer",
+    "@rocketseat/adonis-bull"
   ],
   "metaFiles": [
     {

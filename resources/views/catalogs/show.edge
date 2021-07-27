@@ -1,0 +1,29 @@
+@layout('layouts/master')
+
+@set('title', 'Catálogos')
+
+@section('content')
+  <div class="card">
+    <h2 class="card-title">Catálogo</h2>
+    
+    <div>
+      <span>Expirado</span>
+      {{ catalog.expired }}
+    </div>
+    
+    <div>
+      <span>Data de criação</span>
+      {{ catalog.created_at }}
+    </div>
+    
+    <div>
+      <span>Expira em</span>
+      {{ catalog.expire_at }}
+    </div>
+
+    <div>
+      <span>Visualizações</span>
+      {{ catalog.views }}
+    </div>
+  </div>
+@endsection

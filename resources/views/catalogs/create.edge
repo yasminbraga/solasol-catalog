@@ -1,0 +1,20 @@
+@layout('layouts/master')
+
+@set('title', 'Catálogos')
+
+@section('content')
+  <div class="card">
+    <h2 class="card-title">Novo Link de Catálogo</h2>
+    <form action="{{ route('catalogs.store') }}" method="post">
+      <div class="field">
+        <label for="validity">Expira em</label>
+        <select name="validity" id="validity">
+          @each(day in [1, 2, 3, 4, 5, 6, 7, 10, 15, 20, 25, 30])
+            <option value="{{ day }}">{{ day }} {{ day > 1 ? 'dias' : 'dia' }}</option>
+          @endeach
+        </select>
+      </div>
+      <button class="btn">Cadastrar</button>
+    </form>
+  </div>
+@endsection
