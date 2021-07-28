@@ -23,7 +23,7 @@
             {{ user.name }}
           </td>
           <td title="Email">
-            {{ user.email }}
+            {{ truncate(user.email, 12) }}
           </td>
           @can('AdminPolicy.adminOnly')
             <td title="Admin">
