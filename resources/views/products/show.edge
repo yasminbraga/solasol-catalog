@@ -3,43 +3,41 @@
 @set('title', 'Produtos')
 
 @section('content')
-  <section class="page-content">
-    <div class="card">
-      <h2 class="title">{{product.name}}</h2>
-      <div class="card-field">
-        <span class="card-label">Código</span>
-        <p class="content">{{product.codigo}}</p>
-      </div>
-      <div class="card-field">
-        <span class="card-label">Preço</span>
-        <p class="content">{{product.price}}</p>
-      </div>
-      <div class="card-field">
-        <span class="card-label">Detalhes</span>
-        <p class="content">{{product.description}}</p>
-      </div>
-
-      <div class="files">
-        <img class="file" src="{{ product.file.fileNameUrl }}" alt=""> 
-      </div>
-
-      <div class="action-buttons">
-        <a href="{{ route('products.edit', {id: product.id}) }}" class="secondary-btn">Editar</a>
-        <form 
-        action="{{ 
-            route('products.destroy', 
-            {id: product.id}, 
-              { 
-                qs: {
-                  _method: 'DELETE'
-                } 
-              }
-              ) 
-            }}" method="post"
-        >
-          <button class="delete-btn">Deletar</button>
-        </form>
-      </div>
+  <div class="card">
+    <h2 class="title">{{product.name}}</h2>
+    <div class="card-field">
+      <span class="card-label">Código</span>
+      <p class="content">{{product.codigo}}</p>
     </div>
-  </section>
+    <div class="card-field">
+      <span class="card-label">Preço</span>
+      <p class="content">{{product.price}}</p>
+    </div>
+    <div class="card-field">
+      <span class="card-label">Detalhes</span>
+      <p class="content">{{product.description}}</p>
+    </div>
+
+    <div class="files">
+      <img class="file" src="{{ product.file.fileNameUrl }}" alt=""> 
+    </div>
+
+    <div class="action-buttons">
+      <a href="{{ route('products.edit', {id: product.id}) }}" class="secondary-btn">Editar</a>
+      <form 
+      action="{{ 
+          route('products.destroy', 
+          {id: product.id}, 
+            { 
+              qs: {
+                _method: 'DELETE'
+              } 
+            }
+            ) 
+          }}" method="post"
+      >
+        <button class="delete-btn">Deletar</button>
+      </form>
+    </div>
+  </div>
 @endsection

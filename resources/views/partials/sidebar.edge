@@ -18,11 +18,11 @@
 
   <nav class="logout">
     <form class="logout-form" method="post" action="{{ route('sessions.destroy', { id: 1 }) }}?_method=DELETE">
-    <button class="logout-btn" href="{{ route('users.index') }}">
-      Sair
-      <i class="material-icons">logout</i>
-    </button>
-  </form>
+      <button class="logout-btn" href="{{ route('users.index') }}">
+        Sair
+        <i class="material-icons md-16">logout</i>
+      </button>
+    </form>
   </nav>
 </div>
 <div class="sidebar-overlay"></div>

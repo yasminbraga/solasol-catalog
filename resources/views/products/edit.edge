@@ -3,23 +3,21 @@
 @set('title', 'Produtos')
 
 @section('content')
-  <section class="page-content">
-    <div class="card">
-      <h2 class="card-title">Editar Produto</h2>
-      <form 
-        action="{{  
-          route('products.update', { id: product.id }, {
-            qs: {
-              _method: 'PUT'
-            }
-          })
-        }}"
-        method="post"
-        enctype="multipart/form-data"
-        >
-        @include('products/fields')
-        <button class="btn primary-btn">Editar</button>
-      </form>
-    </div>
-  </section>
+  <div class="card">
+    <h2 class="card-title">Editar Produto</h2>
+    <form 
+      action="{{  
+        route('products.update', { id: product.id }, {
+          qs: {
+            _method: 'PUT'
+          }
+        })
+      }}"
+      method="post"
+      enctype="multipart/form-data"
+      >
+      @include('products/fields')
+      <button class="btn primary-btn">Editar</button>
+    </form>
+  </div>
 @endsection

@@ -4,65 +4,61 @@
 @set('pageLink', 'users.create')
 
 @section('content')
-<section class="page-content">
-  <div class="card-table">
-    <table class="responsive-table">
-      <thead>
+<div class="card-table">
+  <table class="responsive-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        @can('AdminPolicy.adminOnly')
+          <th>Admin</th>
+          <th class="action-column">Ações</th>
+        @end
+      </tr>
+    </thead>
+    <tbody>
+      @each(user in users)
         <tr>
-          <th>Nome</th>
-          <th>Email</th>
+          <td title="Nome">
+            {{ user.name }}
+          </td>
+          <td title="Email">
+            {{ truncate(user.email, 12) }}
+          </td>
           @can('AdminPolicy.adminOnly')
-            <th>Admin</th>
-            <th class="action-column">Ações</th>
+            <td title="Admin">
+              {{ user.is_admin ? 'Sim' : 'Não' }}
+            </td>
+
+            <td class="action-column">
+              <a class="edit-link" href="{{ route('users.edit', { id: user.id }) }}">
+                <i class="material-icons edit-color">edit</i>
+              </a>
+              <form
+                class="confirm-deletion" 
+                action="{{
+                  route('users.destroy',
+                    {id: user.id},
+                    {
+                      qs: {
+                        _method: 'DELETE'
+                      }
+                    }
+                  )
+                }}" 
+                method="post"
+              >
+                <button type="button" class="delete-btn">
+                  <i class="material-icons delete-color">delete</i>
+                </button>
+              </form>
+            </td>
           @end
         </tr>
-      </thead>
-      <tbody>
-        @each(user in users)
-          <tr class="card-row">
-            <td title="Nome">
-              {{ user.name }}
-            </td>
-            <td title="Email">
-              {{ user.email }}
-            </td>
-            @can('AdminPolicy.adminOnly')
-              <td title="Admin">
-                {{ user.is_admin ? 'Sim' : 'Não' }}
-              </td>
-
-              <td class="action-column">
-                <a class="edit-link" href="{{ route('users.edit', { id: user.id }) }}">
-                  <i class="material-icons edit-color">edit</i>
-                </a>
-                <form
-                  class="confirm-deletion" 
-                  action="{{
-                    route('users.destroy',
-                      {id: user.id},
-                      {
-                        qs: {
-                          _method: 'DELETE'
-                        }
-                      }
-                    )
-                  }}" 
-                  method="post"
-                >
-                  <button type="button" class="delete-btn">
-                    <i class="material-icons delete-color">delete</i>
-                  </button>
-                </form>
-              </td>
-            @end
-          </tr>
-        @else
-          <h3>Nenhum usuario encontrado</h3>
-        @endeach
-      </tbody>
-    </table>
-
-  </div>
-</section>
-
+      @else
+        <h3>Nenhum usuario encontrado</h3>
+      @endeach
+    </tbody>
+  </table>
+</div>
 @endsection

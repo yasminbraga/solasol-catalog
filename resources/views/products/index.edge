@@ -1,54 +1,55 @@
 @layout('layouts/master')
 
+@set('title', 'Produtos')
+@set('pageLink', 'products.create')
+
 @section('content')
-  <section class="page-content">
-    <div class="card-table">
-      <table class="responsive-table">
-        <thead>
-          <th>Nome</th>
-          <th>Código</th>
-          <th>Preço</th>
-          <th>Categoria</th>
-          @can('AdminPolicy.adminOnly')
-            <th class="action-column">Ações</th>
-          @end
-        </thead>
-        <tbody>
-          @each(product in products)
-          <tr class="card-row">
-            <td title="Nome">{{ product.name }}</td>
-            <td title="Código">{{ product.codigo }}</td>
-            <td title="Preço">{{ product.price }}</td>
-            <td title="Categoria">{{ product.category.name }}</td>
-            @can('AdminPolicy.adminOnly')
-              <td class="action-column">
-                <a class="edit-link" href="{{ route('products.edit', {id: product.id}) }}">
-                  <i class="material-icons edit-color">edit</i>
-                </a>
-                <form
-                  class="confirm-deletion" 
-                  action="{{
-                    route('products.destroy',
-                      {id: product.id},
-                      {
-                        qs: {
-                          _method: 'DELETE'
-                        }
-                      }
-                    )
-                  }}" 
-                  method="post"
-                >
-                  <button type="button" class="delete-btn">
-                    <i class="material-icons delete-color">delete</i>
-                  </button>
-                </form>
-              </td>
-            @end
-          </tr>
-          @endeach
-        </tbody>
-      </table>
-    </div>
-  </section>
+<div class="card-table">
+  <table class="responsive-table">
+    <thead>
+      <th>Nome</th>
+      <th>Código</th>
+      <th>Preço</th>
+      <th>Categoria</th>
+      @can('AdminPolicy.adminOnly')
+        <th class="action-column">Ações</th>
+      @end
+    </thead>
+    <tbody>
+      @each(product in products)
+      <tr>
+        <td title="Nome">{{ product.name }}</td>
+        <td title="Código">{{ product.codigo }}</td>
+        <td title="Preço">{{ product.price }}</td>
+        <td title="Categoria">{{ product.category.name }}</td>
+        @can('AdminPolicy.adminOnly')
+          <td class="action-column">
+            <a class="edit-link" href="{{ route('products.edit', {id: product.id}) }}">
+              <i class="material-icons edit-color">edit</i>
+            </a>
+            <form
+              class="confirm-deletion" 
+              action="{{
+                route('products.destroy',
+                  {id: product.id},
+                  {
+                    qs: {
+                      _method: 'DELETE'
+                    }
+                  }
+                )
+              }}" 
+              method="post"
+            >
+              <button type="button" class="delete-btn">
+                <i class="material-icons delete-color">delete</i>
+              </button>
+            </form>
+          </td>
+        @end
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
 @endsection

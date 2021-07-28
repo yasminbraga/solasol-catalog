@@ -4,48 +4,46 @@
 @set('pageLink', 'categories.create')
 
 @section('content')
-  <section class="page-content">
-    <div class="card-table">
-      <table class="responsive-table">
-        <thead>
-          <th>Nome</th>
-          @can('AdminPolicy.adminOnly')
-            <th class="action-column">Ações</th>
-          @end
-        </thead>
-        <tbody>
-          @each(category in categories)
-          <tr class="card-row">
-            <td title="Nome">{{ category.name }}</td>
-            @can('AdminPolicy.adminOnly')
-              <td class="action-column">
-                <a class="edit-link" href="{{ route('categories.edit', {id: category.id}) }}">
-                  <i class="material-icons edit-color">edit</i>
-                </a>
-                <form
-                  class="confirm-deletion" 
-                  action="{{
-                    route('categories.destroy',
-                      {id: category.id},
-                      {
-                        qs: {
-                          _method: 'DELETE'
-                        }
-                      }
-                    )
-                  }}" 
-                  method="post"
-                >
-                  <button type="button" class="delete-btn">
-                    <i class="material-icons delete-color">delete</i>
-                  </button>
-                </form>
-              </td>
-            @end
-          </tr>
-          @endeach
-        </tbody>
-      </table>
-    </div>
-  </section>
+<div class="card-table">
+  <table class="responsive-table">
+    <thead>
+      <th>Nome</th>
+      @can('AdminPolicy.adminOnly')
+        <th class="action-column">Ações</th>
+      @end
+    </thead>
+    <tbody>
+      @each(category in categories)
+      <tr class="card-row">
+        <td title="Nome">{{ category.name }}</td>
+        @can('AdminPolicy.adminOnly')
+          <td class="action-column">
+            <a class="edit-link" href="{{ route('categories.edit', {id: category.id}) }}">
+              <i class="material-icons edit-color">edit</i>
+            </a>
+            <form
+              class="confirm-deletion" 
+              action="{{
+                route('categories.destroy',
+                  {id: category.id},
+                  {
+                    qs: {
+                      _method: 'DELETE'
+                    }
+                  }
+                )
+              }}" 
+              method="post"
+            >
+              <button type="button" class="delete-btn">
+                <i class="material-icons delete-color">delete</i>
+              </button>
+            </form>
+          </td>
+        @end
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
 @endsection
