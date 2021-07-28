@@ -112,7 +112,8 @@ main.login-container {
   padding: 6px;
   border-radius: 6px;
   border: 1px solid var(--extra-light-gray);
-  color: gray;
+  color: var(--dark-blue);
+  font-weight: 500;
   background: rgba(0, 0, 0, 0.04);
 }
 
