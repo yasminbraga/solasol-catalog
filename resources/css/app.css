@@ -558,7 +558,7 @@ td {
     width: 800px;
   }
 
-  .card.card-row {
+  .responsive-table tbody tr {
     box-shadow: none;
     background: transparent;
   }
@@ -566,13 +566,23 @@ td {
 
 @media (max-width: 750px) {
   /* TABLE */
+  .responsive-table,
+  th,
+  td {
+    font-size: 14px;
+  }
+
   .card-table {
     background: transparent;
     padding: 0;
     box-shadow: none;
   }
 
-  .card-row {
+  .responsive-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     background: #ffff;
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
@@ -581,12 +591,6 @@ td {
 
   .responsive-table thead {
     display: none;
-  }
-
-  .responsive-table tbody tr {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 
   .responsive-table tbody tr + tr {
