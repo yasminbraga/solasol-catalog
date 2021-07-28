@@ -1,0 +1,73 @@
+@layout('layouts/master')
+
+@set('title', 'Catálogos')
+@set('pageLink', 'catalogs.create')
+
+@section('content')
+  <section class="page-content">
+    <div class="card-table">
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Validade</th>
+            <th>Data Expiração</th>
+            @can('AdminPolicy.adminOnly')
+              <th class="action-column">Ações</th>
+            @end
+          </tr>
+        </thead>
+        <tbody>
+          @each(catalog in catalogs)
+            <tr class="card-row">
+              <td title="Id">
+                {{ catalog.uuid.split('-')[0] }}
+              </td>
+              <td title="Data">
+                {{ catalog.created_at }}
+              </td>
+              <td title="Status">
+                {{ catalog.expired ? 'Expirado' : 'Aberto' }}
+              </td>
+              <td title="Validade">
+                {{ catalog.validity_humanized }}
+              </td>
+              <td title="Data expiração">
+                {{ catalog.expired ? catalog.expire_at_formatted : '-' }}
+              </td>
+              @can('AdminPolicy.adminOnly')
+                <td class="action-column">
+                  <form
+                    class="confirm-deletion" 
+                    action="{{
+                      route('catalogs.destroy',
+                        {id: catalog.id},
+                        {
+                          qs: {
+                            _method: 'DELETE'
+                          }
+                        }
+                      )
+                    }}"
+                    method="post"
+                  >
+                    <button type="button" class="delete-btn">
+                      <i class="material-icons delete-color">delete</i>
+                    </button>
+                  </form>
+                  <a class="edit-link" target="_blank" href="{{ catalog.signed_url }}">
+                    <i class="material-icons edit-color">link</i>
+                  </a>
+                </td>
+              @end
+            </tr>
+          @else
+            <h3>Nenhum catálogo encontrado</h3>
+          @endeach
+        </tbody>
+      </table>
+    </div>
+  </section>
+@endsection

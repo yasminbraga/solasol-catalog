@@ -367,6 +367,7 @@ header.page-header {
   color: var(--primary-color);
   border-bottom: 1px solid var(--extra-light-gray);
   position: sticky;
+  background: #fff;
 }
 
 .page-title {
@@ -572,7 +573,7 @@ td {
     padding: 20px;
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
-    width: 800px;
+    width: 920px;
   }
 
   .responsive-table tbody tr {

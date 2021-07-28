@@ -4,7 +4,6 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Application from '@ioc:Adonis/Core/Application'
 import Category from 'App/Models/Category'
 import Product from 'App/Models/Product'
-import fs from 'fs'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
@@ -12,7 +11,9 @@ export default class ProductsController {
     return view.render('products/index', { products: products.map((i) => i.toJSON()) })
   }
 
-  public async create({ view }: HttpContextContract) {
+  public async create({ view, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     const categories = await Category.all()
     return view.render('products/create', { categories })
   }
@@ -71,7 +72,9 @@ export default class ProductsController {
     }
   }
 
-  public async edit({ request, view }: HttpContextContract) {
+  public async edit({ request, view, bouncer }: HttpContextContract) {
+    await bouncer.with('AdminPolicy').authorize('adminOnly')
+
     try {
       const product = await Product.query()
         .where({ id: request.param('id') })
