@@ -468,9 +468,10 @@ td {
     align-items: center;
   }
 
-  section.page-content {
+  main.container {
     display: flex;
     justify-content: center;
+    padding-left: calc(var(--sidebar-width) + 1.25rem);
   }
 
   .logo {
@@ -497,10 +498,6 @@ td {
   }
 
   /* SIDEBAR */
-  main.container {
-    padding-left: calc(var(--sidebar-width) + 1.25rem);
-  }
-
   .sidebar {
     left: 0px;
     border-radius: 0;
