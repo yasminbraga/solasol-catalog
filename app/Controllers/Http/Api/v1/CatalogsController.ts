@@ -2,10 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Catalog from 'App/Models/Catalog'
 
 export default class CatalogsController {
-  public async index() {
-    return { ok: true }
-  }
-
   public async show({ request, response }: HttpContextContract) {
     const uuid = request.param('id')
 

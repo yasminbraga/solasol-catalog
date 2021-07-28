@@ -39,14 +39,7 @@ export default class Catalog extends BaseModel {
 
   @computed({ serializeAs: 'signed_url' })
   public get signedUrl() {
-    return 'http://localhost:3333/app'
-    // return Route.makeSignedUrl(
-    //   'catalogs.show',
-    //   { uuid: this.uuid },
-    //   {
-    //     expiresIn: `${this.expireAt.diffNow('minutes').as('minutes')}m`,
-    //   }
-    // )
+    return `/catalogs/${this.uuid}`
   }
 
   @column.dateTime({

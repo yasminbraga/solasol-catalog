@@ -1,0 +1,17 @@
+export default {
+  background: '#f9f9f9',
+  primary: '#fca311',
+  // lightPrimary: 'rgba(252, 162, 17, 0.2)',
+  lightPrimary: '#ffe4b8',
+  error: '#df666e',
+  lightError: 'rgba(223, 102, 110, 0.2)',
+  editBlue: '#dbfcff',
+  editLink: '#336699',
+  success: '#64c589',
+  lightGray: 'rgba(0, 0, 0, 0.25)',
+  darkGrayText: 'rgba(0, 0, 0, 0.6)',
+  lightText: '#fff',
+  darkBlue: '#403d39',
+  gray: '#a0a2a7',
+  extraLightGray: '#e5e5e5',
+}

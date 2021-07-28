@@ -36,7 +36,8 @@ Route.group(() => {
 
 Route.group(() => {
   Route.group(() => {
-    Route.resource('catalogs', 'CatalogsController').only(['show', 'index'])
+    Route.resource('catalogs', 'CatalogsController').only(['show'])
+    Route.resource('catalogs.products', 'ProductsController').only(['index'])
   })
     .prefix('v1')
     .as('v1')
