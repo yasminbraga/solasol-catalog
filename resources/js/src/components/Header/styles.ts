@@ -18,7 +18,7 @@ export const ContainerOffset = styled.div`
   z-index: -5;
   width: 100%;
   top: 0;
-  height: 9rem;
+  height: 15rem;
   background: ${colors.primary};
 `
 

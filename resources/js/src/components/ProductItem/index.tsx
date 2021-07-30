@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Img, ProductContent, ProductName, ProductPrice } from './styles'
+import { Container, ProductImage, ProductContent, ProductName, ProductPrice } from './styles'
 
 interface DataProps {
   file?: { fileNameUrl: string }
@@ -15,10 +15,10 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps> = ({ data }) => {
   return (
     <Container>
-      <Img src={data.file?.fileNameUrl} alt={data.name} />
+      <ProductImage src={data.file?.fileNameUrl} alt={data.name} />
 
       <ProductContent>
-        <ProductName>{data.name}</ProductName>
+        <ProductName title={data.name}>{data.name}</ProductName>
         <ProductPrice>
           {Number(data.price).toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })}
         </ProductPrice>

@@ -31,6 +31,8 @@ export default class File extends BaseModel {
 
   @computed()
   public get fileNameUrl() {
+    if (this.filename.includes('http')) return this.filename
+
     return Route.makeUrl('uploads', { filename: this.filename })
   }
 

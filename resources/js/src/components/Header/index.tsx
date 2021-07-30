@@ -2,14 +2,18 @@ import React from 'react'
 
 import { BrandTitle, NewOrderLink, ContainerHeader, ContainerOffset } from './styles'
 
-const Header = () => {
+interface HeaderProps {
+  invalid: boolean
+  showCart?: boolean
+}
+
+const Header: React.FC<HeaderProps> = ({ invalid = true }) => {
   return (
     <React.Fragment>
       <ContainerOffset />
-
       <ContainerHeader>
         <BrandTitle>Sol a sol</BrandTitle>
-        <NewOrderLink href="#">Iniciar pedido</NewOrderLink>
+        {!invalid && <NewOrderLink href="#">Iniciar pedido</NewOrderLink>}
       </ContainerHeader>
     </React.Fragment>
   )

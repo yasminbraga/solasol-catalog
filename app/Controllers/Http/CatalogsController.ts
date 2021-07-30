@@ -35,19 +35,19 @@ export default class CatalogsController {
       schema: validationSchema,
     })
 
-    const data = {
+    const catalogData = {
       expireAt: DateTime.now().plus({ days: validity }),
       uuid: v4(),
       validity,
     }
 
     try {
-      const catalog = await user.related('catalogs').create(data)
+      const catalog = await user.related('catalogs').create(catalogData)
 
       await Bull.schedule<CatalogExpireJobData>(
         new CatalogExpireJob().key,
         { catalogId: catalog.id },
-        data.expireAt.toJSDate(),
+        catalogData.expireAt.toJSDate(),
         {
           jobId: catalog.uuid,
         }
