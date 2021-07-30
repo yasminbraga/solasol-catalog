@@ -1,5 +1,3 @@
-const jobs = [
-  'App/Jobs/CatalogExpireJob',
-]
+const jobs = ['App/Jobs/CatalogExpireJob']
 
 export default jobs

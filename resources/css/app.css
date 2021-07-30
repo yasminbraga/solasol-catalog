@@ -199,6 +199,7 @@ main.login-container {
   align-items: center;
   padding: 1rem;
   animation: show-alerts 0.5s linear forwards, show-alerts-rev 0.5s linear forwards 5s;
+  z-index: 10;
 }
 
 .alerts:hover {

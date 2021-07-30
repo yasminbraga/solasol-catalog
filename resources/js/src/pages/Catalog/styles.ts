@@ -1,11 +1,17 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  @media screen and (min-width: 540px) {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
+  padding: 1rem;
+  border-radius: 0.35rem;
+
+  @media screen and (min-width: 1020px) {
   }
+`
+
+export const Grid = styled.div`
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
 
   @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr;

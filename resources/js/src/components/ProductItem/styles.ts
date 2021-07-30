@@ -4,7 +4,6 @@ import colors from '../../styles/colors'
 export const Container = styled.div`
   width: 100%;
 
-  text-align: center;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -12,11 +11,7 @@ export const Container = styled.div`
   border-bottom: 1px solid ${colors.extraLightGray};
   overflow: hidden;
   border: 1px solid ${colors.extraLightGray};
-  border-radius: 12px;
-
-  + div {
-    margin-top: 1rem;
-  }
+  border-radius: 0.35rem;
 
   @media screen and (min-width: 540px) {
     + div {
@@ -25,32 +20,39 @@ export const Container = styled.div`
   }
 `
 
-export const Img = styled.img`
+export const ProductImage = styled.img`
   width: 100%;
   height: 100%;
 
-  height: 300px;
   object-fit: cover;
 
   @media screen and (min-width: 540px) {
-    height: 250px;
+    height: 225px;
   }
 `
 
 export const ProductContent = styled.div`
-  padding: 1rem;
+  padding: 0.5rem;
   width: 100%;
-  /* border-top: 1px solid ${colors.extraLightGray}; */
+  background: #fff;
+
+  @media screen and (min-width: 540px) {
+    padding: 1rem;
+  }
 `
 
 export const ProductName = styled.h3`
   font-weight: 400;
-  font-size: 20px;
-  text-transform: uppercase;
+  font-size: 13px;
+
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 export const ProductPrice = styled.h3`
   font-weight: 600;
-  font-size: 20px;
-  color: ${colors.primary};
+  font-size: 16px;
+  color: #333;
 `

@@ -1,8 +1,8 @@
 import test from 'japa'
 
 import Database from '@ioc:Adonis/Lucid/Database'
-import { api } from '../../../utils'
 import { CatalogFactory } from 'Database/factories'
+import { api } from '../../../utils'
 
 test.group('Api ProductsControlelr', (group) => {
   group.before(async () => {

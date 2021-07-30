@@ -23,7 +23,7 @@
           @each(catalog in catalogs)
             <tr class="card-row">
               <td title="Id">
-                {{ catalog.uuid.split('-')[0] }}
+                {{ truncate(catalog.uuid) }}
               </td>
               <td title="Data">
                 {{ catalog.created_at }}

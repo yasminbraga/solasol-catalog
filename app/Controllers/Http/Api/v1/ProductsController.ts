@@ -5,6 +5,7 @@ import Product from 'App/Models/Product'
 export default class ProductsController {
   public async index({ request, response, logger }: HttpContextContract) {
     const catalogUuid = request.param('catalog_id')
+    // const { page } = request.qs()
 
     try {
       const catalog = await Catalog.findByOrFail('uuid', catalogUuid)
@@ -14,9 +15,10 @@ export default class ProductsController {
       }
 
       const products = await Product.query().preload('file')
+      // .paginate(page || 1)
 
       return {
-        products: products.map((i) => i.toJSON()),
+        products: products.map((i) => i.toJSON()), //.getUrlsForRange(1, 5),
         catalog: catalog.toJSON(),
       }
     } catch (error) {
