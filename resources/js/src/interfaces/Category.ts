@@ -1,6 +1,7 @@
 import Product from './Product'
 
 export default interface Category {
-  nome: string
+  name: string
+  id: number
   products?: Product[]
 }
