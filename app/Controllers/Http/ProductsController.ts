@@ -7,6 +7,7 @@ import Product from 'App/Models/Product'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
+    console.log(yasmin)
     const products = await Product.query().preload('category')
     return view.render('products/index', { products: products.map((i) => i.toJSON()) })
   }
