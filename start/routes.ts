@@ -38,6 +38,7 @@ Route.group(() => {
   Route.group(() => {
     Route.resource('catalogs', 'CatalogsController').only(['show'])
     Route.resource('catalogs.products', 'ProductsController').only(['index'])
+    Route.resource('catalogs.categories', 'CategoriesController').only(['index'])
   })
     .prefix('v1')
     .as('v1')
@@ -50,5 +51,4 @@ Route.get('uploads/:filename', async ({ params, response }) => {
   return response.attachment(Application.tmpPath('uploads', params.filename))
 }).as('uploads')
 
-// react app
 Route.on('*').render('app')

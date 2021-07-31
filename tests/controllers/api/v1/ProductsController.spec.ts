@@ -1,7 +1,7 @@
 import test from 'japa'
 
 import Database from '@ioc:Adonis/Lucid/Database'
-import { CatalogFactory } from 'Database/factories'
+import { CatalogFactory, ProductFactory } from 'Database/factories'
 import { api } from '../../../utils'
 
 test.group('Api ProductsControlelr', (group) => {
@@ -31,11 +31,30 @@ test.group('Api ProductsControlelr', (group) => {
     assert.notExists(response.body.catalog)
   })
 
-  test.only('should GET in /api/v1/catalogs/:catalog_id/products return a product list if catalog exists', async (assert) => {
+  test('should GET in /api/v1/catalogs/:catalog_id/products return a product list if catalog exists', async (assert) => {
     const catalog = await CatalogFactory.create()
+    await ProductFactory.createMany(40)
 
     const url = `/v1/catalogs/${catalog.uuid}/products`
     const response = await api.get(url).set('Accept', 'application/json')
+
+    assert.equal(response.status, 200)
+    assert.exists(response.body.catalog)
+    assert.exists(response.body.products)
+  })
+
+  test.only('should GET in /api/v1/catalogs/:catalog_id/products return a product list according to the page and limit defineds by qs', async (assert) => {
+    const catalog = await CatalogFactory.create()
+    await ProductFactory.createMany(40)
+
+    const url = `/v1/catalogs/${catalog.uuid}/products`
+
+    const response = await api.get(url).set('Accept', 'application/json').query({
+      page: 2,
+      limit: 10,
+    })
+
+    console.log(response.body.products)
 
     assert.equal(response.status, 200)
     assert.exists(response.body.catalog)

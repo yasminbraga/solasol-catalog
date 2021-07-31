@@ -1,11 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Catalog from 'App/Models/Catalog'
-import Product from 'App/Models/Product'
+import Category from 'App/Models/Category'
 
-export default class ProductsController {
+export default class CategoriesController {
   public async index({ request, response, logger }: HttpContextContract) {
     const catalogUuid = request.param('catalog_id')
-    const { page, limit, categoryIds, name } = request.qs()
 
     try {
       const catalog = await Catalog.findByOrFail('uuid', catalogUuid)
@@ -14,23 +13,11 @@ export default class ProductsController {
         return response.gone()
       }
 
-      let query = Product.query().preload('file')
-
-      console.log(categoryIds)
-
-      if (categoryIds) {
-        query = query.whereIn('category_id', categoryIds)
-      }
-
-      if (name) {
-        query = query.where('name', 'ilike', `%${name}%`)
-      }
-
-      const products = await query.paginate(page || 1, limit || 20)
+      const categories = await Category.all()
 
       return {
-        products: products.toJSON(),
         catalog: catalog.toJSON(),
+        categories: categories.map((i) => i.toJSON()),
       }
     } catch (error) {
       logger.error(error)
