@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useReducer, useState } from 'react'
+import React, { ChangeEvent, createRef, useEffect, useReducer, useState } from 'react'
 
 import {
   Checkbox,
@@ -14,13 +14,15 @@ import {
 } from './styles'
 
 import { BsChevronDown, BsSearch } from 'react-icons/bs'
+import Category from '../../interfaces/Category'
 
 interface State {
   categories: number[]
+  name?: string
 }
 
 interface Action {
-  type: 'SELECT_CATEGORY' | 'UNSELECT_CATEGORY' | 'SELECT_ALL' | 'UNSELECT_ALL'
+  type: 'SELECT_CATEGORY' | 'UNSELECT_CATEGORY' | 'SELECT_ALL' | 'UNSELECT_ALL' | 'CHANGE_NAME'
   value?: number | string
   values?: number[]
 }
@@ -52,31 +54,45 @@ const reducer = (state: State, action: Action) => {
       if (!action.values) return state
       return { ...state, categories: action.values }
 
+    case 'CHANGE_NAME':
+      if (typeof action.value === 'number') return state
+      return { ...state, name: action.value }
+
     default:
       return state
   }
 }
 
-const categories = [
-  { id: 1, name: 'Relogio' },
-  { id: 2, name: 'Chapeu' },
-  { id: 3, name: 'Oculos' },
-  { id: 4, name: 'Mochila' },
-  { id: 5, name: 'Bolsa' },
-]
+interface FilterProps {
+  onChange: (state: State) => void
+  categories: Category[]
+}
 
-const Filter: React.FC = () => {
+const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
   const [show, setShow] = useState(false)
-
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    console.log(state)
-  }, [state])
+  const selectRef = createRef<HTMLDivElement>()
+
+  // useEffect(() => {
+  //   dispatch({ type: 'SELECT_ALL', values: categories.map((c) => c.id) })
+  // }, [])
 
   useEffect(() => {
-    dispatch({ type: 'SELECT_ALL', values: categories.map((c) => c.id) })
-  }, [])
+    function onClick(ev: MouseEvent) {
+      if (!selectRef.current) return
+      const target = ev.target as Element
+
+      if (!selectRef.current?.contains(target)) {
+        setShow(false)
+      }
+    }
+
+    window.addEventListener('click', onClick)
+    ;() => {
+      window.removeEventListener('click', onClick)
+    }
+  }, [selectRef])
 
   function handleCheckboxChange(ev: ChangeEvent<HTMLInputElement>, id: number) {
     if (ev.target.checked) {
@@ -86,29 +102,37 @@ const Filter: React.FC = () => {
     }
   }
 
-  function handleAllCheckboxChange(ev: ChangeEvent<HTMLInputElement>, ids: number[]) {
-    if (ev.target.checked) {
-      dispatch({ type: 'SELECT_ALL', values: ids })
-    } else {
-      dispatch({ type: 'UNSELECT_ALL' })
-    }
-  }
+  // function handleAllCheckboxChange(ev: ChangeEvent<HTMLInputElement>, ids: number[]) {
+  //   if (ev.target.checked) {
+  //     dispatch({ type: 'SELECT_ALL', values: ids })
+  //   } else {
+  //     dispatch({ type: 'UNSELECT_ALL' })
+  //   }
+  // }
+
+  useEffect(() => {
+    onChange(state)
+  }, [state])
 
   return (
     <Container>
       <FilterContainer>
         <InputContainer>
           <BsSearch />
-          <Input type="text" />
+          <Input
+            type="text"
+            onChange={(ev) => dispatch({ type: 'CHANGE_NAME', value: ev.target.value })}
+            value={state?.name ?? ''}
+          />
         </InputContainer>
-        <Select>
+        <Select ref={selectRef}>
           <SelectButton onClick={() => setShow((state) => !state)}>
             Categorias
             <BsChevronDown className={show ? 'reverse' : ''} />
           </SelectButton>
           {show && (
             <SelectItems>
-              <SelectItem>
+              {/* <SelectItem>
                 <Checkbox
                   onChange={(ev) =>
                     handleAllCheckboxChange(
@@ -120,7 +144,7 @@ const Filter: React.FC = () => {
                   checked={categories.length === state.categories.length}
                 />
                 <Label htmlFor="select_all">Todas</Label>
-              </SelectItem>
+              </SelectItem> */}
 
               {categories.map((category) => {
                 return (
