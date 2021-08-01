@@ -53,6 +53,10 @@ body {
   height: 100vh;
 }
 
+body.modal-open {
+  overflow-y: hidden;
+}
+
 main.container {
   padding: 1.25rem;
 }

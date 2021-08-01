@@ -22,9 +22,8 @@ interface State {
 }
 
 interface Action {
-  type: 'SELECT_CATEGORY' | 'UNSELECT_CATEGORY' | 'SELECT_ALL' | 'UNSELECT_ALL' | 'CHANGE_NAME'
+  type: 'SELECT_CATEGORY' | 'UNSELECT_CATEGORY' | 'CHANGE_NAME'
   value?: number | string
-  values?: number[]
 }
 
 const initialState: State = {
@@ -35,24 +34,14 @@ const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'SELECT_CATEGORY':
       if (!action.value || typeof action.value === 'string') return state
-
       return { ...state, categories: [...state.categories, action.value] }
 
     case 'UNSELECT_CATEGORY':
       if (!action.value || typeof action.value === 'string') return state
-
       const selectedCategories = [...state.categories]
       const unselectedIndex = selectedCategories.findIndex((item) => item === action.value)
-
       selectedCategories.splice(unselectedIndex, 1)
       return { ...state, categories: selectedCategories }
-
-    case 'UNSELECT_ALL':
-      return { ...state, categories: [] }
-
-    case 'SELECT_ALL':
-      if (!action.values) return state
-      return { ...state, categories: action.values }
 
     case 'CHANGE_NAME':
       if (typeof action.value === 'number') return state
@@ -74,10 +63,6 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
 
   const selectRef = createRef<HTMLDivElement>()
 
-  // useEffect(() => {
-  //   dispatch({ type: 'SELECT_ALL', values: categories.map((c) => c.id) })
-  // }, [])
-
   useEffect(() => {
     function onClick(ev: MouseEvent) {
       if (!selectRef.current) return
@@ -89,7 +74,8 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
     }
 
     window.addEventListener('click', onClick)
-    ;() => {
+
+    return () => {
       window.removeEventListener('click', onClick)
     }
   }, [selectRef])
@@ -101,14 +87,6 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
       dispatch({ type: 'UNSELECT_CATEGORY', value: id })
     }
   }
-
-  // function handleAllCheckboxChange(ev: ChangeEvent<HTMLInputElement>, ids: number[]) {
-  //   if (ev.target.checked) {
-  //     dispatch({ type: 'SELECT_ALL', values: ids })
-  //   } else {
-  //     dispatch({ type: 'UNSELECT_ALL' })
-  //   }
-  // }
 
   useEffect(() => {
     onChange(state)
@@ -132,20 +110,6 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
           </SelectButton>
           {show && (
             <SelectItems>
-              {/* <SelectItem>
-                <Checkbox
-                  onChange={(ev) =>
-                    handleAllCheckboxChange(
-                      ev,
-                      categories.map(({ id }) => id)
-                    )
-                  }
-                  id="select_all"
-                  checked={categories.length === state.categories.length}
-                />
-                <Label htmlFor="select_all">Todas</Label>
-              </SelectItem> */}
-
               {categories.map((category) => {
                 return (
                   <SelectItem key={category.id}>
@@ -167,3 +131,31 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
 }
 
 export default Filter
+
+// useEffect(() => {
+//   dispatch({ type: 'SELECT_ALL', values: categories.map((c) => c.id) })
+// }, [])
+
+// function handleAllCheckboxChange(ev: ChangeEvent<HTMLInputElement>, ids: number[]) {
+//   if (ev.target.checked) {
+//     dispatch({ type: 'SELECT_ALL', values: ids })
+//   } else {
+//     dispatch({ type: 'UNSELECT_ALL' })
+//   }
+// }
+
+/* 
+<SelectItem>
+  <Checkbox
+    onChange={(ev) =>
+      handleAllCheckboxChange(
+        ev,
+        categories.map(({ id }) => id)
+      )
+    }
+    id="select_all"
+    checked={categories.length === state.categories.length}
+  />
+  <Label htmlFor="select_all">Todas</Label>
+</SelectItem> 
+  */

@@ -16,7 +16,6 @@ import fs from 'fs'
 export default class File extends BaseModel {
   @afterDelete()
   public static async deleteAssociatedImageFromDisk(file: File) {
-    console.log(file)
     fs.unlinkSync(Application.tmpPath('uploads', file.filename))
   }
 

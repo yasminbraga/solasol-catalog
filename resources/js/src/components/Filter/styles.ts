@@ -68,6 +68,7 @@ export const SelectButton = styled.div`
   display: flex;
   align-items: center;
   padding: 1rem 0;
+  font-size: 14px;
   cursor: pointer;
 
   :hover {

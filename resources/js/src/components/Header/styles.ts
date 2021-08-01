@@ -26,13 +26,14 @@ export const BrandTitle = styled.h2`
   color: ${colors.lightText};
 `
 
-export const NewOrderLink = styled.a`
+export const NewOrderButton = styled.a`
   background: transparent;
   color: ${colors.lightPrimary};
   font-size: 16px;
   font-weight: 500;
 
   :hover {
+    cursor: pointer;
     color: #fff;
   }
 `

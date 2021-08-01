@@ -1,42 +1,33 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import Meta from '../../interfaces/Meta'
-import Loader from '../Loader'
 
-import { Container, PreviousPage } from './styles'
+import { Container, CurrentPageButton, NextButton, NumberButton, PrevButton } from './styles'
 
 interface PaginationProps {
   meta: Meta
-  page: number
-  setPage: Dispatch<SetStateAction<number>>
-  loading: boolean
+  setPage: (page: number) => void
 }
 
-const Pagination: React.FC<PaginationProps> = ({ meta, page, setPage, loading }) => {
-  if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    )
-  }
-
+const Pagination: React.FC<PaginationProps> = ({ meta, setPage }) => {
   return (
     <Container>
-      {page < meta.last_page && (
-        <PreviousPage
-          onClick={() =>
-            setPage((page) => {
-              if (page < meta.last_page) {
-                return page + 1
-              }
+      <PrevButton onClick={() => setPage(-1)} disabled={meta.current_page <= meta.first_page}>
+        Anterior
+      </PrevButton>
 
-              return page
-            })
-          }
-        >
-          Ver mais
-        </PreviousPage>
+      {!!(meta.current_page > 1) && (
+        <NumberButton onClick={() => setPage(-1)}>{meta.current_page - 1}</NumberButton>
       )}
+
+      <CurrentPageButton disabled>{meta.current_page}</CurrentPageButton>
+
+      {!!(meta.current_page < meta.last_page) && (
+        <NumberButton onClick={() => setPage(1)}>{meta.current_page + 1}</NumberButton>
+      )}
+
+      <NextButton onClick={() => setPage(1)} disabled={meta.current_page >= meta.last_page}>
+        Proxima
+      </NextButton>
     </Container>
   )
 }
