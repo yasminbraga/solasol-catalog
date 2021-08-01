@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
-import Route from '@ioc:Adonis/Core/Route'
 
 export default class Catalog extends BaseModel {
   @column({ isPrimary: true })
