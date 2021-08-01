@@ -40,12 +40,16 @@ const showSidebar = document.querySelector('#show-sidebar')
 const sidebarOverlay = document.querySelector('.sidebar-overlay')
 const sidebar = document.querySelector('.sidebar')
 
-closeSidebar.addEventListener('click', function () {
-  sidebar.style.left = '-200px'
-  sidebarOverlay.style.display = 'none'
-})
+if (closeSidebar) {
+  closeSidebar.addEventListener('click', function () {
+    sidebar.style.left = '-200px'
+    sidebarOverlay.style.display = 'none'
+  })
+}
 
-showSidebar.addEventListener('click', function () {
-  sidebar.style.left = '0px'
-  sidebarOverlay.style.display = 'flex'
-})
+if (showSidebar) {
+  showSidebar.addEventListener('click', function () {
+    sidebar.style.left = '0px'
+    sidebarOverlay.style.display = 'flex'
+  })
+}
