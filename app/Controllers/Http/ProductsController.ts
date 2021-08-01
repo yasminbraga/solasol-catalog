@@ -2,7 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Database from '@ioc:Adonis/Lucid/Database'
 
-// import Application from '@ioc:Adonis/Core/Application'
 import Category from 'App/Models/Category'
 import Product from 'App/Models/Product'
 import { ImageUploader } from 'App/Services/ImageUploader'
