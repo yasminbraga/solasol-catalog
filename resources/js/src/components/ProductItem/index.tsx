@@ -1,21 +1,16 @@
 import React from 'react'
+import Product from '../../interfaces/Product'
 
 import { Container, ProductImage, ProductContent, ProductName, ProductPrice } from './styles'
 
-interface DataProps {
-  file?: { fileNameUrl: string }
-  price: number
-  name: string
-}
-
 interface ProductItemProps {
-  data: DataProps
+  data: Product
 }
 
 const ProductItem: React.FC<ProductItemProps> = ({ data }) => {
   return (
     <Container>
-      <ProductImage src={data.file?.fileNameUrl} alt={data.name} />
+      <ProductImage src={data.file?.secure_url} alt={data.name} />
 
       <ProductContent>
         <ProductName title={data.name}>{data.name}</ProductName>

@@ -4,6 +4,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Application from '@ioc:Adonis/Core/Application'
 import Category from 'App/Models/Category'
 import Product from 'App/Models/Product'
+import { ImageUploader } from 'App/Services/ImageUploader'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
@@ -40,14 +41,22 @@ export default class ProductsController {
       schema: productValidationSchema,
     })
 
+    if (!image.tmpPath) {
+      session.flash('error', 'Erro ao cadastrar produto')
+      return response.redirect().back()
+    }
+
     try {
       const product = await Product.create(productData)
 
-      await image.move(Application.tmpPath('uploads'), {
-        name: `${Application.helpers.cuid()}-${image.clientName}`,
-      })
+      const uploadService = new ImageUploader()
+      const uploaded = await uploadService.upload(image.tmpPath)
 
-      await product.related('file').create({ filename: image.fileName })
+      console.log(uploaded)
+
+      await product
+        .related('file')
+        .create({ secureUrl: uploaded.secure_url, publicId: uploaded.public_id })
 
       session.flash('success', 'Produto cadastrado')
       return response.redirect().toRoute('products.show', { id: product.id })

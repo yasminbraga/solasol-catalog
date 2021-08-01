@@ -55,7 +55,8 @@ export const ProductFactory = Factory.define(Product, ({ faker }) => {
 
 export const FileFactory = Factory.define(File, ({ faker }) => {
   return {
-    filename: faker.image.imageUrl(800, 800, 'tech', true, true),
+    secureUrl: faker.image.imageUrl(300, 300, 'tech', true, true),
+    publicId: faker.random.alphaNumeric(10),
   }
 })
   .relation('product', () => ProductFactory)

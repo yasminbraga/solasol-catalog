@@ -51,6 +51,7 @@
     "@adonisjs/shield": "^7.0.0",
     "@adonisjs/view": "^6.0.0",
     "@rocketseat/adonis-bull": "^1.0.4",
+    "cloudinary": "^1.26.2",
     "feather-icons": "^4.28.0",
     "luxon": "^1.26.0",
     "material-design-icons": "^3.0.1",
