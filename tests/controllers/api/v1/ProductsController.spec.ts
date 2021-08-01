@@ -43,7 +43,7 @@ test.group('Api ProductsControlelr', (group) => {
     assert.exists(response.body.products)
   })
 
-  test.only('should GET in /api/v1/catalogs/:catalog_id/products return a product list according to the page and limit defineds by qs', async (assert) => {
+  test('should GET in /api/v1/catalogs/:catalog_id/products return a product list according to the page and limit defineds by qs', async (assert) => {
     const catalog = await CatalogFactory.create()
     await ProductFactory.createMany(40)
 

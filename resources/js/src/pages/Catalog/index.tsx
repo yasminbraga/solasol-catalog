@@ -43,7 +43,9 @@ const CatalogPage: React.FC = () => {
     try {
       const { data } = await api.get<CatalogsResponse>(`/catalogs/${params.id}/categories`)
       setCategories(data.categories)
-    } catch (error) {}
+    } catch (error) {
+      setInvalidCatalog(true)
+    }
   }, [])
 
   const loadProducts = useCallback(async () => {

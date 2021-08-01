@@ -6,8 +6,11 @@ export default class Files extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('filename').notNullable()
+      table.string('public_id')
+      table.string('secure_url')
+      table.boolean('uploaded').defaultTo(false)
       table.integer('product_id').references('id').inTable('products').onDelete('CASCADE')
+
       table.timestamps(true)
     })
   }

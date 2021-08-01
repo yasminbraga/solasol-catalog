@@ -18,9 +18,14 @@
       <p class="content">{{product.description}}</p>
     </div>
 
-    <div class="files">
-      <img class="file" src="{{ product.file.fileNameUrl }}" alt=""> 
-    </div>
+    @if(product.file.uploaded)
+      <div class="files">
+        <img class="file" src="{{ product.file?.secure_url }}" alt=""> 
+      </div>
+    @else
+      <p>Aguardando upload da foto, aguarde uns instantes e recarregue a página</p>
+    @endif
+
 
     <div class="action-buttons">
       <a href="{{ route('products.edit', {id: product.id}) }}" class="secondary-btn">Editar</a>

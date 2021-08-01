@@ -1,9 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Database from '@ioc:Adonis/Lucid/Database'
 
-import Application from '@ioc:Adonis/Core/Application'
+// import Application from '@ioc:Adonis/Core/Application'
 import Category from 'App/Models/Category'
 import Product from 'App/Models/Product'
+import { ImageUploader } from 'App/Services/ImageUploader'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
@@ -40,18 +42,37 @@ export default class ProductsController {
       schema: productValidationSchema,
     })
 
-    try {
-      const product = await Product.create(productData)
+    if (!image.tmpPath) {
+      session.flash('error', 'Erro ao cadastrar produto')
 
-      await image.move(Application.tmpPath('uploads'), {
-        name: `${Application.helpers.cuid()}-${image.clientName}`,
+      return response.redirect().back()
+    }
+
+    const trx = await Database.transaction()
+
+    try {
+      const product = new Product()
+      await product.merge(productData).useTransaction(trx)
+
+      const file = await product.related('file').create({ uploaded: false })
+
+      const uploadService = new ImageUploader()
+
+      uploadService.upload(image.tmpPath, {}, async (err, result) => {
+        if (err) throw err
+
+        if (result) {
+          await file
+            .merge({ secureUrl: result.secure_url, publicId: result.public_id, uploaded: true })
+            .save()
+        }
       })
 
-      await product.related('file').create({ filename: image.fileName })
-
+      await trx.commit()
       session.flash('success', 'Produto cadastrado')
       return response.redirect().toRoute('products.show', { id: product.id })
     } catch (error) {
+      await trx.rollback()
       logger.error(error)
 
       session.flash('error', error.message)
@@ -72,7 +93,7 @@ export default class ProductsController {
     }
   }
 
-  public async edit({ request, view, bouncer }: HttpContextContract) {
+  public async edit({ request, view, bouncer, logger }: HttpContextContract) {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     try {
@@ -88,11 +109,11 @@ export default class ProductsController {
         categories: categories.map((i) => i.toJSON()),
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
   }
 
-  public async update({ request, response, session, bouncer }: HttpContextContract) {
+  public async update({ request, response, session, bouncer, logger }: HttpContextContract) {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     const id = request.param('id')
@@ -118,20 +139,41 @@ export default class ProductsController {
       schema: productValidationSchema,
     })
 
+    if (!image?.tmpPath) {
+      session.flash('error', 'Erro ao cadastrar produto')
+
+      return response.redirect().back()
+    }
+
+    const service = new ImageUploader()
+
     try {
       const product = await Product.query().where({ id }).preload('file').firstOrFail()
       await product.merge(updateProductData).save()
 
       if (image) {
-        await image.move(Application.tmpPath('uploads'), {
-          name: product.file.filename,
-          overwrite: true,
-        })
+        await product.file.merge({ uploaded: false }).save()
+
+        service.upload(
+          image.tmpPath,
+          {
+            public_id: product.file.publicId.split('/')[1],
+          },
+          async (err, result) => {
+            if (err) throw err
+
+            if (result) {
+              await product.file
+                .merge({ secureUrl: result.secure_url, publicId: result.public_id, uploaded: true })
+                .save()
+            }
+          }
+        )
       }
 
       return response.redirect().toRoute('products.show', { id })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       session.flash('error', error.message)
 
       return response.redirect().back()

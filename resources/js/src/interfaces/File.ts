@@ -1,3 +1,3 @@
 export default interface File {
-  fileNameUrl: string
+  secure_url: string
 }

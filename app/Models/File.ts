@@ -1,39 +1,31 @@
 import { DateTime } from 'luxon'
-import {
-  BaseModel,
-  belongsTo,
-  column,
-  BelongsTo,
-  computed,
-  afterDelete,
-} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, column, BelongsTo, beforeDelete } from '@ioc:Adonis/Lucid/Orm'
 
-import Application from '@ioc:Adonis/Core/Application'
-import Route from '@ioc:Adonis/Core/Route'
 import Product from './Product'
-import fs from 'fs'
+import { ImageUploader } from 'App/Services/ImageUploader'
 
 export default class File extends BaseModel {
-  @afterDelete()
-  public static async deleteAssociatedImageFromDisk(file: File) {
-    fs.unlinkSync(Application.tmpPath('uploads', file.filename))
+  @beforeDelete()
+  public static async deleteAssociatedImageFromStorageService(file: File) {
+    const service = await new ImageUploader()
+
+    service.destroy(file.publicId)
   }
 
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public filename: string
+  public secureUrl: string
 
   @column()
   public productId: number
 
-  @computed()
-  public get fileNameUrl() {
-    if (this.filename.includes('http')) return this.filename
+  @column()
+  public publicId: string
 
-    return Route.makeUrl('uploads', { filename: this.filename })
-  }
+  @column()
+  public uploaded: boolean
 
   @belongsTo(() => Product)
   public product: BelongsTo<typeof Product>
