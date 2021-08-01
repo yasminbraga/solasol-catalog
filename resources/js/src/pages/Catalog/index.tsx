@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { Container, Grid, ResultItem, Results } from './styles'
 import api from '../../services/api'
-import { Container, Grid } from './styles'
 import Card from '../../components/Card'
 import Empty from '../../components/Empty'
 import Filter from '../../components/Filter'
@@ -10,11 +10,11 @@ import Loader from '../../components/Loader'
 import NotFound from '../../components/NotFound'
 import ProductItem from '../../components/ProductItem'
 import Header from '../../components/Header'
-import Pagination from '../../components/Pagination'
 import Catalog from '../../interfaces/Catalog'
 import Product from '../../interfaces/Product'
 import Meta from '../../interfaces/Meta'
 import Category from '../../interfaces/Category'
+import Pagination from '../../components/Pagination'
 
 interface ProductsResponse {
   catalog: Catalog
@@ -32,63 +32,12 @@ interface CatalogsResponse {
 const CatalogPage: React.FC = () => {
   const params = useParams<{ id: string }>()
   const [loading, setLoading] = useState(true)
-  const [loadingMore, setLoadingMore] = useState(false)
   const [products, setProducts] = useState<{ data: Product[]; meta: Meta }>()
   const [invalidCatalog, setInvalidCatalog] = useState(false)
-  const [page, setPage] = useState(1)
   const [categories, setCategories] = useState<Category[]>()
 
-  const [filter, setFilter] = useState<{ categories: number[]; name?: string }>({ categories: [] })
-
-  const loadProducts = useCallback(async () => {
-    setLoadingMore(true)
-    try {
-      const { data } = await api.get<ProductsResponse>(`/catalogs/${params.id}/products`, {
-        params: {
-          page,
-          name: filter?.name,
-          categoryIds: filter.categories,
-        },
-      })
-
-      setProducts((products) => {
-        if (products?.data.length) {
-          return {
-            data: [...products.data, ...data.products.data],
-            meta: data.products.meta,
-          }
-        } else {
-          return data.products
-        }
-      })
-    } catch (error) {
-      console.log(error.response)
-      setInvalidCatalog(true)
-    }
-
-    setLoadingMore(false)
-    setLoading(false)
-  }, [page])
-
-  const filterProducts = async () => {
-    setLoading(true)
-    try {
-      const { data } = await api.get<ProductsResponse>(`/catalogs/${params.id}/products`, {
-        params: {
-          page,
-          name: filter?.name,
-          categoryIds: filter.categories,
-        },
-      })
-
-      setProducts(data.products)
-    } catch (error) {
-      console.log(error.response)
-      setInvalidCatalog(true)
-    }
-
-    setLoading(false)
-  }
+  const [filter, setFilter] =
+    useState<{ categories: number[]; name?: string; page?: number } | undefined>()
 
   const loadCategories = useCallback(async () => {
     try {
@@ -99,19 +48,41 @@ const CatalogPage: React.FC = () => {
     }
   }, [])
 
+  const loadProducts = useCallback(async () => {
+    setLoading(true)
+
+    try {
+      const { data } = await api.get<ProductsResponse>(`/catalogs/${params.id}/products`, {
+        params: {
+          page: filter?.page,
+          name: filter?.name,
+          categoryIds: filter?.categories,
+        },
+      })
+
+      // OBS:
+      // verificar quando page é maior que o products.meta.last_page
+
+      setProducts(data.products)
+    } catch (error) {
+      console.log(error.response)
+      setInvalidCatalog(true)
+    }
+
+    setLoading(false)
+  }, [filter])
+
   useEffect(() => {
-    loadProducts()
-  }, [page])
+    console.log(filter)
+    if (filter?.categories) {
+      loadProducts()
+      window.scrollTo({ top: 0, behavior: 'auto' })
+    }
+  }, [filter])
 
   useEffect(() => {
     loadCategories()
   }, [])
-
-  useEffect(() => {
-    if (filter.name || filter.categories.length) {
-      filterProducts()
-    }
-  }, [filter])
 
   if (invalidCatalog) {
     return (
@@ -146,16 +117,33 @@ const CatalogPage: React.FC = () => {
             <Empty title="Nenhum produto encontrado." />
           ) : (
             <React.Fragment>
+              <Results>
+                <ResultItem>Exibindo {products.data.length} resultados</ResultItem>
+                <ResultItem>
+                  Página {products.meta.current_page} de {products.meta.last_page} - Total{' '}
+                  {products.meta.total}
+                </ResultItem>
+              </Results>
               <Grid>
                 {products.data.map((data) => (
                   <ProductItem key={data.id} data={data} />
                 ))}
               </Grid>
               <Pagination
-                page={page}
-                setPage={setPage}
+                setPage={(page) => {
+                  setFilter((state) => {
+                    const newState = Object.assign({}, state)
+
+                    if (newState['page']) {
+                      newState['page'] = newState['page'] + page
+                    } else {
+                      newState['page'] = 1 + page
+                    }
+
+                    return newState
+                  })
+                }}
                 meta={products.meta}
-                loading={loadingMore}
               />
             </React.Fragment>
           )}

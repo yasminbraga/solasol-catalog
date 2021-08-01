@@ -2,41 +2,58 @@ import styled from 'styled-components'
 import colors from '../../styles/colors'
 
 export const Container = styled.div`
+  width: auto;
   display: flex;
-  width: 100%;
+  margin: 0 auto;
+  margin-top: 0.75rem;
+  padding: 1rem 0;
   justify-content: center;
-  padding-top: 1rem;
 `
 
-export const PreviousPage = styled.button`
-  padding: 1rem 1rem 1rem 1rem;
-  color: ${colors.gray};
-  position: relative;
-
+const Button = styled.button`
   background: transparent;
-  border: 0;
-  cursor: pointer;
+  border: 2px solid transparent;
+  padding: 0 0.5rem;
   font-weight: 600;
+  color: #454545;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 0.25rem;
+  margin: 0 0.25rem;
 
-  :before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    top: calc(50%);
-    left: -100px;
-    background: ${colors.extraLightGray};
+  :disabled {
+    color: ${colors.extraLightGray};
+    cursor: not-allowed;
   }
 
-  :after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    top: calc(50%);
-    right: -100px;
-    background: ${colors.extraLightGray};
+  :hover:not(:disabled) {
+    color: #222;
+    cursor: pointer;
+  }
+
+  transition: all 0.3s ease;
+`
+
+export const PrevButton = styled(Button)``
+
+export const CurrentPageButton = styled(Button)`
+  background: ${colors.primary};
+  width: 32px;
+
+  :disabled {
+    color: #fff;
   }
 `
 
-export const NextPage = styled(PreviousPage)``
+export const NextButton = styled(Button)``
+
+export const NumberButton = styled(Button)`
+  width: 32px;
+
+  :hover {
+    border-color: ${colors.primary};
+    color: #fff;
+  }
+`
