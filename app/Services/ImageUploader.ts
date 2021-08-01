@@ -12,30 +12,28 @@ export class ImageUploader {
     })
   }
 
-  public async upload(file: string, callback?: cloudinary.UploadResponseCallback) {
-    //
-    // VERIFICAR DEMORA NO (CREATE) NA HORA DO UPLOAD
-    //
-
-    const folder = Application.inDev
-      ? 'solasol_catalog_dev'
-      : Application.inProduction
+  public async upload(
+    file: string,
+    options?: cloudinary.UploadApiOptions,
+    callback?: cloudinary.UploadResponseCallback
+  ) {
+    const folder = Application.inProduction
       ? 'solasol_catalog_prod'
-      : 'solasol_catalog_test'
+      : Env.get('NODE_ENV') === 'testing'
+      ? 'solasol_catalog_test'
+      : 'solasol_catalog_dev'
 
     const res = await cloudinary.v2.uploader.upload(
       file,
-      {
-        folder: folder,
-      },
+      options ? { folder: folder, ...options } : { folder: folder },
       callback
     )
 
     return res
   }
 
-  public async destroy(publicId: string) {
-    const res = await cloudinary.v2.uploader.destroy(publicId)
+  public async destroy(publicId: string, callback?: cloudinary.ResponseCallback) {
+    const res = await cloudinary.v2.uploader.destroy(publicId, callback)
 
     return res
   }

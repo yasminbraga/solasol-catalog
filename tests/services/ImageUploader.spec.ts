@@ -11,16 +11,24 @@ test.group('Services ImageUploader', (group) => {
     })
     .timeout(0)
 
-  test
-    .only('test ImageUploader', async (assert) => {
-      const image = Aplication.makePath('/tests/assets/image.jpg')
-      const service = new ImageUploader()
-      const upload = await service.upload(image)
+  test('should ImageUploader.upload upload an image and returns a response of uploaded image', async (assert) => {
+    const image = Aplication.makePath('/tests/assets/image.jpg')
+    const service = new ImageUploader()
+    const upload = await service.upload(image)
 
-      console.log(upload)
+    assert.exists(upload, 'public_id')
+    assert.exists(upload, 'secure_url')
+  }).timeout(0)
 
-      assert.exists(upload, 'public_id')
-      assert.exists(upload, 'secure_url')
-    })
-    .timeout(0)
+  test('ImageUploader.destroy deletes an image and returns a response', async (assert) => {
+    const image = Aplication.makePath('/tests/assets/image.jpg')
+    const service = new ImageUploader()
+    const uploaded = await service.upload(image)
+
+    assert.exists(uploaded, 'public_id')
+    assert.exists(uploaded, 'secure_url')
+
+    const deleted = await service.destroy(uploaded.public_id)
+    assert.propertyVal(deleted, 'result', 'ok')
+  }).timeout(0)
 })
