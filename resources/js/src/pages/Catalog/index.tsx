@@ -43,9 +43,7 @@ const CatalogPage: React.FC = () => {
     try {
       const { data } = await api.get<CatalogsResponse>(`/catalogs/${params.id}/categories`)
       setCategories(data.categories)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }, [])
 
   const loadProducts = useCallback(async () => {
@@ -60,12 +58,8 @@ const CatalogPage: React.FC = () => {
         },
       })
 
-      // OBS:
-      // verificar quando page é maior que o products.meta.last_page
-
       setProducts(data.products)
     } catch (error) {
-      console.log(error.response)
       setInvalidCatalog(true)
     }
 
@@ -73,7 +67,6 @@ const CatalogPage: React.FC = () => {
   }, [filter])
 
   useEffect(() => {
-    console.log(filter)
     if (filter?.categories) {
       loadProducts()
       window.scrollTo({ top: 0, behavior: 'auto' })

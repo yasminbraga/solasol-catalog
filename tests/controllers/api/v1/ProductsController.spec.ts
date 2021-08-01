@@ -54,8 +54,6 @@ test.group('Api ProductsControlelr', (group) => {
       limit: 10,
     })
 
-    console.log(response.body.products)
-
     assert.equal(response.status, 200)
     assert.exists(response.body.catalog)
     assert.exists(response.body.products)
