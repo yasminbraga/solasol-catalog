@@ -8,7 +8,7 @@ import { ImageUploader } from 'App/Services/ImageUploader'
 
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
-    const products = await Product.query().preload('category')
+    const products = await Product.query().preload('category').preload('file')
     return view.render('products/index', { products: products.map((i) => i.toJSON()) })
   }
 
