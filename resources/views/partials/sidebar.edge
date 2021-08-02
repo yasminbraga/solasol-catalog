@@ -20,10 +20,13 @@
   </nav>
 
   <nav class="logout">
-    <form class="logout-form" method="post" action="{{ route('sessions.destroy', { id: 1 }) }}?_method=DELETE">
+    <div class="user-info">
+      <p>{{auth.user.name}}</p>
+      <p class="user-role">{{auth.user.isAdmin ? 'Admin' : 'Vendedor'}}</p>
+    </div>
+    <form class="logout-form" method="post" action="{{ route('sessions.destroy', { id: auth.user.id }) }}?_method=DELETE">
       <button class="logout-btn" href="{{ route('users.index') }}">
-        Sair
-        <i class="material-icons md-16">logout</i>
+        <i class="material-icons">logout</i>
       </button>
     </form>
   </nav>

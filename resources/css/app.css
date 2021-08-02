@@ -338,7 +338,6 @@ main.login-container {
   top: 0;
   background: var(--light-text);
   border-right: 1px solid var(--extra-light-gray);
-  /* overflow: hidden; */
   border-radius: 0 10px 10px 0;
   transition: left 0.5s;
   z-index: 15;
@@ -379,12 +378,6 @@ main.login-container {
   color: var(--primary-color);
   background: var(--light-primary-color);
   border-radius: 6px;
-}
-
-.sidebar .logout {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
 }
 
 .sidebar-overlay {
@@ -443,19 +436,40 @@ header.page-header {
 }
 
 .logout {
-  padding: 0.5rem;
-  /* border-top: 1px solid var(--extra-light-gray); */
+  padding: 1rem;
+  border-top: 1px solid var(--extra-light-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
-.logout-form {
+.user-info p {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gray-color);
+}
+
+.user-info p.user-role {
+  font-size: 14px;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: var(--primary-color);
 }
 
 .logout-btn {
   border: none;
   background: var(--light-text);
-  padding: 0.5rem;
 
   width: 100%;
   height: 100%;
@@ -463,16 +477,7 @@ header.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  font-weight: 500;
-  border-radius: 6px;
-  font-size: 14px;
   color: var(--error-color);
-  transition: var(--switch-transition);
-}
-
-.logout-btn:hover {
-  background: var(--light-error-color);
 }
 
 /* TABLE */
