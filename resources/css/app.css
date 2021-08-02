@@ -525,6 +525,10 @@ td {
   gap: 0.3rem;
 }
 
+.action-column-sm {
+  justify-content: flex-end;
+}
+
 .edit-link {
   display: flex;
   align-items: center;
