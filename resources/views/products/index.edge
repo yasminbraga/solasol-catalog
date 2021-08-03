@@ -7,6 +7,7 @@
 <div class="card-table">
   <table class="responsive-table">
     <thead>
+      <th>Imagem</th>
       <th>Nome</th>
       <th>Código</th>
       <th>Preço</th>
@@ -18,6 +19,9 @@
     <tbody>
       @each(product in products)
       <tr>
+        <td>
+          <img class="table-file" src="{{ product.file?.secure_url }}" alt="">
+        </td>
         <td title="Nome">{{ product.name }}</td>
         <td title="Código">{{ product.codigo }}</td>
         <td title="Preço">{{ product.price }}</td>

@@ -26,7 +26,7 @@
   --gray-color: #a0a2a7;
   --extra-light-gray: #e5e5e5;
 
-  --shadow: 0px 2px 6px rgba(0, 0, 0, 0.09);
+  --shadow: 0px 2px 6px rgba(150, 150, 150, 0.09);
   --border-radius: 10px;
   --switch-transition: all 0.35s linear;
   --sidebar-width: 200px;
@@ -132,6 +132,12 @@ main.login-container {
 
 .field input::placeholder {
   color: var(--gray-color);
+}
+
+.field input:focus {
+  outline: none;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0px 2px 6px var(--light-primary-color);
 }
 
 .switch {
@@ -467,6 +473,10 @@ header.page-header {
   background: var(--primary-color);
 }
 
+.logout-form {
+  height: 100%;
+}
+
 .logout-btn {
   border: none;
   background: var(--light-text);
@@ -478,6 +488,7 @@ header.page-header {
   justify-content: space-between;
   align-items: center;
   color: var(--error-color);
+  cursor: pointer;
 }
 
 /* TABLE */
@@ -491,6 +502,7 @@ td {
   border-collapse: collapse;
   padding: 0.5rem;
   font-size: 16px;
+  height: 100%;
 }
 
 .responsive-table thead {
@@ -505,14 +517,22 @@ td {
   color: var(--dark-gray-text);
 }
 
+.table-file {
+  width: 80px;
+  border-radius: 6px;
+}
+
 .action-column {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.3rem;
 }
 
-.action-column a + form {
-  margin-left: 0.3rem;
+.action-column-sm {
+  justify-content: flex-end;
 }
 
 .edit-link {
@@ -527,6 +547,28 @@ td {
 
   display: flex;
   align-items: center;
+  border-radius: 6px;
+}
+
+/* SHOW PAGE */
+.card-label {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+p.content {
+  color: var(--gray-color);
+  font-weight: 500;
+}
+
+h2.title {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+img.file {
+  width: 200px;
   border-radius: 6px;
 }
 
@@ -657,6 +699,10 @@ td {
     box-shadow: none;
     background: transparent;
   }
+
+  .action-column {
+    text-align: center;
+  }
 }
 
 @media (max-width: 750px) {
@@ -702,5 +748,9 @@ td {
     content: attr(title);
     color: var(--gray-color);
     font-weight: 500;
+  }
+
+  .action-column {
+    justify-content: flex-end;
   }
 }
