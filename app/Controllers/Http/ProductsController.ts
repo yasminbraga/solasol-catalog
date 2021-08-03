@@ -69,26 +69,13 @@ export default class ProductsController {
 
       await trx.commit()
       session.flash('success', 'Produto cadastrado')
-      return response.redirect().toRoute('products.show', { id: product.id })
+      return response.redirect().toRoute('products.index')
     } catch (error) {
       await trx.rollback()
       logger.error(error)
 
       session.flash('error', error.message)
       return response.redirect().back()
-    }
-  }
-
-  public async show({ request, view }: HttpContextContract) {
-    try {
-      const product = await Product.query()
-        .where({ id: request.param('id') })
-        .preload('file')
-        .firstOrFail()
-
-      return view.render('products/show', { product: product.toJSON() })
-    } catch (error) {
-      console.error(error)
     }
   }
 
@@ -170,7 +157,7 @@ export default class ProductsController {
         )
       }
 
-      return response.redirect().toRoute('products.show', { id })
+      return response.redirect().toRoute('products.index')
     } catch (error) {
       logger.error(error)
       session.flash('error', error.message)

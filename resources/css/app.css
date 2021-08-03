@@ -550,6 +550,28 @@ td {
   border-radius: 6px;
 }
 
+/* SHOW PAGE */
+.card-label {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+p.content {
+  color: var(--gray-color);
+  font-weight: 500;
+}
+
+h2.title {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+img.file {
+  width: 200px;
+  border-radius: 6px;
+}
+
 @media (min-width: 768px) {
   main.login-container {
     flex-direction: row;
