@@ -463,16 +463,6 @@ header.page-header {
   font-size: 14px;
 }
 
-.user-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--primary-color);
-}
-
 .logout-form {
   height: 100%;
 }
@@ -550,26 +540,57 @@ td {
   border-radius: 6px;
 }
 
-/* SHOW PAGE */
-.card-label {
-  color: var(--primary-color);
-  font-weight: bold;
-  font-size: 14px;
+/* TAB */
+.navigation {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0rem;
+  gap: 0.5rem;
 }
 
-p.content {
-  color: var(--gray-color);
-  font-weight: 500;
-}
-
-h2.title {
-  color: var(--primary-color);
-  font-weight: 500;
-}
-
-img.file {
-  width: 200px;
+.search-input {
+  border: none;
+  padding: 0.75rem;
   border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+
+.search-input:focus {
+  outline: none;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0px 2px 6px var(--light-primary-color);
+}
+
+.tab-links {
+  overflow: hidden;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  box-shadow: var(--shadow);
+}
+
+.tablink {
+  border: none;
+  background: #ffff;
+  color: var(--primary-color);
+  padding: 0.75rem 0;
+  width: 100%;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow);
+}
+
+.tablink:hover {
+  background: var(--light-primary-color);
+  transition: var(--switch-transition);
+}
+
+.tablink.active {
+  background: var(--primary-color);
+  color: #ffff;
 }
 
 @media (min-width: 768px) {
@@ -581,7 +602,9 @@ img.file {
 
   main.container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding-left: calc(var(--sidebar-width) + 1.25rem);
   }
 
@@ -686,6 +709,25 @@ img.file {
     max-width: 300px;
   }
 
+  /* TAB */
+  .navigation {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 920px;
+  }
+
+  .tab-links {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .tablink {
+    padding: 0.75rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   /* table */
   .card-table {
     background: #ffff;
@@ -728,14 +770,11 @@ img.file {
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
     padding: 20px;
+    margin-bottom: 1rem;
   }
 
   .responsive-table thead {
     display: none;
-  }
-
-  .responsive-table tbody tr + tr {
-    margin-top: 1rem;
   }
 
   .responsive-table tbody tr td:not(.action-column) {

@@ -1,0 +1,54 @@
+@layout('layouts/master')
+
+@set('title', 'Pedidos')
+
+@section('content')
+  <nav class="navigation">
+    <div class="tab-links">
+      <button class="tablink" data-id="opened" data-default>
+        Abertos
+        <i class="material-icons">add_shopping_cart</i>
+      </button>
+      <button class="tablink" data-id="effectuated">
+        Efetuados
+        <i class="material-icons">production_quantity_limits</i>
+      </button>
+      <button class="tablink" data-id="confirmed">
+        Confirmados
+        <i class="material-icons">check</i>
+      </button>
+    </div>
+
+    <input class="search-input" type="text" placeholder="Pesquisar">
+
+  </nav>
+
+  <div class="card-table">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>Data de Abertura</th>
+          <th>Data de Fechamento</th>
+          @can('AdminPolicy.adminOnly')
+            <th class="action-column">Ações</th>
+          @end
+        </tr>
+      </thead>
+      <tbody class="tab-content">
+        @each(order in orders)   
+        <tr class="{{order.status}}">
+          <td title="Código">{{order.codigo}}</td>
+          <td title="Cliente">{{order.client}}</td>
+          <td title="Total">{{order.total}}</td>
+          <td title="Data de Abertura">{{order.openedDate}}</td>
+          <td title="Data de Fechamento">{{order.closeDate}}</td>
+          <td>ver</td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+@endsection
