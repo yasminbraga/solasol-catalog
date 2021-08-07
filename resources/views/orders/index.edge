@@ -1,0 +1,65 @@
+@layout('layouts/master')
+
+@set('title', 'Pedidos')
+
+@section('content')
+
+  <section class="navigation">
+    <div class="tab-links">
+      <a href="{{ route('orders.index', {
+        qs: {
+          status: 'opened'
+        }
+      }) }}" class="tablink">
+        Abertos
+        <i class="material-icons">add_shopping_cart</i>
+      </a>
+      <a href="{{ route('orders.index', {
+        qs: {
+          status: 'effectuated'
+        }
+      }) }}" class="tablink">
+        Efetuados
+        <i class="material-icons">production_quantity_limits</i>
+      </a>
+      <a href="{{ route('orders.index', {
+        qs: {
+          status: 'confirmed'
+        }
+      }) }}" class="tablink">
+        Confirmados
+        <i class="material-icons">check</i>
+      </a>
+    </div>
+    <input class="search-input" type="text" placeholder="Pesquisar">
+  </section>
+
+  <div class="card-table">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>Data de Abertura</th>
+          <th>Data de Fechamento</th>
+          @can('AdminPolicy.adminOnly')
+            <th class="action-column">Ações</th>
+          @end
+        </tr>
+      </thead>
+      <tbody class="tab-content">
+        @each(order in orders)   
+        <tr class="{{order.status}}">
+          <td title="Código">{{order.codigo}}</td>
+          <td title="Cliente">{{order.client}}</td>
+          <td title="Total">{{order.total}}</td>
+          <td title="Data de Abertura">{{order.openedDate}}</td>
+          <td title="Data de Fechamento">{{order.closeDate}}</td>
+          <td>ver</td>
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+@endsection

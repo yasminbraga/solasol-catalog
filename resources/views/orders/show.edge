@@ -1,0 +1,77 @@
+@layout('layouts/master')
+
+@set('title', 'Pedidos')
+
+@section('content')
+  <div class="card">
+    <h4 class="card-title">Dados do Pedido</h4>
+
+    <section class="card-fields">
+      <div class="card-field">
+        <span>Pedido</span>
+        <p>{{order.codigo}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Data de Abertura</span>
+        <p>{{order.openedDate}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Data de Fechamento</span>
+        <p>{{order.closeDate}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Total</span>
+        <p>{{order.total}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Cliente</span>
+        <p>{{order.client}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Telefone</span>
+        <p>{{order.phone}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Status do Pedido</span>
+        <p>{{order.status}}</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="card">
+    <section class="card-header">
+      <h4 class="card-title">Produtos</h4>
+      <p>Total de produtos: 24</p>
+    </section>
+
+    @each(product in order.products)
+      <section class="product-container">
+        <div class="product-header">
+          <img class="product-image" src="{{product.image}}" alt="">
+          <p>{{product.name}}</p>
+        </div>
+        <div class="order-info">
+          <div>
+            <span class="product-content" title="Preço">{{product.price}}</span>
+            <span class="product-content" title="Quantidade">x{{product.quantity}}</span>
+          </div>
+          <p class="product-content" title="Total">{{product.total}}</p>
+        </div>
+      </section>
+    @endeach
+
+    <div class="card-footer">
+      <div>
+        <span>Total do pedido:</span>
+        <p>R$260,00</p>
+      </div>
+      <button class="btn primary">Confirmar pedido</button>
+    </div>
+  </div>
+@endsection

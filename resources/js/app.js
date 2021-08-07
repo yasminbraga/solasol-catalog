@@ -34,6 +34,7 @@ if (image && preview) {
   }
 }
 
+// CLOSE AND SHOW SIDEBAR
 const closeSidebar = document.querySelector('#close-sidebar')
 const showSidebar = document.querySelector('#show-sidebar')
 

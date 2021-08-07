@@ -28,10 +28,11 @@ Route.get('/', async ({ view }) => {
 Route.resource('sessions', 'SessionsController').only(['index', 'store', 'destroy'])
 
 Route.group(() => {
-  Route.resource('products', 'ProductsController').only(['index', 'create', 'store', 'destroy'])
+  Route.resource('products', 'ProductsController')
   Route.resource('users', 'UsersController')
   Route.resource('categories', 'CategoriesController')
   Route.resource('catalogs', 'CatalogsController').only(['index', 'create', 'store', 'destroy'])
+  Route.resource('orders', 'OrdersController')
 }).middleware(['auth'])
 
 Route.group(() => {
