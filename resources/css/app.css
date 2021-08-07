@@ -572,12 +572,12 @@ td {
 }
 
 .tablink {
-  border: none;
   background: #ffff;
   color: var(--primary-color);
   padding: 0.75rem 0;
   width: 100%;
   font-weight: 500;
+  font-size: 13px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -888,6 +888,7 @@ section.product-container {
     padding: 0.75rem;
     flex-direction: row;
     align-items: center;
+    font-size: 16px;
     justify-content: space-between;
   }
 

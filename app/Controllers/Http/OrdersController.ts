@@ -1,7 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class OrdersController {
-  public async index({ view }: HttpContextContract) {
+  public async index({ request, view }: HttpContextContract) {
+    const { status } = request.qs()
+
     const orders = [
       {
         id: 1,
@@ -44,7 +46,7 @@ export default class OrdersController {
       },
     ]
 
-    return view.render('orders/index', { orders })
+    return view.render('orders/index', { orders, status })
   }
 
   public async create({}: HttpContextContract) {}
