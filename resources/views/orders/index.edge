@@ -3,30 +3,29 @@
 @set('title', 'Pedidos')
 
 @section('content')
-
   <section class="navigation">
     <div class="tab-links">
-      <a href="{{ route('orders.index', {
+      <a href="{{ route('orders.index', {}, {
         qs: {
           status: 'opened'
         }
-      }) }}" class="tablink">
+      }) }}" class="tablink {{request.qs().status === 'opened' ? 'active' : ''}}">
         Abertos
         <i class="material-icons">add_shopping_cart</i>
       </a>
-      <a href="{{ route('orders.index', {
+      <a href="{{ route('orders.index', {}, {
         qs: {
           status: 'effectuated'
         }
-      }) }}" class="tablink">
+      }) }}" class="tablink {{request.qs().status === 'effectuated' ? 'active' : ''}}">
         Efetuados
         <i class="material-icons">production_quantity_limits</i>
       </a>
-      <a href="{{ route('orders.index', {
+      <a href="{{ route('orders.index', {}, {
         qs: {
           status: 'confirmed'
         }
-      }) }}" class="tablink">
+      }) }}" class="tablink {{request.qs().status === 'confirmed' ? 'active' : ''}}">
         Confirmados
         <i class="material-icons">check</i>
       </a>
