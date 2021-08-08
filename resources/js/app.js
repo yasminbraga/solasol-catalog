@@ -5,7 +5,8 @@ const currentPage = document.location.href
 const navLinks = document.querySelectorAll('.nav-link')
 
 navLinks.forEach((navLink) => {
-  if (currentPage.includes(navLink.href)) {
+  const baseUrl = navLink.getAttribute('data-base-url')
+  if (currentPage.includes(baseUrl)) {
     navLink.classList.add('highlight')
   }
 })
