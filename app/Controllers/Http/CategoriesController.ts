@@ -78,7 +78,7 @@ export default class CategoriesController {
     }
   }
 
-  public async destroy({ request, response, session, bouncer }: HttpContextContract) {
+  public async destroy({ request, response, session, bouncer, logger }: HttpContextContract) {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     const id = request.param('id')
@@ -93,7 +93,7 @@ export default class CategoriesController {
         return response.redirect().toRoute('categories.index')
       }
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       session.flash('error', error.message)
 
       return response.redirect().back()

@@ -16,8 +16,6 @@ export default class ProductsController {
 
       let query = Product.query().preload('file')
 
-      console.log(categoryIds)
-
       if (categoryIds) {
         query = query.whereIn('category_id', categoryIds)
       }
