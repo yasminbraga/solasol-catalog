@@ -166,7 +166,7 @@ export default class ProductsController {
     }
   }
 
-  public async destroy({ request, response, session, bouncer }: HttpContextContract) {
+  public async destroy({ request, response, session, bouncer, logger }: HttpContextContract) {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     const id = request.param('id')
@@ -180,7 +180,7 @@ export default class ProductsController {
       session.flash('success', 'Produto removido')
       return response.redirect().toRoute('products.index')
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       session.flash('error', error.message)
 
       return response.redirect().back()

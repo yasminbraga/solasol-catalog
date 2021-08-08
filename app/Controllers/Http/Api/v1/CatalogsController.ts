@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Catalog from 'App/Models/Catalog'
 
 export default class CatalogsController {
-  public async show({ request, response }: HttpContextContract) {
+  public async show({ request, response, logger }: HttpContextContract) {
     const uuid = request.param('id')
 
     try {
@@ -14,7 +14,7 @@ export default class CatalogsController {
 
       return { catalog: catalog.toJSON() }
     } catch (error) {
-      console.log(error)
+      logger.error(error)
 
       return response.notFound({
         errors: [{ message: error.message }],
