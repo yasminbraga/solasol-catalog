@@ -444,7 +444,7 @@ header.page-header {
 }
 
 .logout {
-  padding: 1rem;
+  padding: 0.75rem;
   border-top: 1px solid var(--extra-light-gray);
   display: flex;
   justify-content: space-between;
@@ -481,6 +481,13 @@ header.page-header {
   align-items: center;
   color: var(--error-color);
   cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: var(--switch-transition);
+}
+
+.logout-btn:hover {
+  background: var(--light-error-color);
 }
 
 /* TABLE */
