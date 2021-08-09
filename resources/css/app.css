@@ -118,7 +118,7 @@ main.login-container {
 
 .field select,
 .field input {
-  padding: 6px;
+  padding: 10px;
   border-radius: 6px;
   border: 1px solid var(--extra-light-gray);
   color: var(--dark-blue);
@@ -434,7 +434,7 @@ header.page-header {
   font-weight: 600;
   border: none;
   border-radius: 6px;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
 }
 
@@ -447,6 +447,10 @@ header.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.btn-width-100 {
+  width: 100%;
 }
 
 .logout {
@@ -553,6 +557,21 @@ td {
   display: flex;
   align-items: center;
   border-radius: 6px;
+}
+
+.table-warn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.table-warn img {
+  width: 250px;
+}
+
+.table-warn h3 {
+  color: var(--gray-color);
 }
 
 /* TAB */
@@ -673,6 +692,13 @@ section.product-container {
 .product-header {
   display: flex;
   justify-content: space-between;
+}
+
+.product-price {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--dark-gray-text);
 }
 
 .product-header p {
