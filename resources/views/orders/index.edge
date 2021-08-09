@@ -55,7 +55,12 @@
           <td title="Total">{{order.total}}</td>
           <td title="Data de Abertura">{{order.openedDate}}</td>
           <td title="Data de Fechamento">{{order.closeDate}}</td>
-          <td>ver</td>
+          <td class="action-column">
+            <a class="btn primary btn-flex" href="{{ route('orders.show', {id: order.id}) }}">
+              Detalhes
+              <i class="material-icons">navigate_next</i>
+            </a>
+          </td>
         </tr>
         @endeach
       </tbody>

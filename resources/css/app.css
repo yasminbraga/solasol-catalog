@@ -443,6 +443,12 @@ header.page-header {
   background: var(--primary-color);
 }
 
+.btn-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .logout {
   padding: 0.75rem;
   border-top: 1px solid var(--extra-light-gray);
@@ -562,6 +568,13 @@ td {
   padding: 0.75rem;
   border-radius: 6px;
   box-shadow: var(--shadow);
+  color: var(--dark-gray-text);
+}
+
+.search-input::placeholder {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--light-gray);
 }
 
 .search-input:focus {
@@ -897,6 +910,10 @@ section.product-container {
     align-items: center;
     font-size: 16px;
     justify-content: space-between;
+  }
+
+  .search-input::placeholder {
+    font-size: 16px;
   }
 
   /* table */
