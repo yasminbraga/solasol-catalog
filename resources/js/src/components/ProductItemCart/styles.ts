@@ -45,14 +45,18 @@ export const ProductContent = styled.div`
 export const ProductName = styled.h3`
   font-weight: 400;
   font-size: 13px;
+  margin-top: 0.5rem;
 
   max-width: 100%;
   white-space: nowrap;
+  text-align: center;
   text-overflow: ellipsis;
 `
 
 export const ProductPrice = styled.h3`
   font-weight: 600;
+  text-align: center;
   font-size: 16px;
   color: #333;
+  margin-bottom: 1rem;
 `

@@ -11,21 +11,43 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({ meta, setPage }) => {
   return (
     <Container>
-      <PrevButton onClick={() => setPage(-1)} disabled={meta.current_page <= meta.first_page}>
+      <PrevButton
+        onClick={() => setPage(meta.current_page - 1)}
+        disabled={meta.current_page <= meta.first_page}
+      >
         Anterior
       </PrevButton>
 
+      {!!(meta.current_page > 2) && (
+        <NumberButton onClick={() => setPage(meta.current_page - 2)}>
+          {meta.current_page - 2}
+        </NumberButton>
+      )}
+
       {!!(meta.current_page > 1) && (
-        <NumberButton onClick={() => setPage(-1)}>{meta.current_page - 1}</NumberButton>
+        <NumberButton onClick={() => setPage(meta.current_page - 1)}>
+          {meta.current_page - 1}
+        </NumberButton>
       )}
 
       <CurrentPageButton disabled>{meta.current_page}</CurrentPageButton>
 
       {!!(meta.current_page < meta.last_page) && (
-        <NumberButton onClick={() => setPage(1)}>{meta.current_page + 1}</NumberButton>
+        <NumberButton onClick={() => setPage(meta.current_page + 1)}>
+          {meta.current_page + 1}
+        </NumberButton>
       )}
 
-      <NextButton onClick={() => setPage(1)} disabled={meta.current_page >= meta.last_page}>
+      {!!(meta.current_page + 1 < meta.last_page) && (
+        <NumberButton onClick={() => setPage(meta.current_page + 2)}>
+          {meta.current_page + 2}
+        </NumberButton>
+      )}
+
+      <NextButton
+        onClick={() => setPage(meta.current_page + 1)}
+        disabled={meta.current_page >= meta.last_page}
+      >
         Proxima
       </NextButton>
     </Container>

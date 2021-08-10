@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import styled, { css } from 'styled-components'
 import colors from '../../styles/colors'
 
 export const ContainerHeader = styled.div`
@@ -11,6 +12,17 @@ export const ContainerHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   background: ${colors.primary};
+  z-index: 15;
+
+  ::before {
+    content: '';
+    position: absolute;
+    z-index: -5;
+    width: 100%;
+    left: 0;
+    height: 10rem;
+    background: ${colors.primary};
+  }
 `
 
 export const ContainerOffset = styled.div`
@@ -18,7 +30,8 @@ export const ContainerOffset = styled.div`
   z-index: -5;
   width: 100%;
   top: 0;
-  height: 15rem;
+  left: 0;
+  height: 12rem;
   background: ${colors.primary};
 `
 
@@ -26,14 +39,63 @@ export const BrandTitle = styled.h2`
   color: ${colors.lightText};
 `
 
-export const NewOrderButton = styled.a`
+export const Button = css`
   background: transparent;
-  color: ${colors.lightPrimary};
-  font-size: 16px;
+  color: ${colors.lightText};
+  font-size: 17px;
   font-weight: 500;
 
   :hover {
     cursor: pointer;
-    color: #fff;
   }
+
+  :active {
+    color: ${colors.lightPrimary};
+  }
+
+  svg {
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+`
+
+export const NewOrderButton = styled(Link)`
+  ${Button}
+`
+
+export const ShowCartButton = styled.button<{ totalCart: number }>`
+  border: 0;
+  ${Button}
+  position: relative;
+
+  ::after {
+    content: '${(props) => props.totalCart}';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    padding: 0.2rem;
+    color: ${colors.lightText};
+    background: ${colors.success};
+    border-radius: 20px;
+    font-size: 10px;
+    top: -12px;
+    right: -12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    /* line-height: 100%; */
+    /* display: ${(props) => (props.totalCart ? 'flex' : 'none')}; */
+  }
+`
+
+export const AccountForm = styled.form`
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+`
+export const Subtitle = styled.h4`
+  text-align: center;
+  max-width: 90%;
+  margin-bottom: 0.75rem;
 `

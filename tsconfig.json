@@ -23,7 +23,7 @@
       "@adonisjs/bouncer",
       "@rocketseat/adonis-bull"
     ],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "lib": ["ES2015", "DOM"]

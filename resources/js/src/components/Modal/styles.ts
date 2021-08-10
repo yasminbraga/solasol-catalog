@@ -84,28 +84,33 @@ export const ModalFooter = styled.div`
   display: flex;
   justify-content: flex-end;
   border-top: 1px solid ${colors.extraLightGray};
+`
 
-  button {
-    padding: 0.5rem;
-    border: 0;
-    border-radius: 0.25rem;
-    color: #fff;
+export const Button = styled.button`
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 0.25rem;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  vertical-align: center;
+  cursor: pointer;
 
-    text-align: center;
-    font-weight: 400;
-    vertical-align: center;
-    cursor: pointer;
-
-    + button {
-      margin-left: 0.5rem;
-    }
+  + button {
+    margin-left: 0.5rem;
   }
 `
 
-export const CancelButton = styled.button`
-  background: ${colors.gray};
+export const CancelButton = styled(Button)`
+  background: ${colors.lightGray};
 `
 
-export const ConfirmButton = styled.button`
+export const ConfirmButton = styled(Button)`
   background: ${colors.primary};
+
+  :disabled {
+    cursor: not-allowed;
+    background: ${colors.lightPrimary};
+  }
 `

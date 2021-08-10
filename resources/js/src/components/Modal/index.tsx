@@ -18,9 +18,19 @@ interface ModalProps {
   visible: boolean
   onClose: () => void
   onConfirm?: () => void
+  confirmButtonText?: string
+  confirmButtonDisabled?: boolean
 }
 
-const Modal: React.FC<ModalProps> = ({ children, visible, title, onClose, onConfirm }) => {
+const Modal: React.FC<ModalProps> = ({
+  children,
+  visible,
+  title,
+  onClose,
+  onConfirm,
+  confirmButtonText,
+  confirmButtonDisabled,
+}) => {
   if (!visible) return null
   const modalRef = createRef<HTMLDivElement>()
 
@@ -66,7 +76,11 @@ const Modal: React.FC<ModalProps> = ({ children, visible, title, onClose, onConf
           <ModalBody>{children}</ModalBody>
           <ModalFooter>
             <CancelButton onClick={handleCLoseModal}>Cancelar</CancelButton>
-            {!!onConfirm && <ConfirmButton onClick={onConfirm}>Salvar</ConfirmButton>}
+            {!!onConfirm && (
+              <ConfirmButton disabled={confirmButtonDisabled} onClick={onConfirm}>
+                {confirmButtonText || 'Salvar'}
+              </ConfirmButton>
+            )}
           </ModalFooter>
         </ModalContent>
       </ModalDialog>

@@ -38,7 +38,7 @@ export default class Catalog extends BaseModel {
 
   @computed({ serializeAs: 'signed_url' })
   public get signedUrl() {
-    return `/catalogs/${this.uuid}`
+    return `/catalogos/${this.uuid}`
   }
 
   @column.dateTime({

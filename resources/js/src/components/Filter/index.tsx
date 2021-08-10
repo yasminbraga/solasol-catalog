@@ -54,7 +54,7 @@ const reducer = (state: State, action: Action) => {
 
 interface FilterProps {
   onChange: (state: State) => void
-  categories: Category[]
+  categories?: Category[]
 }
 
 const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
@@ -101,6 +101,10 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
             type="text"
             onChange={(ev) => dispatch({ type: 'CHANGE_NAME', value: ev.target.value })}
             value={state?.name ?? ''}
+            autoCapitalize="off"
+            autoCorrect="off"
+            autoSave="on"
+            disabled={!categories?.length}
           />
         </InputContainer>
         <Select ref={selectRef}>
@@ -108,7 +112,7 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
             Categorias
             <BsChevronDown className={show ? 'reverse' : ''} />
           </SelectButton>
-          {show && (
+          {show && !!categories?.length && (
             <SelectItems>
               {categories.map((category) => {
                 return (
@@ -131,31 +135,3 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
 }
 
 export default Filter
-
-// useEffect(() => {
-//   dispatch({ type: 'SELECT_ALL', values: categories.map((c) => c.id) })
-// }, [])
-
-// function handleAllCheckboxChange(ev: ChangeEvent<HTMLInputElement>, ids: number[]) {
-//   if (ev.target.checked) {
-//     dispatch({ type: 'SELECT_ALL', values: ids })
-//   } else {
-//     dispatch({ type: 'UNSELECT_ALL' })
-//   }
-// }
-
-/* 
-<SelectItem>
-  <Checkbox
-    onChange={(ev) =>
-      handleAllCheckboxChange(
-        ev,
-        categories.map(({ id }) => id)
-      )
-    }
-    id="select_all"
-    checked={categories.length === state.categories.length}
-  />
-  <Label htmlFor="select_all">Todas</Label>
-</SelectItem> 
-  */
