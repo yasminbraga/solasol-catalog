@@ -118,7 +118,7 @@ main.login-container {
 
 .field select,
 .field input {
-  padding: 6px;
+  padding: 10px;
   border-radius: 6px;
   border: 1px solid var(--extra-light-gray);
   color: var(--dark-blue);
@@ -434,7 +434,7 @@ header.page-header {
   font-weight: 600;
   border: none;
   border-radius: 6px;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
 }
 
@@ -443,8 +443,18 @@ header.page-header {
   background: var(--primary-color);
 }
 
+.btn-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-width-100 {
+  width: 100%;
+}
+
 .logout {
-  padding: 1rem;
+  padding: 0.75rem;
   border-top: 1px solid var(--extra-light-gray);
   display: flex;
   justify-content: space-between;
@@ -481,6 +491,13 @@ header.page-header {
   align-items: center;
   color: var(--error-color);
   cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: var(--switch-transition);
+}
+
+.logout-btn:hover {
+  background: var(--light-error-color);
 }
 
 /* TABLE */
@@ -542,6 +559,56 @@ td {
   border-radius: 6px;
 }
 
+.table-warn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.table-warn img {
+  width: 250px;
+}
+
+.table-warn h3 {
+  color: var(--gray-color);
+}
+
+/* TOOLTIP */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::before {
+  content: attr(tooltip-content);
+  position: absolute;
+
+  padding: 10px;
+  border-radius: 6px;
+  background: var(--gray-color);
+  color: #fff;
+
+  bottom: 1.35em;
+  right: 1rem;
+
+  display: none;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  right: 2em;
+  bottom: 1em;
+  border: solid;
+  border-color: var(--gray-color) transparent;
+  border-width: 0.4em 0.4em 0 0.4em;
+  display: none;
+}
+
+.tooltip:hover:before,
+.tooltip:hover:after {
+  display: block;
+}
 /* TAB */
 .navigation {
   display: flex;
@@ -555,6 +622,13 @@ td {
   padding: 0.75rem;
   border-radius: 6px;
   box-shadow: var(--shadow);
+  color: var(--dark-gray-text);
+}
+
+.search-input::placeholder {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--light-gray);
 }
 
 .search-input:focus {
@@ -653,6 +727,13 @@ section.product-container {
 .product-header {
   display: flex;
   justify-content: space-between;
+}
+
+.product-price {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--dark-gray-text);
 }
 
 .product-header p {
@@ -892,6 +973,10 @@ section.product-container {
     justify-content: space-between;
   }
 
+  .search-input::placeholder {
+    font-size: 16px;
+  }
+
   /* table */
   .card-table {
     background: #ffff;
@@ -908,6 +993,16 @@ section.product-container {
 
   .action-column {
     text-align: center;
+  }
+
+  .tooltip::before {
+    right: initial;
+    left: 1rem;
+  }
+
+  .tooltip::after {
+    left: 2em;
+    right: initial;
   }
 }
 
@@ -956,36 +1051,4 @@ section.product-container {
   .action-column {
     justify-content: flex-end;
   }
-
-  /* order table */
-  /* .order-table thead {
-    display: none;
-  }
-
-  .order-table tbody tr {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--extra-light-gray);
-  }
-
-  .order-table tbody tr td::before {
-    content: attr(title);
-    color: var(--gray-color);
-    font-weight: 500;
-  }
-
-  .order-table tbody tr td:not(.product-title) {
-    display: flex;
-    justify-content: space-between;
-    color: var(--dark-gray-text);
-  }
-
-  .order-table td.product-title {
-    display: flex;
-    align-items: flex-start;
-    color: var(--primary-color);
-    font-weight: 500;
-    width: 100%;
-  } */
 }

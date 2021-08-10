@@ -54,13 +54,13 @@
       <section class="product-container">
         <div class="product-header">
           <img class="product-image" src="{{product.image}}" alt="">
-          <p>{{product.name}}</p>
+          <div>
+            <p>{{product.name}}</p>
+            <span class="product-price" title="Preço">{{product.price}}</span>
+          </div>
         </div>
         <div class="order-info">
-          <div>
-            <span class="product-content" title="Preço">{{product.price}}</span>
-            <span class="product-content" title="Quantidade">x{{product.quantity}}</span>
-          </div>
+          <span class="product-content" title="Quantidade">x{{product.quantity}}</span>
           <p class="product-content" title="Total">{{product.total}}</p>
         </div>
       </section>
