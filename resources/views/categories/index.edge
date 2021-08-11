@@ -9,7 +9,7 @@
     <thead>
       <th>Nome</th>
       @can('AdminPolicy.adminOnly')
-        <th class="action-column action-column-sm">Ações</th>
+        <th class="action-column">Ações</th>
       @end
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
       <tr class="card-row">
         <td title="Nome">{{ category.name }}</td>
         @can('AdminPolicy.adminOnly')
-          <td class="action-column action-column-sm">
+          <td class="action-column">
             <a class="edit-link" href="{{ route('categories.edit', {id: category.id}) }}">
               <i class="material-icons edit-color">edit</i>
             </a>
