@@ -104,6 +104,11 @@ main.login-container {
   margin-bottom: 10px;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -427,6 +432,8 @@ header.page-header {
 /* IMAGE PREVIEW */
 #image-preview {
   width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 /* BUTTONS */
@@ -535,13 +542,9 @@ td {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 
   gap: 0.3rem;
-}
-
-.action-column-sm {
-  justify-content: flex-end;
 }
 
 .edit-link {
