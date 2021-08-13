@@ -125,12 +125,6 @@ export default class ProductsController {
       schema: productValidationSchema,
     })
 
-    if (!image?.tmpPath) {
-      session.flash('error', 'Erro ao cadastrar produto')
-
-      return response.redirect().back()
-    }
-
     const service = new ImageUploader()
 
     try {
@@ -138,6 +132,12 @@ export default class ProductsController {
       await product.merge(updateProductData).save()
 
       if (image) {
+        if (!image?.tmpPath) {
+          session.flash('error', 'Erro ao cadastrar produto')
+
+          return response.redirect().back()
+        }
+
         await product.file.merge({ uploaded: false }).save()
 
         service.upload(
@@ -157,6 +157,7 @@ export default class ProductsController {
         )
       }
 
+      session.flash('success', 'Produto atualizado')
       return response.redirect().toRoute('products.index')
     } catch (error) {
       logger.error(error)

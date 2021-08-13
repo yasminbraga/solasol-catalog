@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
 
     :focus {
       box-shadow: ${colors.primary} 0 0 3px 0;
-      border-color: ${colors.lightPrimary};
+      border-color: ${colors.primary};
     }
   }
 `

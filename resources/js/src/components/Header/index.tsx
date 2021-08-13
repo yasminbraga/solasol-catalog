@@ -46,7 +46,12 @@ const Header: React.FC<HeaderProps> = () => {
         <BrandTitle>Sol a sol</BrandTitle>
 
         {!invalid && !showCartButton && (
-          <NewOrderButton to={`/pedidos/${id}`}>
+          <NewOrderButton
+            to={{
+              pathname: '/pedidos/create',
+              search: `?catalogId=${id}`,
+            }}
+          >
             Iniciar pedido
             <MdShoppingCart size={22} />
           </NewOrderButton>

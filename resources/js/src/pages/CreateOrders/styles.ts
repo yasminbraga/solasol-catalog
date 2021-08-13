@@ -24,6 +24,11 @@ export const Title = styled.h2`
 
 export const Subtitle = styled.p`
   font-size: 14px;
+  max-width: 260px;
+
+  @media screen and (min-width: 768px) {
+    max-width: 450px;
+  }
 `
 
 export const AccountForm = styled.form`

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { MdArrowForward, MdShoppingCart } from 'react-icons/md'
+import { useLocation, useParams } from 'react-router-dom'
 import InlineLoader from '../../components/InlineLoader'
 import Input from '../../components/Input'
+import api from '../../services/api'
 
 import {
   Container,
@@ -16,9 +18,17 @@ import {
 
 const CreateOrders: React.FC = () => {
   const [loading, setLoading] = useState(false)
+  const location = useLocation()
+  const catalogId = location.search.split('=')[1]
+
+  const [name, setName] = useState()
 
   async function handleClick() {
     setLoading(true)
+    console.log(catalogId)
+    try {
+      const response = await api.post(`/catalogs/${catalogId}`)
+    } catch (error) {}
   }
 
   return (
