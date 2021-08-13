@@ -15,4 +15,5 @@ export default {
   extraLightGray: '#e5e5e5',
   inputBg: '#f7f7f7',
   lightBg: '#ffffff',
+  darkBg: '#282828',
 }

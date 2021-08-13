@@ -7,7 +7,7 @@ export const Container = styled.div`
   margin: 0 auto;
   position: sticky;
   width: 100%;
-  top: calc(5rem);
+  top: calc(4.75rem);
   z-index: 20;
 `
 

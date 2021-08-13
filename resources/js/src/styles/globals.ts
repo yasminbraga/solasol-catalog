@@ -18,6 +18,16 @@ const GlobalStyle = createGlobalStyle`
   button {
     border: 0;
     background: ${colors.inputBg};
+
+    :active {
+      opacity: 0.6;
+    }
+
+    :hover {
+      cursor: pointer;
+    }
+
+    transition: opacity 0.3s ease;
   }
 
   body.cart-panel-open {
@@ -27,10 +37,35 @@ const GlobalStyle = createGlobalStyle`
   #app {
     position: relative;
   }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  input {
+    outline: none;
+    border: 1px solid transparent;
+
+    :focus {
+      box-shadow: ${colors.primary} 0 0 3px 0;
+      border-color: ${colors.lightPrimary};
+    }
+  }
 `
 
 export const standardShadow = css`
   box-shadow: rgba(0, 0, 0, 0.1) 0 1px 4px;
+`
+
+export const primaryShadow = css`
+  box-shadow: ${colors.lightPrimary} 0 1px 4px;
 `
 
 export default GlobalStyle

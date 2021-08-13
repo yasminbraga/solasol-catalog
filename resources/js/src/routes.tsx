@@ -5,6 +5,7 @@ import CatalogPage from './pages/Catalog'
 import OrdersPage from './pages/Oders'
 import NotFound from './pages/NotFound'
 import Header from './components/Header'
+import CreateOrders from './pages/CreateOrders'
 
 interface RouteList {
   exact?: boolean
@@ -17,6 +18,11 @@ const routes: RouteList[] = [
   {
     path: '/catalogos/:id',
     component: CatalogPage,
+    headerShown: true,
+  },
+  {
+    path: '/pedidos/create',
+    component: CreateOrders,
     headerShown: true,
   },
   {

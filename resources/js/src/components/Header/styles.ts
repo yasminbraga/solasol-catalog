@@ -13,16 +13,6 @@ export const ContainerHeader = styled.div`
   align-items: center;
   background: ${colors.primary};
   z-index: 15;
-
-  ::before {
-    content: '';
-    position: absolute;
-    z-index: -5;
-    width: 100%;
-    left: 0;
-    height: 10rem;
-    background: ${colors.primary};
-  }
 `
 
 export const ContainerOffset = styled.div`
@@ -44,10 +34,6 @@ export const Button = css`
   color: ${colors.lightText};
   font-size: 17px;
   font-weight: 500;
-
-  :hover {
-    cursor: pointer;
-  }
 
   :active {
     color: ${colors.lightPrimary};
@@ -84,16 +70,9 @@ export const ShowCartButton = styled.button<{ totalCart: number }>`
     justify-content: center;
     align-items: center;
     font-weight: 600;
-    /* line-height: 100%; */
-    /* display: ${(props) => (props.totalCart ? 'flex' : 'none')}; */
   }
 `
 
-export const AccountForm = styled.form`
-  display: grid;
-  gap: 0.5rem;
-  justify-items: center;
-`
 export const Subtitle = styled.h4`
   text-align: center;
   max-width: 90%;

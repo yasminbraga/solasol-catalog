@@ -5,7 +5,4 @@ export const Container = styled.div`
   border-radius: 0.35rem;
   position: relative;
   z-index: 10;
-
-  @media screen and (min-width: 1020px) {
-  }
 `

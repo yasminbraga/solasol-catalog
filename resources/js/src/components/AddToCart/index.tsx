@@ -26,16 +26,6 @@ const Button = styled.button`
     height: 20px;
     float: right;
   }
-
-  :hover {
-    cursor: pointer;
-  }
-
-  :active {
-    opacity: 0.6;
-  }
-
-  transition: all 0.3s ease;
 `
 
 const AddToCart: React.FC<{ data: Product }> = ({ data }) => {

@@ -20,12 +20,6 @@ const BaseButton = styled.button`
     width: 20px;
     height: 20px;
   }
-
-  :hover {
-    cursor: pointer;
-  }
-
-  transition: all 0.3s ease;
 `
 
 export const QuantityChangeButton = styled(BaseButton)`

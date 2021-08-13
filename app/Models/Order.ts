@@ -9,12 +9,6 @@ export default class Order extends BaseModel {
   @column()
   public totalPrice: number
 
-  @column.dateTime()
-  public expireAt: DateTime
-
-  @column()
-  public expired: boolean
-
   @column()
   public closed: boolean
 
@@ -23,6 +17,9 @@ export default class Order extends BaseModel {
 
   @column.dateTime()
   public closedAt: DateTime
+
+  @column.dateTime()
+  public confirmedAt: DateTime
 
   @column()
   public uuid: string

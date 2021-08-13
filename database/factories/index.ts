@@ -5,6 +5,7 @@ import Product from 'App/Models/Product'
 import User from 'App/Models/User'
 import File from 'App/Models/File'
 import { DateTime } from 'luxon'
+import Customer from 'App/Models/Customer'
 
 export const UserFactory = Factory.define(User, ({ faker }) => {
   return {
@@ -61,3 +62,11 @@ export const FileFactory = Factory.define(File, ({ faker }) => {
 })
   .relation('product', () => ProductFactory)
   .build()
+
+export const CustomerFactory = Factory.define(Customer, ({ faker }) => {
+  return {
+    email: faker.internet.email(),
+    name: faker.name.firstName(),
+    phone: faker.phone.phoneNumber(),
+  }
+}).build()

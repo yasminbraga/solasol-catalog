@@ -53,11 +53,7 @@ const Header: React.FC<HeaderProps> = () => {
         )}
 
         {showCartButton && (
-          <ShowCartButton
-            onClick={() => setShowPanel(true)}
-            // verificar se é qntd total
-            totalCart={order.cart.totalQuantity}
-          >
+          <ShowCartButton onClick={() => setShowPanel(true)} totalCart={order.cart.totalQuantity}>
             <MdShoppingCart size={32} />
           </ShowCartButton>
         )}

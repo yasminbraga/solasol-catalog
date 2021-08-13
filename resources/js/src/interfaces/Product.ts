@@ -9,6 +9,10 @@ export default interface Product {
   file?: File
 }
 
+export interface ProductCart extends Product {
+  quantity: number
+}
+
 export interface ProductsResponse {
   catalog: Catalog
   products: {

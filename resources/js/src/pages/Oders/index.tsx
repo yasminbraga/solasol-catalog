@@ -14,7 +14,7 @@ import Meta from '../../interfaces/Meta'
 import Product, { ProductsResponse } from '../../interfaces/Product'
 import { useHeader } from '../../providers/header'
 import api from '../../services/api'
-import { Grid } from '../Catalog/styles'
+import { Grid, ResultItem, Results } from '../Catalog/styles'
 
 import { Container } from './styles'
 
@@ -80,6 +80,19 @@ const OdersPage: React.FC = () => {
           <Card>
             {products?.data.length ? (
               <React.Fragment>
+                <Results>
+                  {filter?.name ? (
+                    <ResultItem>
+                      {products.data.length} resultado(s) para {filter.name}
+                    </ResultItem>
+                  ) : (
+                    <ResultItem>Exibindo {products.data.length} resultado(s)</ResultItem>
+                  )}
+                  <ResultItem>
+                    Página {products.meta.current_page} de {products.meta.last_page} - Total{' '}
+                    {products.meta.total}
+                  </ResultItem>
+                </Results>
                 <Grid>
                   {products?.data?.map((product) => {
                     return <ProductItemCart key={product.id} data={product} />
