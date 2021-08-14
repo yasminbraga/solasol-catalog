@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Modal from '../Modal'
 
-import { BrandTitle, NewOrderButton, ContainerHeader, ContainerOffset } from './styles'
+import { BrandTitle, NewOrderButton, ContainerHeader, ContainerOffset, Img } from './styles'
+
+const src = require('../../assets/logoline-white-solasol.png') as string
 
 interface HeaderProps {
   invalid: boolean
@@ -50,7 +52,8 @@ const Header: React.FC<HeaderProps> = ({ invalid = true }) => {
       </Modal>
 
       <ContainerHeader>
-        <BrandTitle>Sol a sol</BrandTitle>
+        <Img src={src} />
+        {/* <BrandTitle>Sol a sol</BrandTitle> */}
         {!invalid && (
           <NewOrderButton onClick={() => setShowModal(true)}>Iniciar pedido</NewOrderButton>
         )}

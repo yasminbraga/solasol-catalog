@@ -70,6 +70,8 @@ main.login-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  background: var(--primary-color);
 }
 
 .logo {
@@ -78,8 +80,8 @@ main.login-container {
   align-items: center;
 }
 
-.logo h1 {
-  color: var(--primary-color);
+.logo img {
+  width: 200px;
 }
 
 .card,
@@ -362,10 +364,18 @@ form {
   border-bottom: 1px solid var(--extra-light-gray);
 }
 
+.sidebar header img {
+  width: 120px;
+}
+
 .sidebar header button {
   border: 0;
   background: transparent;
   font-size: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidebar .links {
@@ -788,6 +798,7 @@ section.product-container {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-color: initial;
   }
 
   main.container {

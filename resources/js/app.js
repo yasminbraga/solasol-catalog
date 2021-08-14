@@ -36,22 +36,30 @@ if (image && preview) {
 }
 
 // CLOSE AND SHOW SIDEBAR
-const closeSidebar = document.querySelector('#close-sidebar')
-const showSidebar = document.querySelector('#show-sidebar')
+const closeSidebarBtn = document.querySelector('#close-sidebar')
+const showSidebarBtn = document.querySelector('#show-sidebar')
 
 const sidebarOverlay = document.querySelector('.sidebar-overlay')
 const sidebar = document.querySelector('.sidebar')
 
-if (closeSidebar) {
-  closeSidebar.addEventListener('click', function () {
-    sidebar.style.left = '-200px'
-    sidebarOverlay.style.display = 'none'
-  })
+function closeSidebar() {
+  sidebar.style.left = '-200px'
+  sidebarOverlay.style.display = 'none'
 }
 
-if (showSidebar) {
-  showSidebar.addEventListener('click', function () {
+if (closeSidebarBtn) {
+  closeSidebarBtn.addEventListener('click', closeSidebar)
+}
+
+if (showSidebarBtn) {
+  showSidebarBtn.addEventListener('click', function () {
     sidebar.style.left = '0px'
     sidebarOverlay.style.display = 'flex'
   })
 }
+
+document.addEventListener('click', function (ev) {
+  if (ev.target.className.includes('sidebar-overlay')) {
+    closeSidebar()
+  }
+})
