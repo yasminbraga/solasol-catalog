@@ -26,6 +26,10 @@ export const BrandTitle = styled.h2`
   color: ${colors.lightText};
 `
 
+export const Img = styled.img`
+  width: 150px;
+`
+
 export const NewOrderButton = styled.a`
   background: transparent;
   color: ${colors.lightPrimary};
