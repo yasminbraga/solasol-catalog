@@ -2,9 +2,7 @@ import styled, { keyframes } from 'styled-components'
 import colors from '../../styles/colors'
 
 export const Container = styled.div`
-  position: fixed;
   width: 100%;
-  height: 50%;
   display: flex;
   align-items: center;
   justify-content: center;

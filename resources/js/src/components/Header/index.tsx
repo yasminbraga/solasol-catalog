@@ -21,7 +21,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = () => {
-  const { invalid, showCartButton } = useHeader()
+  const { invalid } = useHeader()
 
   const [showPanel, setShowPanel] = useState(false)
 
@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = () => {
       <ContainerHeader>
         <BrandTitle>Sol a sol</BrandTitle>
 
-        {!invalid && !showCartButton && (
+        {!invalid && !order.valid ? (
           <NewOrderButton
             to={{
               pathname: '/pedidos/create',
@@ -55,13 +55,11 @@ const Header: React.FC<HeaderProps> = () => {
             Iniciar pedido
             <MdShoppingCart size={22} />
           </NewOrderButton>
-        )}
-
-        {showCartButton && (
+        ) : order.valid ? (
           <ShowCartButton onClick={() => setShowPanel(true)} totalCart={order.cart.totalQuantity}>
             <MdShoppingCart size={32} />
           </ShowCartButton>
-        )}
+        ) : null}
       </ContainerHeader>
     </Fragment>
   )

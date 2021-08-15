@@ -1,5 +1,3 @@
-import Category from './Category'
-
 export default interface Catalog {
   id: number
   uuid: string
@@ -7,5 +5,4 @@ export default interface Catalog {
 
 export interface CatalogsResponse {
   catalog: Catalog
-  categories: Category[]
 }

@@ -6,6 +6,7 @@ import User from 'App/Models/User'
 import File from 'App/Models/File'
 import { DateTime } from 'luxon'
 import Customer from 'App/Models/Customer'
+import Order from 'App/Models/Order'
 
 export const UserFactory = Factory.define(User, ({ faker }) => {
   return {
@@ -32,6 +33,7 @@ export const CatalogFactory = Factory.define(Catalog, ({ faker }) => {
     catalog.expired = true
     catalog.expireAt = DateTime.now()
   })
+  .relation('user', () => UserFactory)
   .build()
 
 export const CategoryFactory = Factory.define(Category, ({ faker }) => {
@@ -70,3 +72,14 @@ export const CustomerFactory = Factory.define(Customer, ({ faker }) => {
     phone: faker.phone.phoneNumber(),
   }
 }).build()
+
+export const OrderFactory = Factory.define(Order, ({ faker }) => {
+  return {
+    closed: false,
+    confirmed: false,
+    uuid: faker.datatype.uuid(),
+  }
+})
+  .relation('user', () => UserFactory)
+  .relation('customer', () => CustomerFactory)
+  .build()

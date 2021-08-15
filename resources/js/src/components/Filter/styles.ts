@@ -28,6 +28,7 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  z-index: 20;
 
   svg {
     position: absolute;
@@ -46,6 +47,7 @@ export const Input = styled.input`
 
   font-size: 16px;
   outline: none;
+  box-shadow: none !important;
 
   @media screen and (min-width: 1020px) {
   }

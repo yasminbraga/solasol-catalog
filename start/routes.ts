@@ -38,9 +38,9 @@ Route.group(() => {
 Route.group(() => {
   Route.group(() => {
     Route.resource('catalogs', 'CatalogsController').only(['show'])
-    Route.resource('catalogs.products', 'ProductsController').only(['index'])
-    Route.resource('catalogs.categories', 'CategoriesController').only(['index'])
-    Route.resource('catalogs.orders', 'OrdersController').only(['store', 'update'])
+    Route.resource('products', 'ProductsController').only(['index'])
+    Route.resource('categories', 'CategoriesController').only(['index'])
+    Route.resource('orders', 'OrdersController').only(['store', 'update', 'show'])
   })
     .prefix('v1')
     .as('v1')

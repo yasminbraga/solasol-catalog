@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import User from './User'
 
 export default class Catalog extends BaseModel {
   @column({ isPrimary: true })
@@ -25,6 +26,9 @@ export default class Catalog extends BaseModel {
 
   @column()
   public customerId: number
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
 
   @computed({ serializeAs: 'validity_humanized' })
   public get validityHumanized() {

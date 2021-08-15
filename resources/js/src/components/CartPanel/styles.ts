@@ -6,7 +6,7 @@ export const Container = styled.div<{ show: boolean }>`
   background: ${colors.lightBg};
   position: fixed;
 
-  z-index: 50;
+  z-index: 500;
 
   top: 0px;
   bottom: 0px;

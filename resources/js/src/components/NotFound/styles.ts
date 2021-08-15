@@ -8,6 +8,11 @@ export const Container = styled.div`
   align-items: center;
   text-align: center;
 
+  padding: 1rem;
+  border-radius: 0.35rem;
+  position: relative;
+  z-index: 10;
+
   h2 {
     @media screen and (max-width: 540px) {
       font-size: 20px;

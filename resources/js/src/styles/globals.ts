@@ -27,6 +27,11 @@ const GlobalStyle = createGlobalStyle`
       cursor: pointer;
     }
 
+    :disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
     transition: opacity 0.3s ease;
   }
 

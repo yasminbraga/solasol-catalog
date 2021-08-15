@@ -7,11 +7,11 @@ import ProductQuantity from '../ProductQuantity'
 
 import { Container, ProductImage, ProductContent, ProductName, ProductPrice } from './styles'
 
-interface ProductItemCartProps {
+interface ProductItemOrderProps {
   data: Product
 }
 
-const ProductItemCart: React.FC<ProductItemCartProps> = ({ data }) => {
+const ProductItemOrder: React.FC<ProductItemOrderProps> = ({ data }) => {
   const order = useSelector(selectOrder)
   const added = order.cart.products.find((product) => product.id === data.id)
 
@@ -31,4 +31,4 @@ const ProductItemCart: React.FC<ProductItemCartProps> = ({ data }) => {
   )
 }
 
-export default ProductItemCart
+export default ProductItemOrder

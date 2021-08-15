@@ -1,4 +1,5 @@
-import React, { ChangeEvent, createRef, useEffect, useReducer, useState } from 'react'
+import React, { ChangeEvent, createRef, useCallback, useEffect, useState } from 'react'
+import { BsChevronDown, BsSearch } from 'react-icons/bs'
 
 import {
   Checkbox,
@@ -13,55 +14,25 @@ import {
   SelectItems,
 } from './styles'
 
-import { BsChevronDown, BsSearch } from 'react-icons/bs'
+import api from '../../services/api'
 import Category from '../../interfaces/Category'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { addCategory, changeName, removeCategory } from '../../features/filter'
 
-interface State {
-  categories: number[]
-  name?: string
-}
-
-interface Action {
-  type: 'SELECT_CATEGORY' | 'UNSELECT_CATEGORY' | 'CHANGE_NAME'
-  value?: number | string
-}
-
-const initialState: State = {
-  categories: [],
-}
-
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case 'SELECT_CATEGORY':
-      if (!action.value || typeof action.value === 'string') return state
-      return { ...state, categories: [...state.categories, action.value] }
-
-    case 'UNSELECT_CATEGORY':
-      if (!action.value || typeof action.value === 'string') return state
-      const selectedCategories = [...state.categories]
-      const unselectedIndex = selectedCategories.findIndex((item) => item === action.value)
-      selectedCategories.splice(unselectedIndex, 1)
-      return { ...state, categories: selectedCategories }
-
-    case 'CHANGE_NAME':
-      if (typeof action.value === 'number') return state
-      return { ...state, name: action.value }
-
-    default:
-      return state
-  }
-}
-
-interface FilterProps {
-  onChange: (state: State) => void
-  categories?: Category[]
-}
-
-const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
+const Filter: React.FC = () => {
+  const filter = useAppSelector((state) => state.filter)
   const [show, setShow] = useState(false)
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [categories, setCategories] = useState<Category[]>()
+  const appDispatch = useAppDispatch()
 
   const selectRef = createRef<HTMLDivElement>()
+
+  const loadCategories = useCallback(async () => {
+    try {
+      const { data } = await api.get<{ categories: Category[] }>(`/categories`)
+      setCategories(data.categories)
+    } catch (error) {}
+  }, [])
 
   useEffect(() => {
     function onClick(ev: MouseEvent) {
@@ -80,17 +51,19 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
     }
   }, [selectRef])
 
+  useEffect(() => {
+    loadCategories()
+  }, [])
+
   function handleCheckboxChange(ev: ChangeEvent<HTMLInputElement>, id: number) {
     if (ev.target.checked) {
-      dispatch({ type: 'SELECT_CATEGORY', value: id })
+      appDispatch(addCategory(id))
     } else {
-      dispatch({ type: 'UNSELECT_CATEGORY', value: id })
+      appDispatch(removeCategory(id))
     }
   }
 
-  useEffect(() => {
-    onChange(state)
-  }, [state])
+  if (!categories?.length) return null
 
   return (
     <Container>
@@ -99,8 +72,8 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
           <BsSearch />
           <Input
             type="text"
-            onChange={(ev) => dispatch({ type: 'CHANGE_NAME', value: ev.target.value })}
-            value={state?.name ?? ''}
+            onChange={(ev) => appDispatch(changeName(ev.target.value))}
+            value={filter?.name ?? ''}
             autoCapitalize="off"
             autoCorrect="off"
             autoSave="on"
@@ -119,7 +92,7 @@ const Filter: React.FC<FilterProps> = ({ onChange, categories }) => {
                   <SelectItem key={category.id}>
                     <Checkbox
                       onChange={(ev) => handleCheckboxChange(ev, category.id)}
-                      checked={state.categories.includes(category.id)}
+                      checked={filter.categories.includes(category.id)}
                       id={`category${category.id}`}
                     />
                     <Label htmlFor={`category${category.id}`}>{category.name}</Label>

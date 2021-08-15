@@ -1,4 +1,3 @@
-import Catalog from './Catalog'
 import File from './File'
 import Meta from './Meta'
 
@@ -14,7 +13,6 @@ export interface ProductCart extends Product {
 }
 
 export interface ProductsResponse {
-  catalog: Catalog
   products: {
     data: Product[]
     meta: Meta

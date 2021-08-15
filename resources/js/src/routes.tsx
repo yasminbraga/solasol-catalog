@@ -26,7 +26,7 @@ const routes: RouteList[] = [
     headerShown: true,
   },
   {
-    path: '/pedidos/:id',
+    path: '/pedidos/:uuid',
     component: OrdersPage,
     headerShown: true,
   },

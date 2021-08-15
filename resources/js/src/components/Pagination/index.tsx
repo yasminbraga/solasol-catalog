@@ -1,52 +1,58 @@
 import React from 'react'
-import Meta from '../../interfaces/Meta'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { changePage } from '../../features/filter'
 
 import { Container, CurrentPageButton, NextButton, NumberButton, PrevButton } from './styles'
 
-interface PaginationProps {
-  meta: Meta
-  setPage: (page: number) => void
-}
+const Pagination: React.FC = () => {
+  const products = useAppSelector((state) => state.products)
 
-const Pagination: React.FC<PaginationProps> = ({ meta, setPage }) => {
+  const appDispatch = useAppDispatch()
+
+  function setPage(page: number) {
+    appDispatch(changePage(page))
+  }
+
+  if (!products.data.length) return null
+
   return (
     <Container>
       <PrevButton
-        onClick={() => setPage(meta.current_page - 1)}
-        disabled={meta.current_page <= meta.first_page}
+        onClick={() => setPage(products.meta.currentPage - 1)}
+        disabled={products.meta.currentPage <= products.meta.firstPage}
       >
         Anterior
       </PrevButton>
 
-      {!!(meta.current_page > 2) && (
-        <NumberButton onClick={() => setPage(meta.current_page - 2)}>
-          {meta.current_page - 2}
+      {!!(products.meta.currentPage > 2) && (
+        <NumberButton onClick={() => setPage(products.meta.currentPage - 2)}>
+          {products.meta.currentPage - 2}
         </NumberButton>
       )}
 
-      {!!(meta.current_page > 1) && (
-        <NumberButton onClick={() => setPage(meta.current_page - 1)}>
-          {meta.current_page - 1}
+      {!!(products.meta.currentPage > 1) && (
+        <NumberButton onClick={() => setPage(products.meta.currentPage - 1)}>
+          {products.meta.currentPage - 1}
         </NumberButton>
       )}
 
-      <CurrentPageButton disabled>{meta.current_page}</CurrentPageButton>
+      <CurrentPageButton disabled>{products.meta.currentPage}</CurrentPageButton>
 
-      {!!(meta.current_page < meta.last_page) && (
-        <NumberButton onClick={() => setPage(meta.current_page + 1)}>
-          {meta.current_page + 1}
+      {!!(products.meta.currentPage < products.meta.lastPage) && (
+        <NumberButton onClick={() => setPage(products.meta.currentPage + 1)}>
+          {products.meta.currentPage + 1}
         </NumberButton>
       )}
 
-      {!!(meta.current_page + 1 < meta.last_page) && (
-        <NumberButton onClick={() => setPage(meta.current_page + 2)}>
-          {meta.current_page + 2}
+      {!!(products.meta.currentPage + 1 < products.meta.lastPage) && (
+        <NumberButton onClick={() => setPage(products.meta.currentPage + 2)}>
+          {products.meta.currentPage + 2}
         </NumberButton>
       )}
 
       <NextButton
-        onClick={() => setPage(meta.current_page + 1)}
-        disabled={meta.current_page >= meta.last_page}
+        onClick={() => setPage(products.meta.currentPage + 1)}
+        disabled={products.meta.currentPage >= products.meta.lastPage}
       >
         Proxima
       </NextButton>

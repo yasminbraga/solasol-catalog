@@ -1,6 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
+import Order, { OrderResponse } from '../interfaces/Order'
 import Product, { ProductCart } from '../interfaces/Product'
+import api from '../services/api'
 
 interface OrderState {
   cart: {
@@ -8,6 +10,9 @@ interface OrderState {
     totalQuantity: number
     totalPrice: number
   }
+  order?: Order
+  valid?: boolean
+  loading: boolean
 }
 
 const initialState: OrderState = {
@@ -16,7 +21,15 @@ const initialState: OrderState = {
     totalQuantity: 0,
     totalPrice: 0,
   },
+  loading: true,
+  valid: false,
 }
+
+export const fetchOrder = createAsyncThunk('order/fecthOrder', async (uuid: string) => {
+  const response = await api.get<OrderResponse>(`/orders/${uuid}`)
+
+  return response.data.order
+})
 
 const orderSlice = createSlice({
   name: 'order',
@@ -59,6 +72,20 @@ const orderSlice = createSlice({
       state.cart.totalPrice -= product.price * product.quantity
       state.cart.products.splice(productIndex, 1)
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrder.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchOrder.fulfilled, (state, action) => {
+        state.order = action.payload
+        state.valid = true
+        state.loading = false
+      })
+      .addCase(fetchOrder.rejected, (state) => {
+        state.loading = false
+      })
   },
 })
 
