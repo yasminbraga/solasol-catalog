@@ -82,4 +82,5 @@ export const OrderFactory = Factory.define(Order, ({ faker }) => {
 })
   .relation('user', () => UserFactory)
   .relation('customer', () => CustomerFactory)
+  .relation('products', () => ProductFactory)
   .build()

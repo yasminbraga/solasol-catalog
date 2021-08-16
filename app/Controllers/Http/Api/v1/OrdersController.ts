@@ -57,7 +57,10 @@ export default class OrdersController {
     const id = request.param('id')
 
     try {
-      const order = await Order.findByOrFail('uuid', id)
+      const order = await Order.query()
+        .preload('products', (qp) => qp.preload('file'))
+        .where('uuid', id)
+        .firstOrFail()
 
       return { order: order.toJSON() }
     } catch (error) {

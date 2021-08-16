@@ -10,6 +10,7 @@ export default interface Product {
 
 export interface ProductCart extends Product {
   quantity: number
+  loading: boolean
 }
 
 export interface ProductsResponse {

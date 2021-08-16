@@ -6,6 +6,7 @@ import OrdersPage from './pages/Oders'
 import NotFound from './pages/NotFound'
 import Header from './components/Header'
 import CreateOrders from './pages/CreateOrders'
+import Sagas from './pages/Sagas'
 
 interface RouteList {
   exact?: boolean
@@ -28,6 +29,11 @@ const routes: RouteList[] = [
   {
     path: '/pedidos/:uuid',
     component: OrdersPage,
+    headerShown: true,
+  },
+  {
+    path: '/sagas',
+    component: Sagas,
     headerShown: true,
   },
   {

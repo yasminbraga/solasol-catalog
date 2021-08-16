@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import styled, { css } from 'styled-components'
+import { Link } from 'react-router-dom'
 import colors from '../../styles/colors'
 
 export const ContainerHeader = styled.div`
@@ -25,8 +25,8 @@ export const ContainerOffset = styled.div`
   background: ${colors.primary};
 `
 
-export const BrandTitle = styled.h2`
-  color: ${colors.lightText};
+export const Img = styled.img`
+  width: 150px;
 `
 
 export const Button = css`

@@ -10,8 +10,8 @@ interface OrderState {
     totalQuantity: number
     totalPrice: number
   }
-  order?: Order
-  valid?: boolean
+  order: Order
+  valid: boolean
   loading: boolean
 }
 
@@ -21,6 +21,7 @@ const initialState: OrderState = {
     totalQuantity: 0,
     totalPrice: 0,
   },
+  order: {} as Order,
   loading: true,
   valid: false,
 }
@@ -35,18 +36,23 @@ const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    addProduct: (state, { payload }: PayloadAction<Product>) => {
+    addProductRequest: (state, { payload }: PayloadAction<Product>) => {
       const productPresent = state.cart.products.find((product) => payload.id === product.id)
       if (productPresent) return
 
-      state.cart.products.push({ quantity: 1, ...payload })
+      state.cart.products.push({ quantity: 1, ...payload, loading: true })
+    },
+    addProductSucceeded: (state, { payload }: PayloadAction<Product>) => {
+      const productIndex = state.cart.products.findIndex((product) => payload.id === product.id)
+      if (productIndex < 0) return
+
+      state.cart.products[productIndex].loading = false
       state.cart.totalQuantity += 1
       state.cart.totalPrice += +payload.price
     },
-    updateProductQuantity: (
-      state,
-      { payload: { id, quantity } }: PayloadAction<{ id: number; quantity: number }>
-    ) => {
+    updateProductQuantityRequest: (state, action) => {},
+    updateProductQuantity: (state, action: PayloadAction<{ id: number; quantity: number }>) => {
+      const { id, quantity } = action.payload
       if (quantity < 0) return
       const productIndex = state.cart.products.findIndex((product) => product.id === id)
       if (productIndex < 0) return
@@ -64,6 +70,7 @@ const orderSlice = createSlice({
       state.cart.totalQuantity += product.quantity
       state.cart.totalPrice += product.quantity * product.price
     },
+    removeProductQuantityRequest: (state, action) => {},
     removeProduct: (state, { payload: { id } }: PayloadAction<{ id: number }>) => {
       const productIndex = state.cart.products.findIndex((product) => product.id === id)
       const product = state.cart.products[productIndex]
@@ -82,6 +89,25 @@ const orderSlice = createSlice({
         state.order = action.payload
         state.valid = true
         state.loading = false
+
+        if (action.payload.products?.length) {
+          state.cart.products = action.payload.products
+
+          const totalPrice = action.payload.products
+            .map((product) => product.quantity * product.price)
+            .reduce((pp, cp) => {
+              return pp + cp
+            })
+
+          const totalQuantity = action.payload.products
+            .map((product) => product.quantity)
+            .reduce((pp, cp) => {
+              return pp + cp
+            })
+
+          state.cart.totalPrice = totalPrice
+          state.cart.totalQuantity = totalQuantity
+        }
       })
       .addCase(fetchOrder.rejected, (state) => {
         state.loading = false
@@ -89,7 +115,8 @@ const orderSlice = createSlice({
   },
 })
 
-export const { addProduct, updateProductQuantity, removeProduct } = orderSlice.actions
+export const { addProductSucceeded, addProductRequest, updateProductQuantity, removeProduct } =
+  orderSlice.actions
 
 export const selectOrder = (state: RootState) => state.order
 

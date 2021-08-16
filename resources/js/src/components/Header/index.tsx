@@ -1,19 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { useHeader } from '../../providers/header'
-
-import {
-  BrandTitle,
-  NewOrderButton,
-  ContainerHeader,
-  ContainerOffset,
-  ShowCartButton,
-} from './styles'
-import { MdShoppingCart } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
-import CartPanel from '../CartPanel'
+import { MdShoppingCart } from 'react-icons/md'
 
-import { selectOrder } from '../../features/order'
-import { useSelector } from 'react-redux'
+import { NewOrderButton, ContainerHeader, ContainerOffset, ShowCartButton, Img } from './styles'
+import { useHeader } from '../../providers/header'
+import { useAppSelector } from '../../app/hooks'
+import CartPanel from '../CartPanel'
+const logoSrc = require('../../assets/logoline-white-solasol.png') as string
 
 interface HeaderProps {
   invalid?: boolean
@@ -21,11 +14,10 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = () => {
+  const order = useAppSelector((state) => state.order)
+  const { id } = useParams<{ id: string }>()
   const { invalid } = useHeader()
-
   const [showPanel, setShowPanel] = useState(false)
-
-  const order = useSelector(selectOrder)
 
   useEffect(() => {
     if (showPanel) {
@@ -35,16 +27,13 @@ const Header: React.FC<HeaderProps> = () => {
     }
   }, [showPanel])
 
-  const { id } = useParams<{ id: string }>()
-
   return (
     <Fragment>
       <ContainerOffset />
       <CartPanel show={showPanel} onClose={() => setShowPanel(false)} />
 
       <ContainerHeader>
-        <BrandTitle>Sol a sol</BrandTitle>
-
+        <Img src={logoSrc} />
         {!invalid && !order.valid ? (
           <NewOrderButton
             to={{

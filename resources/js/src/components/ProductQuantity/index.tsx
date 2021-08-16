@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../app/hooks'
 import { selectOrder, updateProductQuantity } from '../../features/order'
 import Product from '../../interfaces/Product'
+import Loader from '../Loader'
 
 import {
   QuantityContainer,
@@ -14,8 +15,8 @@ import {
 
 const ProductQuantity: React.FC<{ data: Product }> = ({ data }) => {
   const order = useSelector(selectOrder)
-  const added = order.cart.products.find((product) => product.id === data.id)
-  const quantity = added?.quantity ?? 0
+  const product = order.cart.products.find((product) => product.id === data.id)
+  const quantity = product?.quantity ?? 0
 
   const appDispatch = useAppDispatch()
 
@@ -34,24 +35,30 @@ const ProductQuantity: React.FC<{ data: Product }> = ({ data }) => {
   return (
     <QuantityContainer>
       <QuantityInputGroup>
-        <QuantityChangeButton disabled={quantity === 0} onClick={decrementQuantity}>
-          <MdRemove />
-        </QuantityChangeButton>
-        <QuantityInput
-          value={quantity}
-          onChange={(ev) => {
-            dispatchUpdate(+ev.target.value)
-          }}
-          type="number"
-          step={1}
-          min={0}
-          onFocus={(ev) => {
-            ev.target.select()
-          }}
-        />
-        <QuantityChangeButton onClick={incrementQuantity}>
-          <MdAdd />
-        </QuantityChangeButton>
+        {product?.loading ? (
+          <Loader />
+        ) : (
+          <>
+            <QuantityChangeButton disabled={quantity === 0} onClick={decrementQuantity}>
+              <MdRemove />
+            </QuantityChangeButton>
+            <QuantityInput
+              value={quantity}
+              onChange={(ev) => {
+                dispatchUpdate(+ev.target.value)
+              }}
+              type="number"
+              step={1}
+              min={0}
+              onFocus={(ev) => {
+                ev.target.select()
+              }}
+            />
+            <QuantityChangeButton onClick={incrementQuantity}>
+              <MdAdd />
+            </QuantityChangeButton>
+          </>
+        )}
       </QuantityInputGroup>
     </QuantityContainer>
   )

@@ -41,6 +41,12 @@ Route.group(() => {
     Route.resource('products', 'ProductsController').only(['index'])
     Route.resource('categories', 'CategoriesController').only(['index'])
     Route.resource('orders', 'OrdersController').only(['store', 'update', 'show'])
+    Route.resource('orders.products', 'OrderProductsController').only([
+      'index',
+      'store',
+      'update',
+      'destroy',
+    ])
   })
     .prefix('v1')
     .as('v1')

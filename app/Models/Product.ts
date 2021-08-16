@@ -4,6 +4,7 @@ import {
   belongsTo,
   BelongsTo,
   column,
+  computed,
   HasOne,
   hasOne,
   ManyToMany,
@@ -16,6 +17,10 @@ import File from 'App/Models/File'
 import Order from 'App/Models/Order'
 
 export default class Product extends BaseModel {
+  public serializeExtras() {
+    return { quantity: this.$extras.pivot_quantity }
+  }
+
   @column({ isPrimary: true })
   public id: number
 

@@ -45,7 +45,9 @@ export default class Order extends BaseModel {
   @belongsTo(() => Customer)
   public customer: BelongsTo<typeof Customer>
 
-  @manyToMany(() => Product)
+  @manyToMany(() => Product, {
+    pivotColumns: ['quantity'],
+  })
   public products: ManyToMany<typeof Product>
 
   @column.dateTime({ autoCreate: true })

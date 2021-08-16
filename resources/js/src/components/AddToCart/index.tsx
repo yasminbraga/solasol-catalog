@@ -5,7 +5,7 @@ import { MdAddShoppingCart } from 'react-icons/md'
 import colors from '../../styles/colors'
 import { standardShadow } from '../../styles/globals'
 import { useAppDispatch } from '../../app/hooks'
-import { addProduct } from '../../features/order'
+import { addProductRequest } from '../../features/order'
 import Product from '../../interfaces/Product'
 
 const Button = styled.button`
@@ -29,12 +29,12 @@ const Button = styled.button`
 `
 
 const AddToCart: React.FC<{ data: Product }> = ({ data }) => {
-  const appDispatch = useAppDispatch()
+  const appDispacth = useAppDispatch()
 
   return (
     <Button
       onClick={() => {
-        appDispatch(addProduct(data))
+        appDispacth(addProductRequest(data))
       }}
     >
       Adicionar
