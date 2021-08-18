@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdRemoveShoppingCart } from 'react-icons/md'
 import { useAppDispatch } from '../../app/hooks'
-import { removeProduct } from '../../features/order'
+import { removeProductRequest } from '../../features/order'
 import { ProductCart as IProductCart } from '../../interfaces/Product'
 import { parseMoney } from '../../ultils'
 import ProductQuantity from '../ProductQuantity'
@@ -31,7 +31,7 @@ const ProductCart: React.FC<{ data: IProductCart }> = ({ data }) => {
             <ProductName>{data.name}</ProductName>
             <ProductPrice>{parseMoney(+data.price)}</ProductPrice>
           </div>
-          <RemoveFromCart onClick={() => appDispatch(removeProduct({ id: data.id }))}>
+          <RemoveFromCart onClick={() => appDispatch(removeProductRequest({ id: data.id }))}>
             <MdRemoveShoppingCart size={24} />
           </RemoveFromCart>
         </Row>

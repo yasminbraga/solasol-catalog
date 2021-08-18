@@ -3,14 +3,21 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import api from '../services/api'
 import Product from '../interfaces/Product'
 import { RootState } from '../app/store'
-import { addProductSucceeded } from '../features/order'
+import { useAppSelector } from '../app/hooks'
+import {
+  addProductSucceeded,
+  removeProductSucceeded,
+  selectOrder,
+  updateProductQuantitySucceeded,
+} from '../features/order'
 
-export function* watchOrderAddProduct() {
+export function* watchAddProduct() {
   yield takeLatest('order/addProductRequest', addProduct)
 }
 
+// add product handler
 function* addProduct(action: PayloadAction<Product>) {
-  yield delay(500)
+  yield delay(250)
 
   const order: RootState['order'] = yield select((state: RootState) => state.order)
 
@@ -24,27 +31,45 @@ function* addProduct(action: PayloadAction<Product>) {
   }
 }
 
-// export function* watchOrderUpdateProduct() {
-//   yield takeLatest('order/updateProductQuantity', updateProductRequest)
-// }
+export function* watchUpdateProduct() {
+  yield takeLatest('order/updateProductQuantityRequest', updateProduct)
+}
 
-// export function* watchOrderRemoveProduct() {
-//   // yield takeEvery('order/removeProduct', postOrderProduct)
-// }
+// update product handler
+function* updateProduct(action: PayloadAction<{ id: number; quantity: number }>) {
+  yield delay(250)
 
-// function* updateProductRequest(action) {
-//   yield delay(500)
-//   yield console.log(action)
-// }
+  const order: RootState['order'] = yield select((state: RootState) => state.order)
 
-// function* postOrderProduct() {
-//   const order: RootState['order'] = yield select((state: RootState) => state.order)
+  try {
+    yield call(api.put, `/orders/${order.order.uuid}/products/${action.payload.id}`, {
+      quantity: action.payload.quantity,
+    })
+    yield put(updateProductQuantitySucceeded(action.payload))
+  } catch (error) {
+    yield console.log(error)
+  }
+}
 
-//   const products = yield order.cart.products.map(({ id, quantity }) => ({ id, quantity }))
+export function* watchRemoveProduct() {
+  yield takeLatest('order/removeProductRequest', removeProduct)
+}
 
-//   try {
-//     yield call(api.post, `/orders/${order.order.uuid}/products`, { products })
-//   } catch (error) {
-//     yield console.log(error)
-//   }
-// }
+// remove product handler
+function* removeProduct(action: PayloadAction<{ id: number }>) {
+  yield delay(250)
+
+  const order: RootState['order'] = yield select((state: RootState) => state.order)
+
+  try {
+    yield call(api.delete, `/orders/${order.order.uuid}/products/${action.payload.id}`)
+    yield put(removeProductSucceeded(action.payload))
+  } catch (error) {
+    yield console.log(error)
+  }
+}
+
+// pack all sagas and export to rootSaga
+export default function orderSagas() {
+  return [watchAddProduct(), watchUpdateProduct(), watchRemoveProduct()]
+}

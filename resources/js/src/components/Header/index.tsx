@@ -6,6 +6,7 @@ import { NewOrderButton, ContainerHeader, ContainerOffset, ShowCartButton, Img }
 import { useHeader } from '../../providers/header'
 import { useAppSelector } from '../../app/hooks'
 import CartPanel from '../CartPanel'
+import { selectTotalQuantity } from '../../features/order'
 const logoSrc = require('../../assets/logoline-white-solasol.png') as string
 
 interface HeaderProps {
@@ -15,6 +16,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = () => {
   const order = useAppSelector((state) => state.order)
+  const totalQuantity = useAppSelector(selectTotalQuantity)
+
   const { id } = useParams<{ id: string }>()
   const { invalid } = useHeader()
   const [showPanel, setShowPanel] = useState(false)
@@ -45,7 +48,7 @@ const Header: React.FC<HeaderProps> = () => {
             <MdShoppingCart size={22} />
           </NewOrderButton>
         ) : order.valid ? (
-          <ShowCartButton onClick={() => setShowPanel(true)} totalCart={order.cart.totalQuantity}>
+          <ShowCartButton onClick={() => setShowPanel(true)} totalCart={totalQuantity}>
             <MdShoppingCart size={32} />
           </ShowCartButton>
         ) : null}

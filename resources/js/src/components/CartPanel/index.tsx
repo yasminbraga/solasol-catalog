@@ -1,10 +1,9 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { MdChevronLeft, MdShoppingCart } from 'react-icons/md'
-
-import { selectOrder } from '../../features/order'
+import { selectTotalPrice, selectTotalQuantity } from '../../features/order'
+import { parseMoney } from '../../ultils'
+import { useAppSelector } from '../../app/hooks'
 import ProductCartList from '../ProductCartList'
-
 import {
   ClosePanelButton,
   Container,
@@ -19,10 +18,10 @@ import {
   TotalLabel,
   TotalValue,
 } from './styles'
-import { parseMoney } from '../../ultils'
 
 const CartPanel: React.FC<{ show: boolean; onClose: () => void }> = ({ show, onClose }) => {
-  const order = useSelector(selectOrder)
+  const totalPrice = useAppSelector(selectTotalPrice)
+  const totalQuantity = useAppSelector(selectTotalQuantity)
 
   return (
     <Container show={show}>
@@ -36,9 +35,7 @@ const CartPanel: React.FC<{ show: boolean; onClose: () => void }> = ({ show, onC
             <MdShoppingCart fontVariant="out" />
             Meu Carrinho
           </PanelTitle>
-          <PanelSubtitle>
-            {!!order.cart.totalQuantity && `${order.cart.totalQuantity} Produto(s)`}
-          </PanelSubtitle>
+          <PanelSubtitle>{!!totalQuantity && `${totalQuantity} Produto(s)`}</PanelSubtitle>
         </PanelSubHeader>
       </PanelHeader>
       <PanelBody>
@@ -47,7 +44,7 @@ const CartPanel: React.FC<{ show: boolean; onClose: () => void }> = ({ show, onC
       <PanelFooter>
         <TotalContainer>
           <TotalLabel>Total</TotalLabel>
-          <TotalValue>{parseMoney(order.cart.totalPrice)}</TotalValue>
+          <TotalValue>{parseMoney(totalPrice)}</TotalValue>
         </TotalContainer>
         <FinishOrderButton>Finalizar pedido</FinishOrderButton>
       </PanelFooter>
