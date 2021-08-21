@@ -1,0 +1,24 @@
+<div class="dropdown" role="dropdown">
+  <button data-toggle="dropdown" data-counter="{{ notifications?.length ?? 0 }}" data-target="notifications-dropdown" class="btn btn-light text-primary btn-counter">
+    <i class="material-icons">notifications_none</i>
+  </button>
+
+  <div class="dropdown-menu" id="notifications-dropdown">
+    <div class="notifications-panel">
+      <div class="notifications-panel-header">
+        <h3>Aguardando confirmação</h3>
+      </div>
+
+      <ul class="notifications-list">
+        @each(notification in notifications)
+          <li class="notification-item">
+            <a href="{{ route('orders.show', {id: notification.id}) }}">
+              <h4>Pedido <strong>#{{ notification.number }}</strong> de {{ notification.customer.name }}</h4>
+            </a>
+            <p>{{ notification.closed_at }}</p>
+          </li>
+        @endeach
+      </ul>
+    </div>
+  </div>
+</div>

@@ -38,18 +38,17 @@ export const ProductImage = styled.img`
 `
 
 export const ProductName = styled.h3`
-  font-weight: 500;
+  font-weight: normal;
   font-size: 16px;
 `
 
 export const ProductPrice = styled.h5`
-  font-weight: 500;
-  color: ${colors.gray};
+  font-weight: normal;
 `
 
 export const ProductSubtotal = styled.h4`
   text-align: right;
-  font-weight: 500;
+  font-weight: 600;
 `
 export const RemoveFromCart = styled.button`
   background: transparent;

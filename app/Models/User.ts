@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, beforeSave, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Catalog from './Catalog'
+import Order from './Order'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -30,6 +31,9 @@ export default class User extends BaseModel {
 
   @hasMany(() => Catalog)
   public catalogs: HasMany<typeof Catalog>
+
+  @hasMany(() => Order)
+  public orders: HasMany<typeof Order>
 
   @beforeSave()
   public static async hashPassword(user: User) {

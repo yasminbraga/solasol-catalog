@@ -17,6 +17,8 @@ import File from 'App/Models/File'
 import Order from 'App/Models/Order'
 
 export default class Product extends BaseModel {
+  public quantity: number
+
   public serializeExtras() {
     return { quantity: this.$extras.pivot_quantity }
   }

@@ -79,7 +79,7 @@ export default class ProductsController {
     }
   }
 
-  public async edit({ request, view, bouncer, logger }: HttpContextContract) {
+  public async edit({ request, view, bouncer, logger, session, response }: HttpContextContract) {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     try {
@@ -96,6 +96,9 @@ export default class ProductsController {
       })
     } catch (error) {
       logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
     }
   }
 

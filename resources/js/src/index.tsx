@@ -7,14 +7,16 @@ import { store } from './app/store'
 import HeaderProvider from './providers/header'
 import GlobalStyle from './styles/globals'
 
-render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <HeaderProvider>
-        <GlobalStyle />
-        <App />
-      </HeaderProvider>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('app')
-)
+if (document.getElementById('app')) {
+  render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <HeaderProvider>
+          <GlobalStyle />
+          <App />
+        </HeaderProvider>
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById('app')
+  )
+}

@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = () => {
             Iniciar pedido
             <MdShoppingCart size={22} />
           </NewOrderButton>
-        ) : order.valid ? (
+        ) : order.valid && !order.order.closed && !order.order.confirmed ? (
           <ShowCartButton onClick={() => setShowPanel(true)} totalCart={totalQuantity}>
             <MdShoppingCart size={32} />
           </ShowCartButton>

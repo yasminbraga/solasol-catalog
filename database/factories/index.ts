@@ -83,4 +83,15 @@ export const OrderFactory = Factory.define(Order, ({ faker }) => {
   .relation('user', () => UserFactory)
   .relation('customer', () => CustomerFactory)
   .relation('products', () => ProductFactory)
+  .state('closed', (order) => {
+    order.closed = true
+    order.closedAt = DateTime.now()
+  })
+  .state('confirmed', (order) => {
+    order.confirmed = true
+    order.confirmedAt = DateTime.now()
+  })
+  .state('open', (order) => {
+    order.closed = false
+  })
   .build()

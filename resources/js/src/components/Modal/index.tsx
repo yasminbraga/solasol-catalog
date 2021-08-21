@@ -7,19 +7,21 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  CancelButton,
   ConfirmButton,
+  ModalTitle,
 } from './styles'
 
 import { FiX } from 'react-icons/fi'
 
-interface ModalProps {
+export interface ModalProps {
   title: string
   visible: boolean
   onClose: () => void
   onConfirm?: () => void
   confirmButtonText?: string
   confirmButtonDisabled?: boolean
+  showOptionsButton?: boolean
+  FooterModal?: () => React.ReactNode
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -28,8 +30,7 @@ const Modal: React.FC<ModalProps> = ({
   title,
   onClose,
   onConfirm,
-  confirmButtonText,
-  confirmButtonDisabled,
+  FooterModal,
 }) => {
   if (!visible) return null
   const modalRef = createRef<HTMLDivElement>()
@@ -67,21 +68,16 @@ const Modal: React.FC<ModalProps> = ({
       <ModalDialog ref={modalRef}>
         <ModalContent>
           <ModalHeader>
-            <h5>{title}</h5>
-
             <button onClick={handleCLoseModal}>
               <FiX size={24} color="#676767" />
             </button>
+
+            <ModalTitle>{title}</ModalTitle>
+
+            <ConfirmButton onClick={onConfirm}>Confirmar</ConfirmButton>
           </ModalHeader>
           <ModalBody>{children}</ModalBody>
-          <ModalFooter>
-            <CancelButton onClick={handleCLoseModal}>Cancelar</CancelButton>
-            {!!onConfirm && (
-              <ConfirmButton disabled={confirmButtonDisabled} onClick={onConfirm}>
-                {confirmButtonText || 'Salvar'}
-              </ConfirmButton>
-            )}
-          </ModalFooter>
+          {FooterModal && <ModalFooter>{FooterModal()}</ModalFooter>}
         </ModalContent>
       </ModalDialog>
     </Container>

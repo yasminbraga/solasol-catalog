@@ -63,3 +63,26 @@ document.addEventListener('click', function (ev) {
     closeSidebar()
   }
 })
+
+// DROPDOWN
+const dropdownTriggers = document.querySelectorAll('[data-toggle="dropdown"]')
+
+if (dropdownTriggers) {
+  dropdownTriggers.forEach((trigger) => {
+    const target = document.getElementById(trigger.getAttribute('data-target'))
+
+    // wrapper for detect click outside of element
+    const dropdownOffset = document.createElement('span')
+    dropdownOffset.classList.add('dropdown-menu-offset')
+
+    trigger.addEventListener('click', function () {
+      target.parentElement.appendChild(dropdownOffset)
+      target.classList.toggle('show')
+    })
+
+    dropdownOffset.addEventListener('click', (ev) => {
+      target.classList.remove('show')
+      dropdownOffset.remove()
+    })
+  })
+}

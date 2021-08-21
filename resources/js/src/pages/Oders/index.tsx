@@ -1,16 +1,14 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-
-import Card from '../../components/Card'
-import Filter from '../../components/Filter'
-import Pagination from '../../components/Pagination'
-import NotFound from '../../components/NotFound'
-import Results from '../../components/Results'
-import { Container } from './styles'
 import { fetchOrder } from '../../features/order'
 import { fetchProducts } from '../../features/products'
-import ProductItemOrderList from '../../components/ProductItemOrderList'
+
+import Filter from '../../components/Filter'
+import NotFound from '../../components/NotFound'
+import ClosedOrder from '../../components/ClosedOrder'
+import OpenOrder from '../../components/OpenOrder'
+import ConfirmedOrder from '../../components/ConfirmedOrder'
 
 const OdersPage: React.FC = () => {
   const appDispatch = useAppDispatch()
@@ -36,18 +34,20 @@ const OdersPage: React.FC = () => {
     )
   }
 
+  if (order.order.confirmed) {
+    return <ConfirmedOrder />
+  }
+
+  if (order.order.closed) {
+    return <ClosedOrder />
+  }
+
   return (
-    <Fragment>
+    <React.Fragment>
       <Filter />
 
-      <Container>
-        <Card>
-          <Results />
-          <ProductItemOrderList />
-          <Pagination />
-        </Card>
-      </Container>
-    </Fragment>
+      <OpenOrder />
+    </React.Fragment>
   )
 }
 

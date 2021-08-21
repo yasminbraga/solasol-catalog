@@ -75,7 +75,7 @@ test.group('ApiOrderProductsController', (group) => {
     assert.equal(productUpdated.toJSON().quantity, 16)
   })
 
-  test.only('should DELETE in /api/v1/orders/:order_id/products/:id deletes OrderProduct quantity', async (assert) => {
+  test('should DELETE in /api/v1/orders/:order_id/products/:id deletes OrderProduct quantity', async (assert) => {
     const order = await OrderFactory.with('products', 1).create()
 
     await order.load('products')

@@ -8,38 +8,38 @@
 
     <section class="card-fields">
       <div class="card-field">
-        <span>Pedido</span>
-        <p>{{order.codigo}}</p>
+        <span>Número</span>
+        <p>#{{order.number}}</p>
       </div>
 
       <div class="card-field">
-        <span>Data de Abertura</span>
-        <p>{{order.openedDate}}</p>
-      </div>
-
-      <div class="card-field">
-        <span>Data de Fechamento</span>
-        <p>{{order.closeDate}}</p>
+        <span>Data</span>
+        <p>{{order.closed_at || '-'}}</p>
       </div>
 
       <div class="card-field">
         <span>Total</span>
-        <p>{{order.total}}</p>
+        <p>{{parseMoney(totalPrice)}}</p>
+      </div>
+
+      <div class="card-field">
+        <span>Status</span>
+        <p class="text-capitalize">{{order.status}}</p>
       </div>
 
       <div class="card-field">
         <span>Cliente</span>
-        <p>{{order.client}}</p>
+        <p>{{order.customer.name}}</p>
       </div>
 
       <div class="card-field">
         <span>Telefone</span>
-        <p>{{order.phone}}</p>
-      </div>
-
-      <div class="card-field">
-        <span>Status do Pedido</span>
-        <p>{{order.status}}</p>
+        <p>
+          {{order.customer.phone}}
+          <a href="{{`whatsapp://send?text=Olá ${order.customer.name}, vamos confirmar seu pedido?&phone=55${order.customer.phone}`}}" class="btn btn-link text-success">
+            <i class="material-icons">whatsapp</i>
+          </a>
+        </p>
       </div>
     </section>
   </div>
@@ -47,31 +47,41 @@
   <div class="card">
     <section class="card-header">
       <h4 class="card-title">Produtos</h4>
-      <p>Total de produtos: 24</p>
+      <p>Total de produtos: {{ totalQuantity }}</p>
     </section>
 
     @each(product in order.products)
       <section class="product-container">
         <div class="product-header">
-          <img class="product-image" src="{{product.image}}" alt="">
+          <img class="product-image" src="{{product.file.secure_url}}" alt="">
           <div>
             <p>{{product.name}}</p>
-            <span class="product-price" title="Preço">{{product.price}}</span>
+            <span class="product-price" title="Preço">
+              {{{ parseMoney(+product.price) }}}
+            </span>
           </div>
         </div>
         <div class="order-info">
-          <span class="product-content" title="Quantidade">x{{product.quantity}}</span>
-          <p class="product-content" title="Total">{{product.total}}</p>
+          <span class="product-content" title="Quantidade">x{{ product.quantity }}</span>
+          <p class="product-content" title="Total">
+            {{ parseMoney(product.quantity * product.price) }}
+          </p>
         </div>
       </section>
     @endeach
 
     <div class="card-footer">
       <div>
-        <span>Total do pedido:</span>
-        <p>R$260,00</p>
+        <span>Total do pedido</span>
+        <p>
+          {{ parseMoney(totalPrice) }}
+        </p>
       </div>
-      <button class="btn primary">Confirmar pedido</button>
+      @if(order.closed && !order.confirmed)
+        <form action="{{ route('orders.confirm', { id: order.id }) }}" method="post">
+          <button class="btn primary">Confirmar pedido</button>
+        </form>
+      @endif
     </div>
   </div>
 @endsection

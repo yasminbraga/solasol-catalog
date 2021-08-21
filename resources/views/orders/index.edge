@@ -1,6 +1,7 @@
 @layout('layouts/master')
 
 @set('title', 'Pedidos')
+@set('notifications', closedOrders)
 
 @section('content')
   <section class="navigation">
@@ -9,23 +10,23 @@
         qs: {
           status: 'opened'
         }
-      }) }}" class="tablink {{request.qs().status === 'opened' ? 'active' : ''}}">
+      }) }}" class="tablink {{ request.qs().status === 'opened' ? 'active' : '' }}">
         Abertos
         <i class="material-icons">add_shopping_cart</i>
       </a>
       <a href="{{ route('orders.index', {}, {
         qs: {
-          status: 'effectuated'
+          status: 'closed'
         }
-      }) }}" class="tablink {{request.qs().status === 'effectuated' ? 'active' : ''}}">
-        Efetuados
+      }) }}" class="tablink {{ request.qs().status === 'closed' ? 'active' : '' }}">
+        Fechados
         <i class="material-icons">production_quantity_limits</i>
       </a>
       <a href="{{ route('orders.index', {}, {
         qs: {
           status: 'confirmed'
         }
-      }) }}" class="tablink {{request.qs().status === 'confirmed' ? 'active' : ''}}">
+      }) }}" class="tablink {{ request.qs().status === 'confirmed' ? 'active' : '' }}">
         Confirmados
         <i class="material-icons">check</i>
       </a>
@@ -39,22 +40,25 @@
         <tr>
           <th>Pedido</th>
           <th>Cliente</th>
-          <th>Total</th>
           <th>Data de Abertura</th>
           <th>Data de Fechamento</th>
-          @can('AdminPolicy.adminOnly')
-            <th class="action-column">Detalhes</th>
-          @end
+          <th>Total</th>
+          <th class="action-column">Detalhes</th>
         </tr>
       </thead>
       <tbody class="tab-content">
-        @each(order in orders)   
-        <tr class="{{order.status}}">
-          <td title="Código">{{order.codigo}}</td>
-          <td title="Cliente">{{order.client}}</td>
-          <td title="Total">{{order.total}}</td>
-          <td title="Data de Abertura">{{order.openedDate}}</td>
-          <td title="Data de Fechamento">{{order.closeDate}}</td>
+        @each(order in orders)
+          <tr class="{{ order.status }}">
+          <td title="Código">#{{ order.id.toString().padStart(5, '0') }}</td>
+          <td title="Cliente">{{order.customer.name}}</td>
+          <td title="Data de Abertura">{{order.created_at}}</td>
+          <td title="Data de Fechamento">{{order.closed_at || '-'}}</td>
+          <td title="Total">
+            {{
+              // temporary BRL money parser while wait for adonis INTL builtin module launch
+              parseMoney(order.totalPrice || order.total)
+            }}
+          </td>
           <td class="action-column">
             <a class="btn primary btn-flex" href="{{ route('orders.show', {id: order.id}) }}">
               Detalhes
