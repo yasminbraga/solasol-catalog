@@ -44,6 +44,7 @@ export const CurrentPageButton = styled(Button)`
 
   :disabled {
     color: #fff;
+    opacity: 1;
   }
 `
 
@@ -53,7 +54,6 @@ export const NumberButton = styled(Button)`
   width: 32px;
 
   :hover {
-    border-color: ${colors.primary};
     color: #fff;
   }
 `

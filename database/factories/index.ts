@@ -5,6 +5,8 @@ import Product from 'App/Models/Product'
 import User from 'App/Models/User'
 import File from 'App/Models/File'
 import { DateTime } from 'luxon'
+import Customer from 'App/Models/Customer'
+import Order from 'App/Models/Order'
 
 export const UserFactory = Factory.define(User, ({ faker }) => {
   return {
@@ -31,6 +33,7 @@ export const CatalogFactory = Factory.define(Catalog, ({ faker }) => {
     catalog.expired = true
     catalog.expireAt = DateTime.now()
   })
+  .relation('user', () => UserFactory)
   .build()
 
 export const CategoryFactory = Factory.define(Category, ({ faker }) => {
@@ -60,4 +63,35 @@ export const FileFactory = Factory.define(File, ({ faker }) => {
   }
 })
   .relation('product', () => ProductFactory)
+  .build()
+
+export const CustomerFactory = Factory.define(Customer, ({ faker }) => {
+  return {
+    email: faker.internet.email(),
+    name: faker.name.firstName(),
+    phone: faker.phone.phoneNumber(),
+  }
+}).build()
+
+export const OrderFactory = Factory.define(Order, ({ faker }) => {
+  return {
+    closed: false,
+    confirmed: false,
+    uuid: faker.datatype.uuid(),
+  }
+})
+  .relation('user', () => UserFactory)
+  .relation('customer', () => CustomerFactory)
+  .relation('products', () => ProductFactory)
+  .state('closed', (order) => {
+    order.closed = true
+    order.closedAt = DateTime.now()
+  })
+  .state('confirmed', (order) => {
+    order.confirmed = true
+    order.confirmedAt = DateTime.now()
+  })
+  .state('open', (order) => {
+    order.closed = false
+  })
   .build()

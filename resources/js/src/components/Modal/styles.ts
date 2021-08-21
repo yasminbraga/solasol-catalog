@@ -40,7 +40,7 @@ export const ModalDialog = styled.div`
 export const ModalContent = styled.div`
   width: 100%;
   background: #fff;
-  border-radius: 0.35rem;
+  border-radius: 1rem;
   max-height: 100%;
   overflow: hidden;
   display: flex;
@@ -48,20 +48,15 @@ export const ModalContent = styled.div`
 `
 
 export const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   padding: 1rem;
   border-bottom: 1px solid ${colors.extraLightGray};
-
-  h5 {
-    font-size: 20px;
-  }
 
   button {
     background: transparent;
     border: 0;
-    padding: 0.5rem;
+    padding: 0;
     display: flex;
     align-items: center;
 
@@ -72,40 +67,76 @@ export const ModalHeader = styled.div`
       }
     }
   }
+
+  :last-child {
+    justify-self: flex-end;
+  }
 `
 
 export const ModalBody = styled.div`
   padding: 1rem;
   overflow-y: auto;
+
+  @media screen and (min-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: ${colors.primary};
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: ${colors.lightPrimary};
+    }
+  }
+`
+
+export const ModalTitle = styled.h5`
+  font-size: 15px;
+  white-space: nowrap;
+  font-weight: 500;
+  text-align: center;
 `
 
 export const ModalFooter = styled.div`
   padding: 1rem;
   display: flex;
-  justify-content: flex-end;
+  width: 100%;
   border-top: 1px solid ${colors.extraLightGray};
+`
 
-  button {
-    padding: 0.5rem;
-    border: 0;
-    border-radius: 0.25rem;
-    color: #fff;
+export const Button = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 0;
+  border-radius: 0.25rem;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  vertical-align: center;
+  cursor: pointer;
 
-    text-align: center;
-    font-weight: 400;
-    vertical-align: center;
-    cursor: pointer;
-
-    + button {
-      margin-left: 0.5rem;
-    }
+  + button {
+    margin-left: 0.5rem;
   }
 `
 
-export const CancelButton = styled.button`
-  background: ${colors.gray};
+export const CancelButton = styled(Button)`
+  background: ${colors.lightGray};
 `
 
 export const ConfirmButton = styled.button`
-  background: ${colors.primary};
+  color: ${colors.primary};
+  justify-self: flex-end;
+  font-size: 15px;
+
+  :disabled {
+    cursor: not-allowed;
+    background: ${colors.lightPrimary};
+  }
 `

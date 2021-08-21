@@ -1,27 +1,60 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { Switch, BrowserRouter, Route } from 'react-router-dom'
 
 import CatalogPage from './pages/Catalog'
-import GlobalStyle from './styles/globals'
-
-import HeaderProvider from './providers/header'
+import OrdersPage from './pages/Oders'
 import NotFound from './pages/NotFound'
+import Header from './components/Header'
+import CreateOrders from './pages/CreateOrders'
 
-const Routes: React.FC = () => {
+interface RouteList {
+  exact?: boolean
+  path: string
+  component: React.FC
+  headerShown: boolean
+}
+
+const routes: RouteList[] = [
+  {
+    path: '/catalogos/:id',
+    component: CatalogPage,
+    headerShown: true,
+  },
+  {
+    path: '/pedidos/create',
+    component: CreateOrders,
+    headerShown: true,
+  },
+  {
+    path: '/pedidos/:uuid',
+    component: OrdersPage,
+    headerShown: true,
+  },
+  {
+    path: '*',
+    component: NotFound,
+    headerShown: false,
+  },
+]
+
+export default function Routes() {
   return (
     <BrowserRouter>
-      <GlobalStyle />
-      <HeaderProvider>
-        <Switch>
-          <Route path="/catalogs/:id" exact component={CatalogPage} />
+      <Switch>
+        {routes.map((route, index) => {
+          return (
+            <Route key={index} path={route.path}>
+              {route.headerShown ? <Header /> : null}
+            </Route>
+          )
+        })}
+      </Switch>
 
-          <Route path="*" component={NotFound} />
-        </Switch>
-      </HeaderProvider>
+      <Switch>
+        {routes.map((route, index) => {
+          return <Route key={index} component={route.component} path={route.path} />
+        })}
+      </Switch>
     </BrowserRouter>
   )
 }
-
-const container = document.querySelector('#react-catalog-app')
-if (container) ReactDOM.render(<Routes />, container)

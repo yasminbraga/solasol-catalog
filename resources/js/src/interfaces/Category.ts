@@ -5,3 +5,7 @@ export default interface Category {
   id: number
   products?: Product[]
 }
+
+export interface CatalogsResponse {
+  categories: Category[]
+}

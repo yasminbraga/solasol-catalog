@@ -1,21 +1,26 @@
 import styled from 'styled-components'
 import colors from '../../styles/colors'
+import { standardShadow } from '../../styles/globals'
 
 export const Container = styled.div`
   padding: 0 1rem 0 1rem;
   margin: 0 auto;
   position: sticky;
+  width: 100%;
   top: calc(4.75rem);
+  z-index: 20;
 `
 
 export const FilterContainer = styled.div`
   display: flex;
-  background: #fff;
+  background: ${colors.lightBg};
   border-radius: 0.35rem;
 
+  width: 100%;
   max-width: 1020px;
   margin: 0 auto;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+
+  ${standardShadow};
 `
 
 export const InputContainer = styled.div`
@@ -23,6 +28,7 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  z-index: 20;
 
   svg {
     position: absolute;
@@ -41,7 +47,7 @@ export const Input = styled.input`
 
   font-size: 16px;
   outline: none;
-  z-index: 15;
+  box-shadow: none !important;
 
   @media screen and (min-width: 1020px) {
   }
@@ -91,7 +97,7 @@ export const SelectItems = styled.div`
   min-width: 156px;
 
   padding: 0.5rem 0;
-  background: #fff;
+  background: ${colors.lightBg};
   box-shadow: 0 1px 25px 1px rgba(0, 0, 0, 0.07);
   border-radius: 0.35rem;
   top: calc(100% + 0.5rem);

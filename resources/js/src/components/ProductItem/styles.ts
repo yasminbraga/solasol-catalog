@@ -48,7 +48,6 @@ export const ProductName = styled.h3`
 
   max-width: 100%;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 `
 

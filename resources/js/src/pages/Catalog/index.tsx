@@ -1,147 +1,66 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-
-import { Container, Grid, ResultItem, Results } from './styles'
+import { Container } from './styles'
 import api from '../../services/api'
 import Card from '../../components/Card'
-import Empty from '../../components/Empty'
 import Filter from '../../components/Filter'
-import Loader from '../../components/Loader'
 import NotFound from '../../components/NotFound'
-import ProductItem from '../../components/ProductItem'
-import Header from '../../components/Header'
-import Catalog from '../../interfaces/Catalog'
-import Product from '../../interfaces/Product'
-import Meta from '../../interfaces/Meta'
-import Category from '../../interfaces/Category'
 import Pagination from '../../components/Pagination'
-
-interface ProductsResponse {
-  catalog: Catalog
-  products: {
-    data: Product[]
-    meta: Meta
-  }
-}
-
-interface CatalogsResponse {
-  catalog: Catalog
-  categories: Category[]
-}
+import { useHeader } from '../../providers/header'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import Results from '../../components/Results'
+import { fetchProducts } from '../../features/products'
+import ProductItemList from '../../components/ProductItemList'
 
 const CatalogPage: React.FC = () => {
   const params = useParams<{ id: string }>()
-  const [loading, setLoading] = useState(true)
-  const [products, setProducts] = useState<{ data: Product[]; meta: Meta }>()
   const [invalidCatalog, setInvalidCatalog] = useState(false)
-  const [categories, setCategories] = useState<Category[]>()
+  const appDispatch = useAppDispatch()
+  const filter = useAppSelector((state) => state.filter)
 
-  const [filter, setFilter] =
-    useState<{ categories: number[]; name?: string; page?: number } | undefined>()
+  const { setInvalid } = useHeader()
 
-  const loadCategories = useCallback(async () => {
+  const validateCatalog = useCallback(async () => {
     try {
-      const { data } = await api.get<CatalogsResponse>(`/catalogs/${params.id}/categories`)
-      setCategories(data.categories)
+      await api.get(`/catalogs/${params.id}`)
+      setInvalidCatalog(false)
+      return true
     } catch (error) {
       setInvalidCatalog(true)
+      return false
     }
-  }, [])
-
-  const loadProducts = useCallback(async () => {
-    setLoading(true)
-
-    try {
-      const { data } = await api.get<ProductsResponse>(`/catalogs/${params.id}/products`, {
-        params: {
-          page: filter?.page,
-          name: filter?.name,
-          categoryIds: filter?.categories,
-        },
-      })
-
-      setProducts(data.products)
-    } catch (error) {
-      setInvalidCatalog(true)
-    }
-
-    setLoading(false)
-  }, [filter])
+  }, [params.id])
 
   useEffect(() => {
-    if (filter?.categories) {
-      loadProducts()
-      window.scrollTo({ top: 0, behavior: 'auto' })
-    }
-  }, [filter])
+    ;(async () => {
+      const valid = await validateCatalog()
+
+      setInvalid(!valid)
+    })()
+  }, [])
 
   useEffect(() => {
-    loadCategories()
-  }, [])
+    appDispatch(fetchProducts(filter))
+  }, [filter])
 
   if (invalidCatalog) {
     return (
-      <React.Fragment>
-        <Header invalid={invalidCatalog} />
-
-        <Container>
-          <Card>
-            <NotFound
-              title="Catálogo inválido."
-              subtitle="Contate um representante e peça um novo link."
-            />
-          </Card>
-        </Container>
-      </React.Fragment>
+      <NotFound
+        title="Catálogo inválido."
+        subtitle="Contate um representante e peça um novo link."
+      />
     )
   }
 
   return (
     <React.Fragment>
-      <Header invalid={invalidCatalog} />
-
-      {!!categories?.length && (
-        <Filter categories={categories} onChange={(state) => setFilter(state)} />
-      )}
+      <Filter />
 
       <Container>
         <Card>
-          {loading ? (
-            <Loader />
-          ) : !products?.data?.length ? (
-            <Empty title="Nenhum produto encontrado." />
-          ) : (
-            <React.Fragment>
-              <Results>
-                <ResultItem>Exibindo {products.data.length} resultados</ResultItem>
-                <ResultItem>
-                  Página {products.meta.current_page} de {products.meta.last_page} - Total{' '}
-                  {products.meta.total}
-                </ResultItem>
-              </Results>
-              <Grid>
-                {products.data.map((data) => (
-                  <ProductItem key={data.id} data={data} />
-                ))}
-              </Grid>
-              <Pagination
-                setPage={(page) => {
-                  setFilter((state) => {
-                    const newState = Object.assign({}, state)
-
-                    if (newState['page']) {
-                      newState['page'] = newState['page'] + page
-                    } else {
-                      newState['page'] = 1 + page
-                    }
-
-                    return newState
-                  })
-                }}
-                meta={products.meta}
-              />
-            </React.Fragment>
-          )}
+          <Results />
+          <ProductItemList />
+          <Pagination />
         </Card>
       </Container>
     </React.Fragment>

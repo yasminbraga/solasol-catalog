@@ -9,9 +9,11 @@ export default {
   success: '#64c589',
   lightGray: 'rgba(0, 0, 0, 0.25)',
   darkGrayText: 'rgba(0, 0, 0, 0.6)',
-  lightText: '#fff',
+  lightText: '#ffffff',
   darkBlue: '#403d39',
   gray: '#a0a2a7',
   extraLightGray: '#e5e5e5',
   inputBg: '#f7f7f7',
+  lightBg: '#ffffff',
+  darkBg: '#282828',
 }

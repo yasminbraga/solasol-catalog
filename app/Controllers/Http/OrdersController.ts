@@ -1,96 +1,102 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Order from 'App/Models/Order'
+import Product from 'App/Models/Product'
+
+function calculateTotalPrice(products: Product[]) {
+  if (!products.length) return 0
+
+  return products.map((product) => +product.price * product.quantity).reduce((pv, cp) => pv + cp)
+}
+
+function calculateTotalQuantity(products: Product[]) {
+  if (!products.length) return 0
+
+  return products.map((product) => product.quantity).reduce((pv, cp) => pv + cp)
+}
 
 export default class OrdersController {
-  public async index({ request, view }: HttpContextContract) {
+  public async index({ request, view, response, session, auth }: HttpContextContract) {
     const { status } = request.qs()
 
-    const orders = [
-      {
-        id: 1,
-        codigo: 'GF43D',
-        client: 'Yasmin Braga',
-        total: 'R$122,00',
-        openedDate: '12/12/12',
-        closeDate: '-',
-        status: 'opened',
-      },
+    if (!auth.user) {
+      session.flash('error', 'Você não possui permissão para acessar este recurso')
 
-      {
-        id: 2,
-        codigo: 'GF43D',
-        client: 'Rosa Teixeira',
-        total: 'R$122,00',
-        openedDate: '12/12/12',
-        closeDate: '-',
-        status: 'effectuated',
-      },
-
-      {
-        id: 3,
-        codigo: 'GF43D',
-        client: 'Daniel Braga',
-        total: 'R$122,00',
-        openedDate: '12/12/12',
-        closeDate: '-',
-        status: 'confirmed',
-      },
-
-      {
-        id: 4,
-        codigo: 'GF43D',
-        client: 'Rosa Braga',
-        total: 'R$122,00',
-        openedDate: '12/12/12',
-        closeDate: '-',
-        status: 'confirmed',
-      },
-    ]
-
-    return view.render('orders/index', { orders, status })
-  }
-
-  public async create({}: HttpContextContract) {}
-
-  public async store({}: HttpContextContract) {}
-
-  public async show({ view }: HttpContextContract) {
-    const order = {
-      id: 1,
-      codigo: 'GF43D',
-      client: 'Yasmin Braga',
-      phone: '93991984818',
-      total: 'R$122,00',
-      openedDate: '12/12/12',
-      closeDate: '-',
-      status: 'opened',
-      products: [
-        {
-          name: 'óculos de sol',
-          image:
-            'https://photos.enjoei.com.br/kit-oculos-gatinho-e-luvas-retro-vintage-anos-60-rockabilly-hepburn-pin-up/1200xN/czM6Ly9waG90b3MuZW5qb2VpLmNvbS5ici9wcm9kdWN0cy84OTQxMzg2LzRiNjgwZmNkZmU5ZjE4NzBlYTYzZGE1YjE3M2YzYmNlLmpwZw',
-          code: '-',
-          category: 'óculos',
-          quantity: 12,
-          price: 'R$10,00',
-          total: 'R$120,00',
-        },
-        {
-          name: 'óculos de sol',
-          image:
-            'https://photos.enjoei.com.br/kit-oculos-gatinho-e-luvas-retro-vintage-anos-60-rockabilly-hepburn-pin-up/1200xN/czM6Ly9waG90b3MuZW5qb2VpLmNvbS5ici9wcm9kdWN0cy84OTQxMzg2LzRiNjgwZmNkZmU5ZjE4NzBlYTYzZGE1YjE3M2YzYmNlLmpwZw',
-          code: '-',
-          category: 'óculos',
-          quantity: 12,
-          price: 'R$10,00',
-          total: 'R$120,00',
-        },
-      ],
+      return response.redirect().toRoute('sessions.index')
     }
 
-    return view.render('orders/show', { order })
+    const user = auth.user
+
+    const orders = await user
+      .related('orders')
+      .query()
+      .apply((scopes) => scopes.byStatus(status))
+      .preload('products')
+      .preload('customer')
+      .preload('user')
+
+    const closedOrders = await user
+      .related('orders')
+      .query()
+      .preload('customer')
+      .apply((scopes) => scopes.closed())
+
+    const totalPrices = orders.map((order) => {
+      if (!order.products.length) return 0
+
+      return order.products
+        .map((product) => product.toJSON())
+        .map((product) => {
+          return product.quantity * product.price
+        })
+        .reduce((pv, cp) => pv + cp)
+    })
+
+    return view.render('orders/index', {
+      orders: orders.map((item, index) => ({ ...item.toJSON(), total: totalPrices[index] ?? 0 })),
+      closedOrders: closedOrders.map((i) => i.toJSON()),
+    })
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async show({ request, response, view, logger, session }: HttpContextContract) {
+    const id = request.param('id')
+
+    try {
+      const order = await Order.query()
+        .where({ id })
+        .preload('customer')
+        .preload('products', (qp) => qp.preload('file'))
+        .preload('user')
+        .firstOrFail()
+
+      return view.render('orders/show', {
+        order: order.toJSON(),
+        totalQuantity: calculateTotalQuantity(order.toJSON().products),
+        totalPrice: calculateTotalPrice(order.toJSON().products),
+      })
+    } catch (error) {
+      logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
+
+  public async confirm({ request, response, session, logger }: HttpContextContract) {
+    const id = request.param('id')
+
+    try {
+      const order = await Order.findOrFail(id)
+      await order.merge({ confirmed: true }).save()
+      session.flash('success', 'Pedido confirmado')
+
+      return response.redirect().back()
+    } catch (error) {
+      logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
 
   public async update({}: HttpContextContract) {}
 

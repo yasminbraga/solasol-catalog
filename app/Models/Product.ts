@@ -4,10 +4,12 @@ import {
   belongsTo,
   BelongsTo,
   column,
+  computed,
   HasOne,
   hasOne,
   ManyToMany,
   manyToMany,
+  scope,
 } from '@ioc:Adonis/Lucid/Orm'
 
 import Category from 'App/Models/Category'
@@ -15,6 +17,12 @@ import File from 'App/Models/File'
 import Order from 'App/Models/Order'
 
 export default class Product extends BaseModel {
+  public quantity: number
+
+  public serializeExtras() {
+    return { quantity: this.$extras.pivot_quantity }
+  }
+
   @column({ isPrimary: true })
   public id: number
 
@@ -47,4 +55,12 @@ export default class Product extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  public static filterByCategories = scope((query, categoryIds) => {
+    if (categoryIds) query.whereIn('category_id', categoryIds)
+  })
+
+  public static filterByName = scope((query, name) => {
+    if (name) query.where('name', 'ilike', `%${name}%`)
+  })
 }

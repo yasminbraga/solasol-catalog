@@ -79,7 +79,7 @@ export default class ProductsController {
     }
   }
 
-  public async edit({ request, view, bouncer, logger }: HttpContextContract) {
+  public async edit({ request, view, bouncer, logger, session, response }: HttpContextContract) {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     try {
@@ -96,6 +96,9 @@ export default class ProductsController {
       })
     } catch (error) {
       logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
     }
   }
 
@@ -125,12 +128,6 @@ export default class ProductsController {
       schema: productValidationSchema,
     })
 
-    if (!image?.tmpPath) {
-      session.flash('error', 'Erro ao cadastrar produto')
-
-      return response.redirect().back()
-    }
-
     const service = new ImageUploader()
 
     try {
@@ -138,6 +135,12 @@ export default class ProductsController {
       await product.merge(updateProductData).save()
 
       if (image) {
+        if (!image?.tmpPath) {
+          session.flash('error', 'Erro ao cadastrar produto')
+
+          return response.redirect().back()
+        }
+
         await product.file.merge({ uploaded: false }).save()
 
         service.upload(
@@ -157,6 +160,7 @@ export default class ProductsController {
         )
       }
 
+      session.flash('success', 'Produto atualizado')
       return response.redirect().toRoute('products.index')
     } catch (error) {
       logger.error(error)

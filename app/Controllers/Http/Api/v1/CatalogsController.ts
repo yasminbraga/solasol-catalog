@@ -3,7 +3,7 @@ import Catalog from 'App/Models/Catalog'
 
 export default class CatalogsController {
   public async show({ request, response, logger }: HttpContextContract) {
-    const uuid = request.param('id')
+    const uuid: string = request.param('id')
 
     try {
       const catalog = await Catalog.findByOrFail('uuid', uuid)

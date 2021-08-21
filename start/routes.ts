@@ -32,14 +32,22 @@ Route.group(() => {
   Route.resource('users', 'UsersController')
   Route.resource('categories', 'CategoriesController')
   Route.resource('catalogs', 'CatalogsController').only(['index', 'create', 'store', 'destroy'])
+  Route.post('orders/:id/confirm', 'OrdersController.confirm').as('orders.confirm')
   Route.resource('orders', 'OrdersController')
 }).middleware(['auth'])
 
 Route.group(() => {
   Route.group(() => {
     Route.resource('catalogs', 'CatalogsController').only(['show'])
-    Route.resource('catalogs.products', 'ProductsController').only(['index'])
-    Route.resource('catalogs.categories', 'CategoriesController').only(['index'])
+    Route.resource('products', 'ProductsController').only(['index'])
+    Route.resource('categories', 'CategoriesController').only(['index'])
+    Route.resource('orders', 'OrdersController').only(['store', 'update', 'show'])
+    Route.resource('close-orders', 'CloseOrdersController').only(['update'])
+    Route.resource('orders.products', 'OrderProductsController').only([
+      'store',
+      'update',
+      'destroy',
+    ])
   })
     .prefix('v1')
     .as('v1')

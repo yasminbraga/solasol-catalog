@@ -7,12 +7,11 @@ export default class Orders extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.decimal('total_price').notNullable()
-      table.timestamp('expire_at').notNullable()
-      table.boolean('expired').defaultTo(false)
+      table.decimal('total_price')
       table.boolean('closed').notNullable().defaultTo(false)
+      table.timestamp('closed_at')
       table.boolean('confirmed').notNullable().defaultTo(false)
-      table.timestamp('closed_at').notNullable()
+      table.timestamp('confirmed_at')
       table.uuid('uuid').notNullable()
       table.integer('user_id').unsigned().references('id').inTable('users')
       table.integer('customer_id').unsigned().references('id').inTable('customers')

@@ -1,64 +1,59 @@
-import React, { useState } from 'react'
-import Modal from '../Modal'
+import React, { Fragment, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { MdShoppingCart } from 'react-icons/md'
 
-import { BrandTitle, NewOrderButton, ContainerHeader, ContainerOffset, Img } from './styles'
-
-const src = require('../../assets/logoline-white-solasol.png') as string
+import { NewOrderButton, ContainerHeader, ContainerOffset, ShowCartButton, Img } from './styles'
+import { useHeader } from '../../providers/header'
+import { useAppSelector } from '../../app/hooks'
+import CartPanel from '../CartPanel'
+import { selectTotalQuantity } from '../../features/order'
+const logoSrc = require('../../assets/logoline-white-solasol.png') as string
 
 interface HeaderProps {
-  invalid: boolean
+  invalid?: boolean
   showCart?: boolean
 }
 
-const Header: React.FC<HeaderProps> = ({ invalid = true }) => {
-  const [showModal, setShowModal] = useState(false)
+const Header: React.FC<HeaderProps> = () => {
+  const order = useAppSelector((state) => state.order)
+  const totalQuantity = useAppSelector(selectTotalQuantity)
+
+  const { id } = useParams<{ id: string }>()
+  const { invalid } = useHeader()
+  const [showPanel, setShowPanel] = useState(false)
+
+  useEffect(() => {
+    if (showPanel) {
+      document.body.classList.add('cart-panel-open')
+    } else {
+      document.body.classList.remove('cart-panel-open')
+    }
+  }, [showPanel])
 
   return (
-    <React.Fragment>
+    <Fragment>
       <ContainerOffset />
-
-      <Modal
-        title={'Confirmar dados'}
-        visible={showModal}
-        onConfirm={() => {}}
-        onClose={() => setShowModal(false)}
-      >
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum deleniti veritatis
-          quidem similique hic quisquam corporis quo quae vitae reprehenderit. Necessitatibus quos
-          molestiae ad. Id, et rerum! Quaerat, fugit porro?
-        </p>
-        <p>
-          Laborum eligendi id libero nulla quia dolorum earum. Voluptatem molestias natus est eius
-          totam, sequi porro iure. Rem dolores assumenda ipsa reiciendis eos molestiae, ratione quo
-          eligendi pariatur aliquid consectetur.
-        </p>
-        <p>
-          Delectus, dolores autem? Perspiciatis aliquam eos qui. Amet rerum aliquam aperiam
-          reiciendis nostrum odio a est quae eius. Quia laudantium odit accusamus laboriosam in unde
-          veritatis quos quasi itaque dicta!
-        </p>
-        <p>
-          Deserunt atque obcaecati nulla nobis! Rem numquam atque enim, obcaecati hic beatae nam
-          laboriosam? At quibusdam, iusto itaque voluptatum soluta explicabo ipsa obcaecati deserunt
-          odit dolorum eum, aliquid enim dolorem.
-        </p>
-        {/* 
-        <p>
-          Aliquam unde animi nisi modi, doloremque odit placeat alias praesentium est perspiciatis
-          asperiores incidunt numquam consequuntur illo fugit repellendus consequatur, nesciunt
-          tenetur in! Quaerat sint amet iusto in aspernatur eveniet?
-        </p> */}
-      </Modal>
+      <CartPanel show={showPanel} onClose={() => setShowPanel(false)} />
 
       <ContainerHeader>
-        <Img src={src} />
-        {/* <BrandTitle>Sol a sol</BrandTitle> */}
-        {!invalid && (
-          <NewOrderButton onClick={() => setShowModal(true)}>Iniciar pedido</NewOrderButton>
-        )}
+        <Img src={logoSrc} />
+        {!invalid && !order.valid ? (
+          <NewOrderButton
+            to={{
+              pathname: '/pedidos/create',
+              search: `?catalogId=${id}`,
+            }}
+          >
+            Iniciar pedido
+            <MdShoppingCart size={22} />
+          </NewOrderButton>
+        ) : order.valid && !order.order.closed && !order.order.confirmed ? (
+          <ShowCartButton onClick={() => setShowPanel(true)} totalCart={totalQuantity}>
+            <MdShoppingCart size={32} />
+          </ShowCartButton>
+        ) : null}
       </ContainerHeader>
-    </React.Fragment>
+    </Fragment>
   )
 }
 

@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class OrderProducts extends BaseSchema {
-  protected tableName = 'order_products'
+  protected tableName = 'order_product'
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -9,6 +9,7 @@ export default class OrderProducts extends BaseSchema {
 
       table.integer('order_id').unsigned().references('id').inTable('orders')
       table.integer('product_id').unsigned().references('id').inTable('products')
+      table.integer('quantity').notNullable().defaultTo(1)
 
       table.timestamps(true)
     })

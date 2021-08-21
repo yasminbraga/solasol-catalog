@@ -1,10 +1,10 @@
 import test from 'japa'
 
 import Database from '@ioc:Adonis/Lucid/Database'
-import { CatalogFactory, ProductFactory } from 'Database/factories'
+import { ProductFactory } from 'Database/factories'
 import { api } from '../../../utils'
 
-test.group('Api ProductsControlelr', (group) => {
+test.group('Api ProductsController', (group) => {
   group.before(async () => {
     await Database.beginGlobalTransaction()
   })
@@ -13,41 +13,21 @@ test.group('Api ProductsControlelr', (group) => {
     await Database.rollbackGlobalTransaction()
   })
 
-  test('should GET in /api/v1/catalogs/:catalog_id/products return a 404 error if catalog not exists', async (assert) => {
-    const url = '/v1/catalogs/e840e30b-24f9-4d83-b66c-ad563fa3855f/products'
-    const response = await api.get(url).set('Accept', 'application/json')
-
-    assert.equal(response.status, 404)
-    assert.notExists(response.body.catalog)
-  })
-
-  test('should GET in /api/v1/catalogs/:catalog_id/products return a 410 error if catalog has expired', async (assert) => {
-    const catalog = await CatalogFactory.apply('expired').create()
-
-    const url = `/v1/catalogs/${catalog.uuid}/products`
-    const response = await api.get(url).set('Accept', 'application/json')
-
-    assert.equal(response.status, 410)
-    assert.notExists(response.body.catalog)
-  })
-
-  test('should GET in /api/v1/catalogs/:catalog_id/products return a product list if catalog exists', async (assert) => {
-    const catalog = await CatalogFactory.create()
+  test('should GET in /api/v1/products return a list of products', async (assert) => {
     await ProductFactory.createMany(40)
 
-    const url = `/v1/catalogs/${catalog.uuid}/products`
+    const url = `/v1/products`
     const response = await api.get(url).set('Accept', 'application/json')
 
     assert.equal(response.status, 200)
-    assert.exists(response.body.catalog)
     assert.exists(response.body.products)
+    assert.propertyVal(response.body.products.meta, 'current_page', 1)
   })
 
-  test('should GET in /api/v1/catalogs/:catalog_id/products return a product list according to the page and limit defineds by qs', async (assert) => {
-    const catalog = await CatalogFactory.create()
+  test('should GET in /api/v1/products return a list of products according to the page and limit defineds by qs', async (assert) => {
     await ProductFactory.createMany(40)
 
-    const url = `/v1/catalogs/${catalog.uuid}/products`
+    const url = `/v1/products`
 
     const response = await api.get(url).set('Accept', 'application/json').query({
       page: 2,
@@ -55,7 +35,7 @@ test.group('Api ProductsControlelr', (group) => {
     })
 
     assert.equal(response.status, 200)
-    assert.exists(response.body.catalog)
     assert.exists(response.body.products)
+    assert.propertyVal(response.body.products.meta, 'current_page', 2)
   })
 })
