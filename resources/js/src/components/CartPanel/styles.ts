@@ -102,6 +102,7 @@ export const PanelFooter = styled.div`
   gap: 1rem;
   overflow: hidden;
   background: ${colors.lightBg};
+  border-top: 1px solid ${colors.extraLightGray};
   ${standardShadow}
 `
 

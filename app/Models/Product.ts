@@ -4,7 +4,6 @@ import {
   belongsTo,
   BelongsTo,
   column,
-  computed,
   HasOne,
   hasOne,
   ManyToMany,

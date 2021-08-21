@@ -202,10 +202,6 @@ Encore.enableBabelTypeScriptPreset({
   isTSX: true,
   allExtensions: true,
 })
-Encore.configureBabelPresetEnv(function (options) {
-  options.useBuiltIns = 'usage'
-  options.corejs = '3.0'
-})
 
 /*
 |--------------------------------------------------------------------------

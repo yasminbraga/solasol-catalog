@@ -3,11 +3,9 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import api from '../services/api'
 import Product from '../interfaces/Product'
 import { RootState } from '../app/store'
-import { useAppSelector } from '../app/hooks'
 import {
   addProductSucceeded,
   removeProductSucceeded,
-  selectOrder,
   updateProductQuantitySucceeded,
 } from '../features/order'
 

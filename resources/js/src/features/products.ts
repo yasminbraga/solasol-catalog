@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import Product, { ProductsResponse } from '../interfaces/Product'
 import { RootState } from '../app/store'
 import api from '../services/api'
-import { useAppSelector } from '../app/hooks'
 
 interface InitialState {
   data: Product[]

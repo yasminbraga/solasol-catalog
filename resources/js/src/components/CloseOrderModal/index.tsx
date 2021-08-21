@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import { selectTotalPrice } from '../../features/order'
 import { parseMoney } from '../../ultils'
