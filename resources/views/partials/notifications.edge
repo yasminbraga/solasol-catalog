@@ -13,9 +13,14 @@
         @each(notification in notifications)
           <li class="notification-item">
             <a href="{{ route('orders.show', {id: notification.id}) }}">
-              <h4>Pedido <strong>#{{ notification.number }}</strong> de {{ notification.customer.name }}</h4>
+              <h4>
+                <strong>Pedido  #{{ notification.number }}</strong> 
+                <p>{{ notification.closed_at }}</p>
+              </h4>
+              <h5>
+                {{ notification.customer.name }}
+              </h5>
             </a>
-            <p>{{ notification.closed_at }}</p>
           </li>
         @endeach
       </ul>

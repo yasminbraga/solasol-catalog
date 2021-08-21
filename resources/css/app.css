@@ -932,6 +932,7 @@ section.product-container {
   color: var(--dark-gray-text);
   font-size: 16px;
   margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .notifications-list {
@@ -951,6 +952,15 @@ section.product-container {
 
 .notification-item h4 {
   color: var(--dark-gray-text);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.notification-item h5 {
+  color: var(--gray-color);
   font-weight: 500;
 }
 
