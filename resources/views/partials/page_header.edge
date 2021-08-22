@@ -5,8 +5,10 @@
     </button>
     <h3>{{ title ?? 'Sol a Sol' }}</h3>
   </div>
-  @if(pageLink)
-    <a href="{{ route(pageLink) }}" class="btn primary">Novo</a>
-  @endif
+  @can('AdminPolicy.adminOnly')
+    @if(pageLink)
+      <a href="{{ route(pageLink) }}" class="btn primary">Novo</a>
+    @endif
+  @end
   @includeIf(notifications?.length, 'partials/notifications')
 </header>

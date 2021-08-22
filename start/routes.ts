@@ -21,8 +21,16 @@
 import Route from '@ioc:Adonis/Core/Route'
 import Application from '@ioc:Adonis/Core/Application'
 
-Route.get('/', async ({ view }) => {
-  return view.render('home')
+Route.get('/', async ({ response }) => {
+  return response.redirect().toRoute(
+    'orders.index',
+    {},
+    {
+      qs: {
+        status: 'closed',
+      },
+    }
+  )
 })
 
 Route.resource('sessions', 'SessionsController').only(['index', 'store', 'destroy'])

@@ -9,7 +9,15 @@ export default class SessionSController {
     try {
       await auth.attempt(email, password)
 
-      return response.redirect().toRoute('orders.index')
+      return response.redirect().toRoute(
+        'orders.index',
+        {},
+        {
+          qs: {
+            status: 'closed',
+          },
+        }
+      )
     } catch (error) {
       logger.error(error)
       session.flash({ error: 'Usuário ou senha inválidos' })
