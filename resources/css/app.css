@@ -520,6 +520,15 @@ header.page-header {
   background: transparent;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
 }
 
 .btn .material-icons {
@@ -596,17 +605,24 @@ header.page-header {
 th,
 td {
   border-collapse: collapse;
-  padding: 0.5rem;
-  font-size: 16px;
+  padding: 1rem;
+  font-size: 14px;
   height: 100%;
 }
 
 .responsive-table thead {
-  color: var(--gray-color);
   border-bottom: 1px solid var(--extra-light-gray);
-  font-weight: 500;
+
+  color: var(--gray-color);
+  font-weight: 300;
+  text-transform: uppercase;
+
   width: 100%;
   text-align: left;
+}
+
+th {
+  font-weight: 500;
 }
 
 .responsive-table tbody tr td:not(.action-column) {
@@ -647,6 +663,7 @@ td {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  padding: 0.5rem;
 }
 
 .table-warn img {
@@ -768,10 +785,12 @@ section.card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 section.card-header h4 {
   margin-bottom: 0;
+  font-size: 16px;
 }
 
 section.card-header p {
@@ -1177,15 +1196,24 @@ section.product-container {
   /* table */
   .card-table {
     background: #ffff;
-    padding: 20px;
     box-shadow: var(--shadow);
     border-radius: var(--border-radius);
     width: 920px;
+    overflow: hidden;
+    border: 1px solid var(--extra-light-gray);
+  }
+
+  .responsive-table thead {
+    background: rgba(0, 0, 0, 0.03);
   }
 
   .responsive-table tbody tr {
     box-shadow: none;
     background: transparent;
+  }
+
+  .responsive-table tbody tr + tr {
+    border-top: 1px solid var(--extra-light-gray);
   }
 
   .action-column {
@@ -1225,6 +1253,7 @@ section.product-container {
   th,
   td {
     font-size: 14px;
+    padding: 0.5rem;
   }
 
   .card-table {
