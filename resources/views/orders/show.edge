@@ -4,7 +4,16 @@
 
 @section('content')
   <div class="card">
-    <h4 class="card-title">Dados do Pedido</h4>
+    <section class="card-header">
+      <h4 class="card-title">Dados do Pedido</h4>
+        <a 
+          href="{{`whatsapp://send?text=Olá ${order.customer.name}, vamos confirmar seu pedido?&phone=55${order.customer.phone}`}}" 
+          class="btn btn-link text-success"
+        >
+          Contatar Cliente  
+          <i class="material-icons md-18">whatsapp</i>
+        </a>
+    </section>
 
     <section class="card-fields">
       <div class="card-field">
@@ -36,9 +45,7 @@
         <span>Telefone</span>
         <p>
           {{order.customer.phone}}
-          <a href="{{`whatsapp://send?text=Olá ${order.customer.name}, vamos confirmar seu pedido?&phone=55${order.customer.phone}`}}" class="btn btn-link text-success">
-            <i class="material-icons">whatsapp</i>
-          </a>
+          
         </p>
       </div>
     </section>
