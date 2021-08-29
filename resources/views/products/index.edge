@@ -24,7 +24,7 @@
         </td>
         <td title="Nome">{{ product.name }}</td>
         <td title="Código">{{ product.codigo }}</td>
-        <td title="Preço">{{ product.price }}</td>
+        <td title="Preço">{{ parseMoney(+product.price) }}</td>
         <td title="Categoria">{{ product.category.name }}</td>
         @can('AdminPolicy.adminOnly')
           <td class="action-column">

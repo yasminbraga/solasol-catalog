@@ -1,17 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, BelongsTo, beforeDelete } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, column, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 
 import Product from './Product'
-import { ImageUploader } from 'App/Services/ImageUploader'
-
 export default class File extends BaseModel {
-  @beforeDelete()
-  public static async deleteAssociatedImageFromStorageService(file: File) {
-    const service = await new ImageUploader()
-
-    service.destroy(file.publicId)
-  }
-
   @column({ isPrimary: true })
   public id: number
 

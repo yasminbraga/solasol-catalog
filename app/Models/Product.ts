@@ -35,6 +35,9 @@ export default class Product extends BaseModel {
   public codigo: string
 
   @column()
+  public available: boolean
+
+  @column()
   public description: string
 
   @column()

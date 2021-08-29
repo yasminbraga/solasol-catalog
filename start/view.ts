@@ -9,9 +9,6 @@
 */
 import View from '@ioc:Adonis/Core/View'
 
-View.global('parseMoney', function (value: number) {
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  })
-})
+import parseMoney from '../utils/parseMoney'
+
+View.global('parseMoney', parseMoney)

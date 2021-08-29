@@ -174,12 +174,14 @@ export default class ProductsController {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     const id = request.param('id')
+    const service = await new ImageUploader()
 
     try {
       const product = await Product.query().where({ id }).preload('file').firstOrFail()
+      const publicId = product.file.publicId
 
-      await product.file.delete()
       await product.delete()
+      await service.destroy(publicId)
 
       session.flash('success', 'Produto removido')
       return response.redirect().toRoute('products.index')

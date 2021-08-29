@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
+import Application from '@ioc:Adonis/Core/Application'
 
 export default class Catalog extends BaseModel {
   @column({ isPrimary: true })
@@ -43,6 +44,15 @@ export default class Catalog extends BaseModel {
   @computed({ serializeAs: 'signed_url' })
   public get signedUrl() {
     return `/catalogos/${this.uuid}`
+  }
+
+  @computed({ serializeAs: 'share_url' })
+  public get shareUrl() {
+    const baseURL = Application.inProduction
+      ? 'https://comercialsolasol.com.br'
+      : 'http://localhost:3333'
+
+    return `${baseURL}/catalogos/${this.uuid}`
   }
 
   @column.dateTime({
