@@ -173,3 +173,14 @@ function formatPrice() {
 if (priceField) {
   priceField.addEventListener('input', formatPrice)
 }
+
+// MASK INPUT ON LOAD
+window.onload = function () {
+  const maskedInputs = document.querySelectorAll('.price-field')
+
+  if (maskedInputs) {
+    maskedInputs.forEach((input) => {
+      input.value = priceMask(input.value)
+    })
+  }
+}
