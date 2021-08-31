@@ -91,4 +91,26 @@
       @endif
     </div>
   </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Deletar pedido</h4>
+      <form 
+        class="confirm-deletion" 
+        action="{{
+          route('orders.destroy',
+            { id: order.id },
+            {
+              qs: {
+                _method: 'DELETE'
+              }
+            }
+          )
+        }}" 
+        method="post"
+        >
+        <button type="button" class="btn btn-danger">Deletar</button>
+      </form>
+    </div>
+  </div>
 @endsection

@@ -463,6 +463,11 @@ header.page-header {
   background: var(--primary-color);
 }
 
+.btn.btn-danger {
+  color: #ffff;
+  background: var(--error-color);
+}
+
 .btn-light {
   background: #fff;
 }
@@ -795,11 +800,19 @@ section.card-header {
   margin-bottom: 0.5rem;
 }
 
+div.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.card-header h4,
 section.card-header h4 {
   margin-bottom: 0;
   font-size: 16px;
 }
 
+div.card-header p,
 section.card-header p {
   color: var(--light-gray);
   text-transform: uppercase;
