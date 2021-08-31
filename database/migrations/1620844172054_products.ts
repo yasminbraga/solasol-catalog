@@ -10,6 +10,7 @@ export default class Products extends BaseSchema {
       table.decimal('price').notNullable()
       table.string('codigo')
       table.text('description')
+      table.boolean('available').defaultTo(true)
       table
         .integer('category_id')
         .unsigned()

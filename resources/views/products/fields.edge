@@ -1,3 +1,20 @@
+@if(product)
+  <div class="field">
+    <div class="switch">
+      <label for="available">Disponível</label>
+      <div class="switch-block">
+        <input 
+          type="checkbox"
+          name="available"
+          id="available"
+          {{ flashMessages.get('available') || product?.available ? 'checked' : '' }}
+        >
+        <label class="switch-button" for="available"></label>
+      </div>
+    </div>
+  </div>
+@endif
+
 @!textField({
   name: 'name',
   id: 'name_field',
@@ -10,6 +27,7 @@
 @!textField({
   name: 'price',
   id: 'price_field',
+  className: 'price-field',
   value: flashMessages.get('price', parseMoney(product?.price ?? 0)),
   label: 'Preço',
   placeholder: 'Preço',

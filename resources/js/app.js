@@ -87,6 +87,70 @@ if (dropdownTriggers) {
   })
 }
 
+// SHARE PANEL
+const shareBtns = document.querySelectorAll('.share-catalog-btn')
+const shareOverlays = document.querySelectorAll('.share-catalog-overlay')
+
+if (shareBtns) {
+  shareBtns.forEach((btn) => {
+    btn.addEventListener('click', function () {
+      if (navigator.share) {
+        navigator
+          .share({
+            text: 'Compartilhe este catálogo com seus contatos',
+            title: 'Compartilhar catálogo',
+            url: 'http://comercialsolasol.com.br',
+          })
+          .then(() => console.log('Thanks for sharing'))
+          .catch((error) => console.log(error))
+      } else {
+        btn.parentNode.querySelector('.share-panel').classList.toggle('show')
+        const overlay = btn.parentNode.querySelector('.share-catalog-overlay')
+        overlay.classList.toggle('show')
+
+        overlay.addEventListener('click', function () {
+          btn.parentNode.querySelector('.share-panel').classList.remove('show')
+          overlay.classList.remove('show')
+        })
+      }
+    })
+  })
+}
+
+const btnCopyLinks = document.querySelectorAll('.btn-copy-link')
+
+if (btnCopyLinks) {
+  const copyCheckStatus = (btn) => {
+    btn.innerHTML = `
+    <i class="material-icons edit-color">done</i>
+  `
+
+    setTimeout(() => {
+      btn.innerHTML = `
+      <i class="material-icons edit-color">content_copy</i>
+    `
+    }, 2000)
+  }
+
+  btnCopyLinks.forEach((btn) => {
+    btn.addEventListener('click', function () {
+      const inputUrl = btn.parentNode.querySelector('input')
+      inputUrl.focus()
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(inputUrl.value).then(() => {
+          copyCheckStatus(btn)
+        })
+      } else {
+        inputUrl.select()
+
+        document.execCommand('copy')
+        copyCheckStatus(btn)
+      }
+    })
+  })
+}
+
 // PRICE MASK INPUT
 const priceField = document.getElementById('price_field')
 
@@ -105,6 +169,18 @@ function priceMask(value) {
 function formatPrice() {
   this.value = priceMask(this.value)
 }
+
 if (priceField) {
   priceField.addEventListener('input', formatPrice)
+}
+
+// MASK INPUT ON LOAD
+window.onload = function () {
+  const maskedInputs = document.querySelectorAll('.price-field')
+
+  if (maskedInputs) {
+    maskedInputs.forEach((input) => {
+      input.value = priceMask(input.value)
+    })
+  }
 }

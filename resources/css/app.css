@@ -463,6 +463,11 @@ header.page-header {
   background: var(--primary-color);
 }
 
+.btn.btn-danger {
+  color: #ffff;
+  background: var(--error-color);
+}
+
 .btn-light {
   background: #fff;
 }
@@ -649,13 +654,20 @@ th {
   border-radius: 6px;
 }
 
+.action-btn,
 .delete-btn {
   border: 0;
   background: transparent;
 
   display: flex;
   align-items: center;
+  cursor: pointer;
   border-radius: 6px;
+}
+
+.action-btn:active,
+.delete-btn:active {
+  opacity: 0.6;
 }
 
 .table-warn {
@@ -788,11 +800,19 @@ section.card-header {
   margin-bottom: 0.5rem;
 }
 
+div.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.card-header h4,
 section.card-header h4 {
   margin-bottom: 0;
   font-size: 16px;
 }
 
+div.card-header p,
 section.card-header p {
   color: var(--light-gray);
   text-transform: uppercase;
@@ -986,6 +1006,72 @@ section.product-container {
 .notification-item p {
   font-size: 12px;
   color: var(--light-gray);
+}
+
+/* SHARE PANEL */
+.share-catalog {
+  position: relative;
+  z-index: 10;
+}
+
+.share-catalog-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 400;
+}
+
+.share-panel {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  min-width: 300px;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 0.35rem;
+  box-shadow: 0px 2px 6px rgba(150, 150, 150, 0.1);
+  border: 1px solid var(--extra-light-gray);
+  z-index: 500;
+}
+
+.share-catalog-overlay.show,
+.share-panel.show {
+  display: flex;
+  flex-direction: column;
+}
+
+.share-panel h4 {
+  font-weight: 500;
+  color: var(--dark-gray-text);
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.share-panel .input-group {
+  border: 1px solid var(--extra-light-gray);
+  display: flex;
+  border-radius: 0.35rem;
+  overflow: hidden;
+}
+
+.share-panel input {
+  padding: 0.5rem;
+  border: 0;
+  width: 100%;
+  outline: none;
+}
+
+.catalog-url-input {
+  /* position: fixed; */
+  visibility: hidden;
+  width: 0px;
+  border: 0;
+  /* top: -10000px; */
+  /* left: -10000px; */
 }
 
 @media (min-width: 768px) {

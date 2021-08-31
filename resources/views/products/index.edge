@@ -12,6 +12,7 @@
       <th>Código</th>
       <th>Preço</th>
       <th>Categoria</th>
+      <th>Disponível</th>
       @can('AdminPolicy.adminOnly')
         <th class="action-column">Ações</th>
       @end
@@ -24,8 +25,9 @@
         </td>
         <td title="Nome">{{ product.name }}</td>
         <td title="Código">{{ product.codigo }}</td>
-        <td title="Preço">{{ product.price }}</td>
+        <td title="Preço">{{ parseMoney(+product.price) }}</td>
         <td title="Categoria">{{ product.category.name }}</td>
+        <td title="Categoria">{{ yesOrNot(product.available) }}</td>
         @can('AdminPolicy.adminOnly')
           <td class="action-column">
             <a class="edit-link" href="{{ route('products.edit', {id: product.id}) }}">

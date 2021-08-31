@@ -11,6 +11,7 @@ export default class Orders extends BaseSchema {
       table.boolean('closed').notNullable().defaultTo(false)
       table.timestamp('closed_at')
       table.boolean('confirmed').notNullable().defaultTo(false)
+      table.boolean('archived').notNullable().defaultTo(false)
       table.timestamp('confirmed_at')
       table.uuid('uuid').notNullable()
       table.integer('user_id').unsigned().references('id').inTable('users')

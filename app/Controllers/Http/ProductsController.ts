@@ -126,9 +126,10 @@ export default class ProductsController {
       category_id: schema.number([rules.unsigned()]),
       description: schema.string.optional(),
       image: schema.file.optional({ extnames: ['jpg', 'jpeg', 'png'] }),
+      available: schema.boolean.optional(),
     })
 
-    const { image, price, ...updateProductData } = await request.validate({
+    const { image, available, price, ...updateProductData } = await request.validate({
       schema: productValidationSchema,
     })
 
@@ -137,7 +138,9 @@ export default class ProductsController {
     try {
       const product = await Product.query().where({ id }).preload('file').firstOrFail()
       const priceNumber = formatPriceToNumber(price)
-      await product.merge({ price: priceNumber, ...updateProductData }).save()
+      await product
+        .merge({ price: priceNumber, available: !!available, ...updateProductData })
+        .save()
 
       if (image) {
         if (!image?.tmpPath) {
@@ -179,12 +182,14 @@ export default class ProductsController {
     await bouncer.with('AdminPolicy').authorize('adminOnly')
 
     const id = request.param('id')
+    const service = await new ImageUploader()
 
     try {
       const product = await Product.query().where({ id }).preload('file').firstOrFail()
+      const publicId = product.file.publicId
 
-      await product.file.delete()
       await product.delete()
+      await service.destroy(publicId)
 
       session.flash('success', 'Produto removido')
       return response.redirect().toRoute('products.index')

@@ -11,6 +11,7 @@ export default class ProductsController {
         .apply((scopes) => {
           scopes.filterByCategories(categoryIds)
           scopes.filterByName(name)
+          scopes.available()
         })
         .paginate(page || 1, limit || 20)
 

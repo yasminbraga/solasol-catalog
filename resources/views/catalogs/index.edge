@@ -57,9 +57,24 @@
                       <i class="material-icons delete-color">delete</i>
                     </button>
                   </form>
-                  <a class="edit-link" target="_blank" href="{{ catalog.signed_url }}">
-                    <i class="material-icons edit-color">link</i>
-                  </a>
+
+                  <div class="share-catalog">
+                    <button class="action-btn share-catalog-btn" data-url="{{{ catalog.share_url }}}">
+                      <i class="material-icons edit-color">share</i>
+                    </button>
+
+                    <div class="share-panel">
+                      <h4>Compartilhar catálogo</h4>
+                      <div class="input-group">
+                        <input readonly value="{{ catalog.share_url }}" type="text">
+                        <button class="btn btn-light btn-copy-link">
+                          <i class="material-icons edit-color">content_copy</i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="share-catalog-overlay"></div>
+                  </div>
                 </td>
               @end
             </tr>

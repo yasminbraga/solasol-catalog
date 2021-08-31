@@ -35,6 +35,9 @@ export default class Product extends BaseModel {
   public codigo: string
 
   @column()
+  public available: boolean
+
+  @column()
   public description: string
 
   @column()
@@ -61,5 +64,9 @@ export default class Product extends BaseModel {
 
   public static filterByName = scope((query, name) => {
     if (name) query.where('name', 'ilike', `%${name}%`)
+  })
+
+  public static available = scope((query) => {
+    query.where({ available: true })
   })
 }

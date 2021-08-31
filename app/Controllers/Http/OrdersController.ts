@@ -100,5 +100,23 @@ export default class OrdersController {
 
   public async update({}: HttpContextContract) {}
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({ request, response, session, logger }: HttpContextContract) {
+    const id = request.param('id')
+
+    try {
+      await Order.query().where({ id }).delete()
+      session.flash('success', 'Pedido deletado')
+
+      return response.redirect().toRoute('orders.index', {
+        qs: {
+          status: 'opened',
+        },
+      })
+    } catch (error) {
+      logger.error(error)
+      session.flash('error', error.message)
+
+      return response.redirect().back()
+    }
+  }
 }
