@@ -13,8 +13,9 @@ test.group('Api ProductsController', (group) => {
     await Database.rollbackGlobalTransaction()
   })
 
-  test('should GET in /api/v1/products return a list of products', async (assert) => {
+  test.only('should GET in /api/v1/products return a list of products with available status', async (assert) => {
     await ProductFactory.createMany(40)
+    await ProductFactory.apply('notAvailable').createMany(5)
 
     const url = `/v1/products`
     const response = await api.get(url).set('Accept', 'application/json')
@@ -22,6 +23,7 @@ test.group('Api ProductsController', (group) => {
     assert.equal(response.status, 200)
     assert.exists(response.body.products)
     assert.propertyVal(response.body.products.meta, 'current_page', 1)
+    assert.propertyVal(response.body.products.meta, 'total', 40)
   })
 
   test('should GET in /api/v1/products return a list of products according to the page and limit defineds by qs', async (assert) => {

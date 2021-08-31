@@ -6,6 +6,8 @@ import Category from 'App/Models/Category'
 import Product from 'App/Models/Product'
 import { ImageUploader } from 'App/Services/ImageUploader'
 
+import formatPriceToNumber from '../../../utils/formatPriceToNumber'
+
 export default class ProductsController {
   public async index({ view }: HttpContextContract) {
     const products = await Product.query().preload('category').preload('file')
@@ -30,14 +32,14 @@ export default class ProductsController {
           caseInsensitive: false,
         }),
       ]),
-      price: schema.number([rules.unsigned()]),
+      price: schema.string(),
       codigo: schema.string.optional(),
       category_id: schema.number([rules.unsigned()]),
       description: schema.string.optional(),
       image: schema.file({ extnames: ['jpg', 'jpeg', 'png'] }),
     })
 
-    const { image, ...productData } = await request.validate({
+    const { image, price, ...productData } = await request.validate({
       schema: productValidationSchema,
     })
 
@@ -51,7 +53,9 @@ export default class ProductsController {
 
     try {
       const product = new Product()
-      await product.merge(productData).useTransaction(trx)
+
+      const priceNumber = formatPriceToNumber(price)
+      await product.merge({ price: priceNumber, ...productData }).useTransaction(trx)
 
       const file = await product.related('file').create({ uploaded: false })
 
@@ -117,14 +121,15 @@ export default class ProductsController {
           },
         }),
       ]),
-      price: schema.number([rules.unsigned()]),
+      price: schema.string(),
       codigo: schema.string.optional(),
       category_id: schema.number([rules.unsigned()]),
       description: schema.string.optional(),
       image: schema.file.optional({ extnames: ['jpg', 'jpeg', 'png'] }),
+      available: schema.boolean.optional(),
     })
 
-    const { image, ...updateProductData } = await request.validate({
+    const { image, available, price, ...updateProductData } = await request.validate({
       schema: productValidationSchema,
     })
 
@@ -132,7 +137,10 @@ export default class ProductsController {
 
     try {
       const product = await Product.query().where({ id }).preload('file').firstOrFail()
-      await product.merge(updateProductData).save()
+      const priceNumber = formatPriceToNumber(price)
+      await product
+        .merge({ price: priceNumber, available: !!available, ...updateProductData })
+        .save()
 
       if (image) {
         if (!image?.tmpPath) {

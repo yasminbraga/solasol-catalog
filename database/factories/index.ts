@@ -50,8 +50,12 @@ export const ProductFactory = Factory.define(Product, ({ faker }) => {
     codigo: faker.random.alphaNumeric(6),
     price: faker.datatype.float({ max: 999, min: 0, precision: 2 }),
     description: faker.commerce.productDescription(),
+    available: true,
   }
 })
+  .state('notAvailable', (product) => {
+    product.available = false
+  })
   .relation('category', () => CategoryFactory)
   .relation('file', () => FileFactory)
   .build()

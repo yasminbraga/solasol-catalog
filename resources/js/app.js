@@ -150,3 +150,26 @@ if (btnCopyLinks) {
     })
   })
 }
+
+// PRICE MASK INPUT
+const priceField = document.getElementById('price_field')
+
+function priceMask(value) {
+  let masked = value.replace(/\D/g, '')
+  masked = Number(masked) / 100
+
+  const formater = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+
+  return formater.format(masked)
+}
+
+function formatPrice() {
+  this.value = priceMask(this.value)
+}
+
+if (priceField) {
+  priceField.addEventListener('input', formatPrice)
+}
