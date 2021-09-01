@@ -14,9 +14,7 @@
             <th>Status</th>
             <th>Validade</th>
             <th>Data Expiração</th>
-            @can('AdminPolicy.adminOnly')
-              <th class="action-column">Ações</th>
-            @end
+            <th class="action-column">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -37,46 +35,44 @@
               <td title="Data expiração">
                 {{ catalog.expired ? catalog.expire_at_formatted : '-' }}
               </td>
-              @can('AdminPolicy.adminOnly')
-                <td class="action-column">
-                  <form
-                    class="confirm-deletion" 
-                    action="{{
-                      route('catalogs.destroy',
-                        {id: catalog.id},
-                        {
-                          qs: {
-                            _method: 'DELETE'
-                          }
+              <td class="action-column">
+                <form
+                  class="confirm-deletion" 
+                  action="{{
+                    route('catalogs.destroy',
+                      {id: catalog.id},
+                      {
+                        qs: {
+                          _method: 'DELETE'
                         }
-                      )
-                    }}"
-                    method="post"
-                  >
-                    <button type="button" class="delete-btn">
-                      <i class="material-icons delete-color">delete</i>
-                    </button>
-                  </form>
+                      }
+                    )
+                  }}"
+                  method="post"
+                >
+                  <button type="button" class="delete-btn">
+                    <i class="material-icons delete-color">delete</i>
+                  </button>
+                </form>
 
-                  <div class="share-catalog">
-                    <button class="action-btn share-catalog-btn" data-url="{{ catalog.share_url }}">
-                      <i class="material-icons edit-color">share</i>
-                    </button>
+                <div class="share-catalog">
+                  <button class="action-btn share-catalog-btn" data-url="{{ catalog.share_url }}">
+                    <i class="material-icons edit-color">share</i>
+                  </button>
 
-                    <div class="share-panel">
-                      <h4>Compartilhar catálogo</h4>
-                      <div class="input-group">
-                        <input readonly value="{{ catalog.share_url }}" type="text">
-                        <button class="btn btn-light btn-copy-link">
-                          <i class="material-icons edit-color">content_copy</i>
-                        </button>
-                      </div>
+                  <div class="share-panel">
+                    <h4>Compartilhar catálogo</h4>
+                    <div class="input-group">
+                      <input readonly value="{{ catalog.share_url }}" type="text">
+                      <button class="btn btn-light btn-copy-link">
+                        <i class="material-icons edit-color">content_copy</i>
+                      </button>
                     </div>
-
-                    <div class="share-catalog-overlay"></div>
                   </div>
-                </td>
-              @end
+
+                  <div class="share-catalog-overlay"></div>
+                </div>
+              </td>
             </tr>
           @else
             <div class="table-warn">

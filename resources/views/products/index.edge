@@ -1,7 +1,9 @@
 @layout('layouts/master')
 
 @set('title', 'Produtos')
-@set('pageLink', 'products.create')
+@can('AdminPolicy.adminOnly')
+  @set('pageLink', 'products.create')
+@end
 
 @section('content')
 <div class="card-table">
@@ -27,7 +29,7 @@
         <td title="Código">{{ product.codigo }}</td>
         <td title="Preço">{{ parseMoney(+product.price) }}</td>
         <td title="Categoria">{{ product.category.name }}</td>
-        <td title="Categoria">{{ yesOrNot(product.available) }}</td>
+        <td title="Disponível">{{ yesOrNot(product.available) }}</td>
         @can('AdminPolicy.adminOnly')
           <td class="action-column">
             <a class="edit-link" href="{{ route('products.edit', {id: product.id}) }}">
