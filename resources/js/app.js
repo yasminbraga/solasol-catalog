@@ -94,15 +94,20 @@ const shareOverlays = document.querySelectorAll('.share-catalog-overlay')
 if (shareBtns) {
   shareBtns.forEach((btn) => {
     btn.addEventListener('click', function () {
+      const url = btn.getAttribute('data-url')
+
       if (navigator.share) {
         navigator
           .share({
             text: 'Compartilhe este catálogo com seus contatos',
             title: 'Compartilhar catálogo',
-            url: 'http://comercialsolasol.com.br',
+            url,
           })
-          .then(() => console.log('Thanks for sharing'))
-          .catch((error) => console.log(error))
+          .then(() => {
+            // colocar uma feedback de copiado
+            console.log('Thanks for sharing')
+          })
+          .catch(() => {})
       } else {
         btn.parentNode.querySelector('.share-panel').classList.toggle('show')
         const overlay = btn.parentNode.querySelector('.share-catalog-overlay')
