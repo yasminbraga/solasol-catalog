@@ -8,8 +8,16 @@ import CatalogExpireJob, { CatalogExpireJobData } from 'App/Jobs/CatalogExpireJo
 import Catalog from 'App/Models/Catalog'
 
 export default class CatalogsController {
-  public async index({ view }: HttpContextContract) {
-    const catalogs = await Catalog.query()
+  public async index({ view, auth, session, response }: HttpContextContract) {
+    if (!auth.user) {
+      session.flash('error', 'Você não possui permissão para acessar este recurso')
+
+      return response.redirect().toRoute('sessions.index')
+    }
+
+    const user = auth.user
+
+    const catalogs = await user.related('catalogs').query()
 
     return view.render('catalogs/index', {
       catalogs: catalogs.map((i) => i.toJSON()),

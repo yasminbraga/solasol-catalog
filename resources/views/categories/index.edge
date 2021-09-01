@@ -2,9 +2,8 @@
 
 @set('title', 'Categorias')
 
-@can('AdminPolicy.adminOnly')
-  @set('pageLink', 'categories.create')
-@end
+@set('pageLinkPolicy', 'AdminPolicy.adminOnly')
+@set('pageLink', 'categories.create')
 
 @section('content')
 <div class="card-table">

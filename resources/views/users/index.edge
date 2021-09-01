@@ -1,6 +1,8 @@
 @layout('layouts/master')
 
 @set('title', 'Funcionários')
+
+@set('pageLinkPolicy', 'AdminPolicy.adminOnly')
 @set('pageLink', 'users.create')
 
 @section('content')

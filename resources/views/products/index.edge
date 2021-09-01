@@ -1,9 +1,8 @@
 @layout('layouts/master')
 
 @set('title', 'Produtos')
-@can('AdminPolicy.adminOnly')
-  @set('pageLink', 'products.create')
-@end
+@set('pageLinkPolicy', 'AdminPolicy.adminOnly')
+@set('pageLink', 'products.create')
 
 @section('content')
 <div class="card-table">
