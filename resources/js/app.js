@@ -89,7 +89,6 @@ if (dropdownTriggers) {
 
 // SHARE PANEL
 const shareBtns = document.querySelectorAll('.share-catalog-btn')
-const shareOverlays = document.querySelectorAll('.share-catalog-overlay')
 
 if (shareBtns) {
   shareBtns.forEach((btn) => {
