@@ -5,6 +5,20 @@
 @set('pageLink', 'products.create')
 
 @section('content')
+
+<div class="search">
+  <form class="search-form" action="{{ route('products.index') }}" method="GET">
+    <input class="search-input" type="text" placeholder="Nome ou código do produto" name="productSearch" value="{{request.qs().productSearch}}">
+    <select name="categorySearch" class="search-input">
+      <option value="" selected>Todas as categorias</option>
+      @each(category in categories)
+        <option value="{{category.id}}" {{request.qs().categorySearch == category.id ? 'selected' : ''}}>{{category.name}}</option>
+      @endeach
+    </select>
+    <button type="submit" class="btn primary">Filtrar</button>
+  </form>
+</div>
+
 <div class="card-table">
   <table class="responsive-table">
     <thead>
