@@ -9,9 +9,28 @@ import { ImageUploader } from 'App/Services/ImageUploader'
 import formatPriceToNumber from '../../../utils/formatPriceToNumber'
 
 export default class ProductsController {
-  public async index({ view }: HttpContextContract) {
-    const products = await Product.query().preload('category').preload('file')
-    return view.render('products/index', { products: products.map((i) => i.toJSON()) })
+  public async index({ view, request }: HttpContextContract) {
+    const categories = await Category.all()
+
+    let { productSearch, categorySearch } = request.qs()
+
+    let products
+
+    const query = Product.query().preload('category').preload('file')
+
+    if (productSearch && !categorySearch) {
+      products = await query.where('name', 'ilike', `%${productSearch}%`)
+    } else if (!productSearch && categorySearch) {
+      products = await query.where('category_id', categorySearch)
+    } else if (productSearch && categorySearch) {
+      products = await query
+        .where('name', 'ilike', `%${productSearch}%`)
+        .where('category_id', categorySearch)
+    } else {
+      products = await query
+    }
+
+    return view.render('products/index', { products: products.map((i) => i.toJSON()), categories })
   }
 
   public async create({ view, bouncer }: HttpContextContract) {
