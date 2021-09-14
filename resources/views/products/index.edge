@@ -8,7 +8,7 @@
 
 <div class="search">
   <form class="search-form" action="{{ route('products.index') }}" method="GET">
-    <input class="search-input" type="text" placeholder="Nome ou código do produto" name="productSearch" value="{{request.qs().productSearch}}">
+    <input class="search-input" type="text" placeholder="Nome do produto" name="productSearch" value="{{request.qs().productSearch || "" }}">
     <select name="categorySearch" class="search-input">
       <option value="" selected>Todas as categorias</option>
       @each(category in categories)

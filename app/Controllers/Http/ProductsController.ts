@@ -14,21 +14,13 @@ export default class ProductsController {
 
     let { productSearch, categorySearch } = request.qs()
 
-    let products
-
-    const query = Product.query().preload('category').preload('file')
-
-    if (productSearch && !categorySearch) {
-      products = await query.where('name', 'ilike', `%${productSearch}%`)
-    } else if (!productSearch && categorySearch) {
-      products = await query.where('category_id', categorySearch)
-    } else if (productSearch && categorySearch) {
-      products = await query
-        .where('name', 'ilike', `%${productSearch}%`)
-        .where('category_id', categorySearch)
-    } else {
-      products = await query
-    }
+    const products = await Product.query()
+      .preload('category')
+      .preload('file')
+      .apply((scopes) => {
+        scopes.filterByCategories([categorySearch])
+        scopes.filterByName(productSearch)
+      })
 
     return view.render('products/index', { products: products.map((i) => i.toJSON()), categories })
   }
