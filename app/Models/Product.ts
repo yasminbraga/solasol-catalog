@@ -59,7 +59,8 @@ export default class Product extends BaseModel {
   public updatedAt: DateTime
 
   public static filterByCategories = scope((query, categoryIds) => {
-    if (categoryIds) query.whereIn('category_id', categoryIds)
+    // if (categoryIds.length) query.whereIn('category_id', categoryIds)
+    if (categoryIds.every((i) => i)) query.whereIn('category_id', categoryIds)
   })
 
   public static filterByName = scope((query, name) => {
