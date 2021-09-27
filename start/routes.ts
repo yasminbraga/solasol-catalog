@@ -37,6 +37,7 @@ Route.resource('sessions', 'SessionsController').only(['index', 'store', 'destro
 
 Route.group(() => {
   Route.resource('products', 'ProductsController')
+  Route.resource('customers', 'CustomersController')
   Route.resource('users', 'UsersController')
   Route.resource('categories', 'CategoriesController')
   Route.resource('catalogs', 'CatalogsController').only(['index', 'create', 'store', 'destroy'])

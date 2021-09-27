@@ -1,0 +1,39 @@
+@layout('layouts/master')
+
+@set('title', 'Clientes')
+
+@section('content')
+<div class="card">
+  <h2 class="card-title">Editar Cliente</h2>
+  <form method="post" action="{{ route('customers.update', { id: customer.id }) }}?_method=PUT" enctype="multipart/form-data">
+    @!textField({
+      name: 'name',
+      id: 'name_field',
+      label: 'Nome',
+      value: flashMessages.get('name', customer.name),
+      type: 'text',
+      placeholder: 'Nome'
+    })
+
+    @!textField({
+      name: 'phone',
+      id: 'phone_field',
+      label: 'Número',
+      value: flashMessages.get('phone', customer.phone),
+      type: 'text',
+      placeholder: 'Número'
+    })
+
+    @!textField({
+      name: 'email',
+      id: 'email_field',
+      label: 'Email',
+      value: flashMessages.get('email', customer.email),
+      type: 'email',
+      placeholder: 'Email'
+    })
+
+    <button class="btn primary">Editar</button>
+  </form>
+</div>
+@endsection

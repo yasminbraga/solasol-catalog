@@ -1,0 +1,52 @@
+@layout('layouts/master')
+
+@set('title', 'Clientes')
+
+@set('pageLinkPolicy', 'AdminPolicy.adminOnly')
+{{--  @set('pageLink', 'users.create')  --}}
+
+@section('content')
+<div class="card-table">
+  <table class="responsive-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Número</th>
+        <th>Email</th>
+        @can('AdminPolicy.adminOnly')
+          <th class="action-column">Ações</th>
+        @end
+      </tr>
+    </thead>
+    <tbody>
+      @each(customer in customers)
+        <tr>
+          <td title="Nome">
+            {{ customer.name }}
+          </td>
+          <td title="Número">
+            {{ customer.phone }}
+          </td>
+          <td title="Email">
+            <div class="tooltip" tooltip-content="{{ customer.email }}">
+              {{ truncate(customer.email, 12) }}
+            </div>
+          </td>
+          @can('AdminPolicy.adminOnly')
+            <td class="action-column">
+              <a class="edit-link" href="{{ route('customers.edit', { id: customer.id }) }}">
+                <i class="material-icons edit-color">edit</i>
+              </a>
+            </td>
+          @end
+        </tr>
+      @else
+        <div class="table-warn">
+          <img src="../../images/empty.svg" alt="">
+          <h3>Nenhum usuário encontrado</h3>
+        </div>
+      @endeach
+    </tbody>
+  </table>
+</div>
+@endsection
