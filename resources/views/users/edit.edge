@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="card">
-  <h2 class="card-title">Novo Funcionário</h2>
+  <h2 class="card-title">Editar Funcionário</h2>
   <form method="post" action="{{ route('users.update', { id: user.id }) }}?_method=PUT" enctype="multipart/form-data">
     @!textField({
       name: 'name',
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <button class="btn primary">Cadastrar</button>
+    <button class="btn primary">Editar</button>
   </form>
 </div>
 @endsection
